@@ -2,16 +2,24 @@
 
 By Sean Morris
 
-The Lyven Project is Sean's productivity setup using the following tools:
+The Lyven Project is Sean's productivity setup using the following files:
 
 | File | Tool | Description |
 | ----- | ---- | ----------- |
-| `~/.config/karabiner.edn | Goku File -> Karabiner JSON | Place where layers and mappings are specified |
-| `~/.hammerspoon/init.lua` | Hammerspoon Lua File | Define what the signals from Karabiner actually do. Where most edits will happen. |
-| `~/.hammerspoon/Spoons/Hyper.spoon` | Hyperspoon | Made by the author of [How To Train Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/), a tool for... |
-| `~/.hammerspoon/Spoons/Helper.spoon` | Helperspoon | Made by the author of [How To Train Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/), a tool for... |
+| `~/.config/karabiner.edn` | Goku File -> Karabiner JSON | Place where layers and mappings are specified |
+| `~/.hammerspoon/init.lua` | Hammerspoon Lua File | Defines what the signals from Karabiner actually do. Where most edits will happen. |
 
-; In sum: The karabiner.edn file captures the keystrokes and Hammerspoon acts on it.
+In sum: The karabiner.edn file captures the keystrokes and Hammerspoon acts on it.
+
+This shortcut configuration setup is inspired by the work of Andrew Morgan as
+shared in this blog post: [How To Train Your
+Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/)
+
+Andrew makes use of the following Hammerspoon Spoons in this [Hyperspoon Github
+Repo](https://github.com/andrewmile/hyperspoon).
+
+- `~/.hammerspoon/Spoons/Hyper.spoon`
+- `~/.hammerspoon/Spoons/Helpers.spoon`
 
 ## File Locations for Reference
 

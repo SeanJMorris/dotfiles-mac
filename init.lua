@@ -1,4 +1,4 @@
-BEGIN: ORIGINAL TEST CODE USED AND WORKING DURING SETUP: BEGIN
+--BEGIN: ORIGINAL TEST CODE USED AND WORKING DURING SETUP: BEGIN
 ----------------------------------------------------------------
 -- hyper = {"cmd", "alt", "ctrl"}
 --
@@ -15,11 +15,6 @@ BEGIN: ORIGINAL TEST CODE USED AND WORKING DURING SETUP: BEGIN
 --END: ORIGINAL TEST CODE USED AND WORKING DURING SETUP: END
 
 --[[
-  _
- | |   _   ___   _____ _ __
- | |  | | | \ \ / / _ \ '_ \
- | |__| |_| |\ V /  __/ | | |
- |_____\__, | \_/ \___|_| |_|
  | | | |___/_ _ __ ___  _ __ ___   ___ _ __ ___ _ __   ___   ___  _ __
  | |_| |/ _` | '_ ` _ \| '_ ` _ \ / _ \ '__/ __| '_ \ / _ \ / _ \| '_ \
  |  _  | (_| | | | | | | | | | | |  __/ |  \__ \ |_) | (_) | (_) | | | |
@@ -44,10 +39,8 @@ hs.loadSpoon("SpoonInstall")
 
 -- ADD SPOONS HERE
 --This Spoon allows you to reload your Hammerspoon configuration automatically
---when you save changes to your init.lua file
+    --when you save changes to your init.lua file
 spoon.SpoonInstall:andUse("ReloadConfiguration")
--- Use "CircleClock" for testing
--- spoon.SpoonInstall:andUse("CircleClock")
 spoon.SpoonInstall:andUse("ModalMgr")
 
 -- Watch for changes in the the Goku file called karabiner.edn and notify when changes are detected
