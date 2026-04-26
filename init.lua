@@ -26,12 +26,6 @@
 --]]
 ---------------------------SHORTCUT-STACK-------------------------------
 
--- ~/.config/karabiner.edn - define key layers and mappings;
--- ~/. hammerspoon/init.lua - define what the signals from karabiner actually
--- do, this is where most of your edits will happen in the future
--- In summary: The Goku/Karabiner file captures the keystrokes and Hammerspoonacts on it.
-
-
 -- See https://youtu.be/s9MfRDBriVs?t=74 https://www.hammerspoon.org/Spoons/SpoonInstall.html
 -- This is a very easy way to add new Spoons - you can just put the name of the
 -- spoon and it downloads and starts it automatically
