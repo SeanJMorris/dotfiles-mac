@@ -1,3 +1,10 @@
+--  _       _ _     _
+-- (_)_ __ (_) |_  | |_   _  __ _
+-- | | '_ \| | __| | | | | |/ _` |
+-- | | | | | | |_ _| | |_| | (_| |
+-- |_|_| |_|_|\__(_)_|\__,_|\__,_|
+
+
 --BEGIN: ORIGINAL TEST CODE USED AND WORKING DURING SETUP: BEGIN
 ----------------------------------------------------------------
 -- hyper = {"cmd", "alt", "ctrl"}
@@ -13,17 +20,6 @@
 -- hs.notify.new({title="Hammerspoon", informativeText="Hammerspoon started!"}):send()
 ------------------------------------------------------------
 --END: ORIGINAL TEST CODE USED AND WORKING DURING SETUP: END
-
---[[
- | | | |___/_ _ __ ___  _ __ ___   ___ _ __ ___ _ __   ___   ___  _ __
- | |_| |/ _` | '_ ` _ \| '_ ` _ \ / _ \ '__/ __| '_ \ / _ \ / _ \| '_ \
- |  _  | (_| | | | | | | | | | | |  __/ |  \__ \ |_) | (_) | (_) | | | |
- |_| |_|\__,_|_| |_| |_|_| |_| |_|\___|_|  |___/ .__/ \___/ \___/|_| |_|
- (_)_ __ (_) |_  | |_   _  __ _                |_|
- | | '_ \| | __| | | | | |/ _` |
- | | | | | | |_ _| | |_| | (_| |
- |_|_| |_|_|\__(_)_|\__,_|\__,_|
---]]
 
 -- See https://youtu.be/s9MfRDBriVs?t=74 https://www.hammerspoon.org/Spoons/SpoonInstall.html
 -- This is a very easy way to add new Spoons - you can just put the name of the
