@@ -16,7 +16,7 @@ shared in this blog post: [How To Train Your
 Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/)
 
 Andrew makes use of the following Hammerspoon Spoons in this [Hyperspoon Github
-Repo](https://github.com/andrewmile/hyperspoon).
+Repo](https://github.com/andrewmile/hyperspoon), which I have downloaded into my Hammerspoon Spoons directory:
 
 - `~/.hammerspoon/Spoons/Hyper.spoon`
 - `~/.hammerspoon/Spoons/Helpers.spoon`
