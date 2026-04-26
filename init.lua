@@ -24,7 +24,6 @@
  | | | | | | |_ _| | |_| | (_| |
  |_|_| |_|_|\__(_)_|\__,_|\__,_|
 --]]
----------------------------SHORTCUT-STACK-------------------------------
 
 -- See https://youtu.be/s9MfRDBriVs?t=74 https://www.hammerspoon.org/Spoons/SpoonInstall.html
 -- This is a very easy way to add new Spoons - you can just put the name of the
