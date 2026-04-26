@@ -1,0 +1,82 @@
+# Setup Notes for Lyven Project
+
+By Sean Morris
+
+The Lyven Project is Sean's productivity setup using the following tools:
+
+| File | Tool | Description |
+| ----- | ---- | ----------- |
+| `~/.config/karabiner.edn | Goku File -> Karabiner JSON | Place where layers and mappings are specified |
+| `~/.hammerspoon/init.lua` | Hammerspoon Lua File | Define what the signals from Karabiner actually do. Where most edits will happen. |
+| `~/.hammerspoon/Spoons/Hyper.spoon` | Hyperspoon | Made by the author of [How To Train Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/), a tool for... |
+| `~/.hammerspoon/Spoons/Helper.spoon` | Helperspoon | Made by the author of [How To Train Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/), a tool for... |
+
+; In sum: The karabiner.edn file captures the keystrokes and Hammerspoon acts on it.
+
+## File Locations for Reference
+
+| Command | Output |
+| --------- | ----------- |
+| `which karabiner_cli` | `/opt/homebrew/bin/karabiner_cli` |
+| `which goku` | `/opt/homebrew/bin/goku` |
+| `which hs` | `/opt/homebrew/bin/hs` |
+
+## Sean's Setup Notes
+
+Install Karabiner-Elements
+`brew install --cask karabiner-elements`
+System Settings > Privacy & Security > Accessibility and toggle Hammerspoon On.
+System Settings > Notifications > Application Notifications, Turn Hammerspoon On.
+
+Install Goku
+`brew install yqrashawn/goku/goku`
+
+To run Goku as a background service (instead of manually) so that it runs in
+the background and sets itself up as a system0level process and starts itself
+in the background when you start your computer
+`brew services start yqrashawn/goku/goku`
+
+`brew install --cask hammerspoon`
+Then follow instructions on this great Youtube Video by Diego Zamboni
+(<https://youtu.be/s9MfRDBriVs?t=68>) to download <https://www.hammerspoon.org/Spoons/SpoonInstall.html>
+with which you can install other spoons from the spoon community more quickly and easily.
+which you can do via the terminal with:
+I could have tried to do this all with the terminal (see below), but it didn't seem worth it, so I downloaded it manually from
+<https://www.hammerspoon.org/Spoons/SpoonInstall.html>, then unzipped the file and updated init.lua ✅.
+Maybe later attempt to download SpoonInstall Spoon via the terminal
+`cd ~/.hammerspoon/Spoons`
+`curl -LO https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip`
+
+I included the "gokuWatcher" section in init.lua as per Andrew Morgan's
+instructions, but because I had used Diego's SpoonInstall spoon, I didn't need
+to use the extra code to start ReloadConfiguration and send the notification
+that the Config is loaded ✅.
+
+I created karabiner.edn in ~/.config/ - apparently Goku doesn't do it for you.
+
+When I ran `brew services start yqrashawn/goku/goku`, it said: "Successfully
+started `goku` (label: homebrew.mxcl.goku)"
+
+I copied Helpers.spoon and Hyper.spoon into my ~/.hammerspoon/Spoons directory
+as per instructions (see <https://github.com/andrewmile/hyperspoon/tree/main>)
+
+I put the code that the Tighten article said to in karabiner.edn but I got an
+error from Hammerspoon and AI said that I had to install ModalMgr spoon. I
+didn't really learn what this was, but I did it anyway.
+
+I had to change the name of the default profile in Karabiner elements from
+"Default profile" so simply "Default" because I was getting an error.
+After that, you have to simply enter `goku` (i did it in ~/.config) and got a
+message that said "Done!"
+
+After all of this, my command key stopped working entirely. I couldn't use it
+to copy or to close the tab of a browser. Claude suggested that I edit the
+standard Karabiner.edn code that the author had suggested so that I would use
+the Hyper key instead.
+
+## Instructions for Claude for Reference
+
+I'm using these two files to customize shortcuts on my computer:
+~/.config/karabiner.edn and ~/.hammerspoon/init.lua following the principles in
+this article: https://tighten.com/insights/how-to-train-your-keyboard/. I'm
+interested in keeping both files clean and in a format that is extensible.

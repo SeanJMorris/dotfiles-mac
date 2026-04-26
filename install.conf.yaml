@@ -3,6 +3,8 @@
 - link:
     ~/.bash_profile: bash_profile
     ~/.bashrc: bashrc
+    ~/.config/karabiner.edn: karabiner.edn
+    ~/.hammerspoon/init.lua: init.lua
     ~/.vimrc: vimrc
     ~/.zshrc: zshrc
 

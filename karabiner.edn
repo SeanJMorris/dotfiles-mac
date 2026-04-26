@@ -1,0 +1,39 @@
+;      _
+;     | |   _   ___   _____ _ __
+;     | |  | | | \ \ / / _ \ '_ \
+;     | |__| |_| |\ V /  __/ | | |
+;     |_____\__, | \_/ \___|_| |_|                         _
+;     | |/ /|___/_ __ __ _| |__ (_)_ __   ___ _ __ ___  __| |_ __
+;     | ' // _` | '__/ _` | '_ \| | '_ \ / _ \ '__/ _ \/ _` | '_ \
+;     | . \ (_| | | | (_| | |_) | | | | |  __/ |_|  __/ (_| | | | |
+;     |_|\_\__,_|_|  \__,_|_.__/|_|_| |_|\___|_(_)\___|\__,_|_| |_|
+;---------------------------SHORTCUT-STACK-------------------------
+
+
+; templates section - send hammerspoon a url with an action and a target
+; layers is like a vim mode - caps lock acts as a dedicated hyper key so the real command key is unaffected
+; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
+
+;{
+;  :templates {
+;   :hyper "open -g hammerspoon://hyper?action=%s\\&target=%s"
+;  }
+;  :layers {
+;    :hyper-mode {:key :escape}
+;  }
+;  :main [
+;    {
+;      :des "Hyper layer"
+;      :rules [:hyper-mode
+;        [:c [:hyper "copy" "default"]]
+;        [:v [:hyper "paste" "default"]]
+;        [:a [:hyper "alfred" "default"]]
+;        ;[:i [:hyper "insert" "default"]]
+;        ;[:o [:hyper "open" "default"]]
+;      ]
+;    }
+;  ]
+;}
+{:main [{:des "f9 to a"
+             :rules [[:f9 :a]]}]
+}
