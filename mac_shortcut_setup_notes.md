@@ -81,10 +81,3 @@ After all of this, my command key stopped working entirely. I couldn't use it
 to copy or to close the tab of a browser. Claude suggested that I edit the
 standard Karabiner.edn code that the author had suggested so that I would use
 the Hyper key instead.
-
-## Instructions for Claude for Reference
-
-I'm using these two files to customize shortcuts on my computer:
-~/.config/karabiner.edn and ~/.hammerspoon/init.lua following the principles in
-this article on ["How To Train Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/). I'm
-interested in keeping both files clean and in a format that is extensible.
