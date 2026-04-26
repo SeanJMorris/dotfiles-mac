@@ -86,5 +86,5 @@ the Hyper key instead.
 
 I'm using these two files to customize shortcuts on my computer:
 ~/.config/karabiner.edn and ~/.hammerspoon/init.lua following the principles in
-this article: https://tighten.com/insights/how-to-train-your-keyboard/. I'm
+this article on ["How To Train Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/). I'm
 interested in keeping both files clean and in a format that is extensible.
