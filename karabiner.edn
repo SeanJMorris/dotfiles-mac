@@ -8,26 +8,6 @@
 ; layers is like a vim mode - caps lock acts as a dedicated hyper key so the real command key is unaffected
 ; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
 
-;{
-;  :templates {
-;   :hyper "open -g hammerspoon://hyper?action=%s\\&target=%s"
-;  }
-;  :layers {
-;    :hyper-mode {:key :escape}
-;  }
-;  :main [
-;    {
-;      :des "Hyper layer"
-;      :rules [:hyper-mode
-;        [:c [:hyper "copy" "default"]]
-;        [:v [:hyper "paste" "default"]]
-;        [:a [:hyper "alfred" "default"]]
-;        ;[:i [:hyper "insert" "default"]]
-;        ;[:o [:hyper "open" "default"]]
-;      ]
-;    }
-;  ]
-;}
 {:main [{:des "f9 to a"
              :rules [[:f9 :a]]}]
 }
