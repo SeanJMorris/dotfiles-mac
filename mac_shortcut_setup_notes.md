@@ -7,7 +7,7 @@ The Lyven Project is Sean's productivity setup using the following files:
 | File | Tool | Description |
 | ----- | ---- | ----------- |
 | `~/.config/karabiner.edn` | Goku File -> Karabiner JSON | Place where layers and mappings are specified |
-| `~/.hammerspoon/init.lua` | Hammerspoon Lua File | Defines what the signals from Karabiner actually do. Where most edits will happen. |
+| `~/.hammerspoon/init.lua` | Hammerspoon Lua File | Defines what the signals from Karabiner actually do. |
 
 In sum: The karabiner.edn file captures the keystrokes and Hammerspoon acts on it.
 
