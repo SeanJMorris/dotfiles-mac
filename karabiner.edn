@@ -8,12 +8,12 @@
 ; layers is like a vim mode - caps lock acts as a dedicated hyper key so the real command key is unaffected
 ; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
 
-{:simlayers {:launcher-mode {:key :o}}
+{:simlayers {:launcher-mode {:key :o}
+            :numbers-layer {:key :g}}
+ :layers    {:caps-layer {:key :caps_lock :alone {:key :escape}}}
  :templates {:open-app    "open -a '%s.app'"
              :open-bundle "open -b %s"}
- :main [{:des "caps lock to esc"
-         :rules [[:caps_lock :escape]]}
-        {:des "right control to f2"
+ :main [{:des "right control to f2"
          :rules [[:right_control :f2]]}
         {:des "right option to forward delete"
          :rules [[:right_option :delete_forward]]}
@@ -30,5 +30,16 @@
                  [:x [:open-app "Microsoft Excel"]                                           :launcher-mode]
                  [:c [:open-app "Claude"]                                                    :launcher-mode]
                  [:v [:open-app "Visual Studio Code"]                                        :launcher-mode]
-                 [:m [:open-app "Messages"]                                                  :launcher-mode]]}]
+                 [:m [:open-app "Messages"]                                                  :launcher-mode]]}
+        {:des "Numbers layer (caps-lock + g)"
+         :rules [[:u :4 [:caps-layer :numbers-layer]]
+                 [:i :5 [:caps-layer :numbers-layer]]
+                 [:o :6 [:caps-layer :numbers-layer]]
+                 [:j :1 [:caps-layer :numbers-layer]]
+                 [:k :2 [:caps-layer :numbers-layer]]
+                 [:l :3 [:caps-layer :numbers-layer]]
+                 [:m :0 [:caps-layer :numbers-layer]]
+                 [:hyphen {:key :8 :modi :left_shift} [:caps-layer :numbers-layer]]
+                 [:p :hyphen [:caps-layer :numbers-layer]]
+                 [:semicolon :period [:caps-layer :numbers-layer]]]}]
 }
