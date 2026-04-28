@@ -8,10 +8,26 @@
 ; layers is like a vim mode - caps lock acts as a dedicated hyper key so the real command key is unaffected
 ; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
 
-{:main [{:des "caps lock to esc"
+{:simlayers {:launcher-mode {:key :o}}
+ :templates {:open-app    "open -a '%s.app'"
+             :open-bundle "open -b %s"}
+ :main [{:des "caps lock to esc"
          :rules [[:caps_lock :escape]]}
         {:des "right control to f2"
          :rules [[:right_control :f2]]}
         {:des "right option to forward delete"
-         :rules [[:right_option :delete_forward]]}]
+         :rules [[:right_option :delete_forward]]}
+        {:des "O-Launcher"
+         :rules [[:e [:open-app "Google Meet"]                                               :launcher-mode]
+                 [:r [:open-app "Granola"]                                                   :launcher-mode]
+                 [:a [:open-bundle "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep"] :launcher-mode]
+                 [:t [:open-app "iTerm"]                                                     :launcher-mode]
+                 [:s [:open-bundle "com.google.Chrome.app.gpnmjojgpojfhdidkfnhhggcghbbgpbp"] :launcher-mode]
+                 [:d [:open-app "Google Chrome"]                                             :launcher-mode]
+                 [:g [:open-app "Snagit"]                                                    :launcher-mode]
+                 [:z [:open-app "zoom.us"]                                                   :launcher-mode]
+                 [:x [:open-app "Microsoft Excel"]                                           :launcher-mode]
+                 [:v [:open-app "Visual Studio Code"]                                        :launcher-mode]
+                 [:f [:open-app "Firefox"]                                                   :launcher-mode]
+                 [:m [:open-app "Messages"]                                                  :launcher-mode]]}]
 }
