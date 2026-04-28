@@ -8,6 +8,10 @@
 ; layers is like a vim mode - caps lock acts as a dedicated hyper key so the real command key is unaffected
 ; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
 
-{:main [{:des "f9 to a"
-             :rules [[:f9 :a]]}]
+{:main [{:des "caps lock to esc"
+         :rules [[:caps_lock :escape]]}
+        {:des "right option to f2"
+         :rules [[:right_option :f2]]}
+        {:des "right command to forward delete"
+         :rules [[:right_command :delete_forward]]}]
 }
