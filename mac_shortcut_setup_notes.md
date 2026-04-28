@@ -81,3 +81,5 @@ After all of this, my command key stopped working entirely. I couldn't use it
 to copy or to close the tab of a browser. Claude suggested that I edit the
 standard Karabiner.edn code that the author had suggested so that I would use
 the Hyper key instead.
+
+I wrote to Chris May to ask for advice on 4/26/26 but then realized that I could just work basically without the hammerspoon rigging - so just making changes to karabiner.edn. So then on 4/25/26, I started using Claude to make the edits. For the o-layer, I used the [ruby file here](https://github.com/NylonDiamond/o-launcher-script/blob/master/CreateLauncherModeTemplate.rb#L28) that was recommended by the maker of this good [Karabiner Tutorial](https://youtu.be/PBPS2D9AKtI?t=1026) and used Claude to turn the Ruby file into Goku.
