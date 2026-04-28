@@ -41,5 +41,8 @@
                  [:m :0 [:caps-layer :numbers-layer]]
                  [:hyphen {:key :8 :modi :left_shift} [:caps-layer :numbers-layer]]
                  [:p :hyphen [:caps-layer :numbers-layer]]
-                 [:semicolon :period [:caps-layer :numbers-layer]]]}]
+                 [:semicolon :period [:caps-layer :numbers-layer]]]}
+        {:des "Shifts move forward/backward by word when tapped"
+         :rules [[:##right_shift :right_shift nil {:alone {:key :right_arrow :modi :left_option}}]
+                 [:##left_shift  :left_shift  nil {:alone {:key :left_arrow  :modi :left_option}}]]}]
 }
