@@ -20,14 +20,15 @@
         {:des "O-Launcher"
          :rules [[:e [:open-app "Google Meet"]                                               :launcher-mode]
                  [:r [:open-app "Granola"]                                                   :launcher-mode]
-                 [:a [:open-bundle "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep"] :launcher-mode]
                  [:t [:open-app "iTerm"]                                                     :launcher-mode]
+                 [:a [:open-bundle "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep"]   :launcher-mode]
                  [:s [:open-bundle "com.google.Chrome.app.gpnmjojgpojfhdidkfnhhggcghbbgpbp"] :launcher-mode]
                  [:d [:open-app "Google Chrome"]                                             :launcher-mode]
+                 [:f [:open-app "Firefox"]                                                   :launcher-mode]
                  [:g [:open-app "Snagit"]                                                    :launcher-mode]
                  [:z [:open-app "zoom.us"]                                                   :launcher-mode]
                  [:x [:open-app "Microsoft Excel"]                                           :launcher-mode]
+                 [:c [:open-app "Claude"]                                                    :launcher-mode]
                  [:v [:open-app "Visual Studio Code"]                                        :launcher-mode]
-                 [:f [:open-app "Firefox"]                                                   :launcher-mode]
                  [:m [:open-app "Messages"]                                                  :launcher-mode]]}]
 }
