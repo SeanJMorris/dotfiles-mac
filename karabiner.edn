@@ -55,6 +55,9 @@
                  [:hyphen {:key :8 :modi :left_shift} [:caps-layer :numbers-layer]]
                  [:p :hyphen [:caps-layer :numbers-layer]]
                  [:semicolon :period [:caps-layer :numbers-layer]]]}
+        {:des "Tab navigation (caps-lock + j/k)"
+         :rules [[:j :!TStab :caps-layer]
+                 [:k :!Ttab  :caps-layer]]}
         {:des "simultaneous left-shift right-shift press to ctrl+[ held for 1 second"
          :rules [{:type :basic
                   :from {:simultaneous [{:key_code :left_shift} {:key_code :right_shift}]
