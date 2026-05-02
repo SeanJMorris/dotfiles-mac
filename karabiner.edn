@@ -30,6 +30,7 @@
                  [:x [:open-app "Microsoft Excel"]                                           :launcher-mode]
                  [:c [:open-app "Claude"]                                                    :launcher-mode]
                  [:v [:open-app "Visual Studio Code"]                                        :launcher-mode]
+                 [:n [:open-app "Notes"]                                                     :launcher-mode]
                  [:m [:open-app "Messages"]                                                  :launcher-mode]]}
         {:des "Numbers layer (caps-lock + g)"
          :rules [[:u :4 [:caps-layer :numbers-layer]]
