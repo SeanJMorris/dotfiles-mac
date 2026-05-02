@@ -54,7 +54,10 @@
                  [:m :0 [:caps-layer :numbers-layer]]
                  [:hyphen {:key :8 :modi :left_shift} [:caps-layer :numbers-layer]]
                  [:p :hyphen [:caps-layer :numbers-layer]]
-                 [:semicolon :period [:caps-layer :numbers-layer]]]}]
-        {des: "simultaneous j l pres to y"
-         rules: [[[:j :l] :y]]}
+                 [:semicolon :period [:caps-layer :numbers-layer]]]}
+        {:des "simultaneous left-shift right-shift press to ctrl+[ held for 1 second"
+         :rules [{:type :basic
+                  :from {:simultaneous [{:key_code :left_shift} {:key_code :right_shift}]
+                         :simultaneous_options {:key_up_when :any}}
+                  :to [{:key_code :open_bracket :modifiers [:left_control] :hold_down_milliseconds 1000}]}]}]
 }
