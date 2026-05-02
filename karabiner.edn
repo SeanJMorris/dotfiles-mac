@@ -23,6 +23,13 @@
                   :to [{:key_code :u :modifiers [:left_control]}]
                   :conditions [{:type :frontmost_application_if
                                  :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+        {:des "Chrome: caps-lock+t to cmd+shift+a"
+         :rules [{:type :basic
+                  :from {:key_code :t}
+                  :to [{:key_code :a :modifiers [:left_command :left_shift]}]
+                  :conditions [{:type :variable_if :name "caps-layer" :value 1}
+                               {:type :frontmost_application_if
+                                :bundle_identifiers ["com.google.Chrome"]}]}]}
         {:des "O-Launcher"
          :rules [[:e [:open-app "Google Meet"]                                               :launcher-mode]
                  [:r [:open-app "Granola"]                                                   :launcher-mode]
