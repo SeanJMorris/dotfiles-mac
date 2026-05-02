@@ -13,10 +13,20 @@
  :layers    {:caps-layer {:key :caps_lock :alone {:key :escape}}}
  :templates {:open-app    "open -a '%s.app'"
              :open-bundle "open -b %s"}
- :main [{:des "right control to f2"
+ :main [ -- REMAPS
+        {:des "right control to f2"
          :rules [[:right_control :f2]]}
         {:des "right option to forward delete"
          :rules [[:right_option :delete_forward]]}
+
+         -- APP-SPECIFIC REMAPS
+        {:des "Snagit: ctrl+g -> ctrl+u"
+         :rules [{:type :basic
+                  :from {:key_code :g :modifiers {:mandatory [:left_control]}}
+                  :to [{:key_code :u :modifiers [:left_control]}]
+                  :conditions [{:type :frontmost_application_if
+                                 :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+        -- LAYERS
         {:des "O-Launcher"
          :rules [[:e [:open-app "Google Meet"]                                               :launcher-mode]
                  [:r [:open-app "Granola"]                                                   :launcher-mode]
@@ -42,14 +52,5 @@
                  [:m :0 [:caps-layer :numbers-layer]]
                  [:hyphen {:key :8 :modi :left_shift} [:caps-layer :numbers-layer]]
                  [:p :hyphen [:caps-layer :numbers-layer]]
-                 [:semicolon :period [:caps-layer :numbers-layer]]]}
-        {:des "Shifts move forward/backward by word when tapped"
-         :rules [[:##right_shift :right_shift nil {:alone {:key :right_arrow :modi :left_option}}]
-                 [:##left_shift  :left_shift  nil {:alone {:key :left_arrow  :modi :left_option}}]]}
-        {:des "Snagit: ctrl+g -> ctrl+u"
-         :rules [{:type :basic
-                  :from {:key_code :g :modifiers {:mandatory [:left_control]}}
-                  :to [{:key_code :u :modifiers [:left_control]}]
-                  :conditions [{:type :frontmost_application_if
-                                 :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}]
+                 [:semicolon :period [:caps-layer :numbers-layer]]]}]
 }
