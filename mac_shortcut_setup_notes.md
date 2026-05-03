@@ -44,17 +44,16 @@ the background and sets itself up as a system0level process and starts itself
 in the background when you start your computer
 `brew services start yqrashawn/goku/goku`
 
-`brew install --cask hammerspoon`
-Then follow instructions on this great Youtube Video by Diego Zamboni
-(<https://youtu.be/s9MfRDBriVs?t=68>) to download <https://www.hammerspoon.org/Spoons/SpoonInstall.html>
-with which you can install other spoons from the spoon community more quickly and easily.
-which you can do via the terminal with:
-I could have tried to do this all with the terminal (see below), but it didn't seem worth it, so I downloaded it manually from
-<https://www.hammerspoon.org/Spoons/SpoonInstall.html>, then unzipped the file and updated init.lua ✅.
-Maybe later attempt to download SpoonInstall Spoon via the terminal
-`cd ~/.hammerspoon/Spoons`
-`curl -LO https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip`
-
+`brew install --cask hammerspoon` Then follow instructions on this great Youtube
+Video by Diego Zamboni (<https://youtu.be/s9MfRDBriVs?t=68>) to download
+<https://www.hammerspoon.org/Spoons/SpoonInstall.html> with which you can
+install other spoons from the spoon community more quickly and easily.  which
+you can do via the terminal with: I could have tried to do this all with the
+terminal (see below), but it didn't seem worth it, so I downloaded it manually
+from <https://www.hammerspoon.org/Spoons/SpoonInstall.html>, then unzipped the
+file and updated init.lua ✅.  Maybe later attempt to download SpoonInstall Spoon
+via the terminal `cd ~/.hammerspoon/Spoons` `curl -LO
+https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip`
 I included the "gokuWatcher" section in init.lua as per Andrew Morgan's
 instructions, but because I had used Diego's SpoonInstall spoon, I didn't need
 to use the extra code to start ReloadConfiguration and send the notification
@@ -105,13 +104,38 @@ On 5/2/26, I made two PRDs with claude foa a spatial windows management feature
 cycling shortcut (an alt tab + window selector baked into one). Both were super
 duper complicated.
 
-## To Do Notes as of 5/2/26
+## Issue with Previous and Next Display with Rectangle
 
-1. Start over completely with Max Stoiber's set up, then rebuild the other good
-   stuff you have. It's smart that his method locks out any other layers and is
-   extensible.
-   - O-Layer
-   - Window Management
+On 5/3/26, I noticed that the previous-display and the next-display behavior
+were not maintaining the position relative to the display. None of the below
+worked:
+
+```clojure
+[{:key :j :modi {:optional [:any]}} [:rect "previous-display"] ["hyper_sublayer_w" 1]]
+[{:key :k :modi {:optional [:any]}} [:rect "next-display"]     ["hyper_sublayer_w" 1]]
+[{:key :j :modi {:optional [:any]}} [:rect "move-to-previous-display"] ["hyper_sublayer_w" 1]]
+[{:key :k :modi {:optional [:any]}} [:rect "move-to-next-display"]     ["hyper_sublayer_w" 1]]
+[{:key :j :modi {:optional [:any]}} [:rect "previous-display-ratio"] ["hyper_sublayer_w" 1]]
+[{:key :k :modi {:optional [:any]}} [:rect "next-display-ratio"]     ["hyper_sublayer_w" 1]]
+```
+
+It was also the case that even when I remapped the shortcuts in rectangle, which
+DID work when I used the shortcuts directly (cmd+f9) didn't work when I remapped them like this:
+
+```clojure
+[{:key :j :modi {:optional [:any]}} :!Cf10 ["hyper_sublayer_w" 1]]
+[{:key :k :modi {:optional [:any]}} :!Cf9  ["hyper_sublayer_w" 1]]
+```
+
+This is still unresolved as of 5/3/26 and I don't have a good workaround! Next
+steps would be to see if I can find the explicit command that rectangle uses,
+but this didn't exist in [the
+documentation](https://github.com/rxhanson/rectangle) (there is nothing other
+than next-display and previous-display!!!)
+
+## To Do Notes as of 5/3/26
+
+1. Next Up
    - Vim-Navigation
    - Bookmarks
    - Other Alfred Actions
