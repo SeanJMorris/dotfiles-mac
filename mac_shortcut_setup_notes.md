@@ -131,7 +131,8 @@ This is still unresolved as of 5/3/26 and I don't have a good workaround! Next
 steps would be to see if I can find the explicit command that rectangle uses,
 but this didn't exist in [the
 documentation](https://github.com/rxhanson/rectangle) (there is nothing other
-than next-display and previous-display!!!)
+than next-display and previous-display!!!). I guess I could try using the free
+version of raycast.
 
 ## To Do Notes as of 5/3/26
 
@@ -141,3 +142,12 @@ than next-display and previous-display!!!)
    - Other Alfred Actions
 2. Spatial window management may just be a pipe dream, but it's
 still possible and could be worth it!
+3. Implement the following:
+
+```clojure
+{:des "simultaneous left-shift right-shift press to ctrl+[ held for 1 second"
+:rules [{:type :basic
+         :from {:simultaneous [{:key_code :left_shift} {:key_code :right_shift}]
+                  :simultaneous_options {:key_up_when :any}}
+         :to [{:key_code :open_bracket :modifiers [:left_control] :hold_down_milliseconds 1000}]}]}]
+```
