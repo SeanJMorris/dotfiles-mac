@@ -9,51 +9,66 @@
 ; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
 
 {
- :templates {:rect "open -g 'rectangle-pro://execute-action?name=%s'"}
+ :templates {:rect     "open -g 'rectangle-pro://execute-action?name=%s'"
+            :open-app "open -a '%s.app'"
+            :open-bundle "open -b %s"
+}
 
  :main [
 
-  ;; ─── Caps Lock → Hyper Key ───────────────────────────────────────────────────
   ;; Hold: sets variable hyper=1.  Tap alone: sends Escape.
   {:des "caps lock - hyper key"
    :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
 
-  ;; ─── Hyper + w → Window management sublayer ──────────────────────────────────
+  ;; Forward hyper+b as ctrl+option+cmd+shift+b so Alt-Tab (and similar apps) can bind to it
+  {:des "hyper+b → ctrl+option+cmd+shift+b"
+   :rules [[{:key :b :modi {:optional [:any]}} :!TOCSb ["hyper" 1]]]}
+  ;; Forward hyper+t as ctrl+option+cmd+shift+t so Alt-Tab (and similar apps) can bind to it
+   {:des "hyper+t → ctrl+option+cmd+shift+t"
+   :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
+
   {:des "hyper-w sublayer - window management"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
-    [:w ["hyper_sublayer_w" 1] ["hyper" 1] {:afterup ["hyper_sublayer_w" 0]}]
+    [{:key :w :modi {:optional [:any]}} ["hyper_sublayer_w" 1] ["hyper" 1] {:afterup ["hyper_sublayer_w" 0]}]
 
     ;; Positioning via Rectangle URL scheme
-    [:j [:rect "previous-display"] ["hyper_sublayer_w" 1]]
-    [:k [:rect "next-display"]     ["hyper_sublayer_w" 1]]
-    [:h [:rect "left-half"]        ["hyper_sublayer_w" 1]]
-    [:l [:rect "right-half"]       ["hyper_sublayer_w" 1]]
-    [:i [:rect "maximize"]         ["hyper_sublayer_w" 1]]
-    [:y [:rect "maximize-height"]         ["hyper_sublayer_w" 1]]
-    [:n [:rect "top-half"]         ["hyper_sublayer_w" 1]]
-    [:m [:rect "bottom-half"]      ["hyper_sublayer_w" 1]]
-    [:o [:rect "larger"]             ["hyper_sublayer_w" 1]]
-    [:u [:rect "smaller"]            ["hyper_sublayer_w" 1]]
-
-    ;; Tab / window navigation
-    ;[:u :!TStab                    ["hyper_sublayer_w" 1]]   ; ctrl+shift+tab → previous tab
-    ;[:i :!Ttab                     ["hyper_sublayer_w" 1]]   ; ctrl+tab → next tab
-    ;[:n :!Cgrave_accent_and_tilde  ["hyper_sublayer_w" 1]]   ; cmd+` → next window (same app)
-    ;[:b :!Copen_bracket            ["hyper_sublayer_w" 1]]   ; cmd+[ → back
-    ;[:m :!Cclose_bracket           ["hyper_sublayer_w" 1]]   ; cmd+] → forward
+    [{:key :j :modi {:optional [:any]}} [:rect "previous-display"] ["hyper_sublayer_w" 1]]
+    [{:key :k :modi {:optional [:any]}} [:rect "next-display"]     ["hyper_sublayer_w" 1]]
+    [{:key :h :modi {:optional [:any]}} [:rect "left-half"]        ["hyper_sublayer_w" 1]]
+    [{:key :l :modi {:optional [:any]}} [:rect "right-half"]       ["hyper_sublayer_w" 1]]
+    [{:key :i :modi {:optional [:any]}} [:rect "maximize"]         ["hyper_sublayer_w" 1]]
+    [{:key :y :modi {:optional [:any]}} [:rect "maximize-height"]  ["hyper_sublayer_w" 1]]
+    [{:key :n :modi {:optional [:any]}} [:rect "top-half"]         ["hyper_sublayer_w" 1]]
+    [{:key :m :modi {:optional [:any]}} [:rect "bottom-half"]      ["hyper_sublayer_w" 1]]
+    [{:key :o :modi {:optional [:any]}} [:rect "larger"]           ["hyper_sublayer_w" 1]]
+    [{:key :u :modi {:optional [:any]}} [:rect "smaller"]          ["hyper_sublayer_w" 1]]
 
     ;; Other
-    [:semicolon :!Ch               ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
-    ;[:d :!TOCright_arrow           ["hyper_sublayer_w" 1]]   ; ctrl+opt+cmd+→ → next display
+    [{:key :semicolon :modi {:optional [:any]}} :!Ch ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
+    [{:key :quote :modi {:optional [:any]}} :!Cw ["hyper_sublayer_w" 1]]   ; cmd+w → close window
    ]}
-  {:des "hyper-o sublayer - app management"
+
+  {:des "hyper-o sublayer - open apps"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
-    [:o ["hyper_sublayer_o" 1] ["hyper" 1] {:afterup ["hyper_sublayer_o" 0]}]
+    [{:key :o :modi {:optional [:any]}} ["hyper_sublayer_o" 1] ["hyper" 1] {:afterup ["hyper_sublayer_o" 0]}]
 
-    ;; Positioning via Rectangle URL scheme
-    [:j [:rect "previous-display"] ["hyper_sublayer_w" 1]]
+    [{:key :e :modi {:optional [:any]}} [:open-app "Google Meet"]                                                ["hyper_sublayer_o" 1]]
+    [{:key :r :modi {:optional [:any]}} [:open-app "Granola"]                                                    ["hyper_sublayer_o" 1]]
+    [{:key :t :modi {:optional [:any]}} [:open-app "iTerm"]                                                      ["hyper_sublayer_o" 1]]
+    [{:key :a :modi {:optional [:any]}} [:open-bundle "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep"] ["hyper_sublayer_o" 1]]
+    [{:key :s :modi {:optional [:any]}} [:open-bundle "com.google.Chrome.app.gpnmjojgpojfhdidkfnhhggcghbbgpbp"] ["hyper_sublayer_o" 1]]
+    [{:key :d :modi {:optional [:any]}} [:open-app "Google Chrome"]                                              ["hyper_sublayer_o" 1]]
+    [{:key :f :modi {:optional [:any]}} [:open-app "Firefox"]                                                    ["hyper_sublayer_o" 1]]
+    [{:key :g :modi {:optional [:any]}} [:open-app "Snagit"]                                                     ["hyper_sublayer_o" 1]]
+    [{:key :z :modi {:optional [:any]}} [:open-app "zoom.us"]                                                    ["hyper_sublayer_o" 1]]
+    [{:key :x :modi {:optional [:any]}} [:open-app "Microsoft Excel"]                                            ["hyper_sublayer_o" 1]]
+    [{:key :c :modi {:optional [:any]}} [:open-app "Claude"]                                                     ["hyper_sublayer_o" 1]]
+    [{:key :v :modi {:optional [:any]}} [:open-app "Visual Studio Code"]                                         ["hyper_sublayer_o" 1]]
+    [{:key :n :modi {:optional [:any]}} [:open-app "Notes"]                                                      ["hyper_sublayer_o" 1]]
+    [{:key :m :modi {:optional [:any]}} [:open-app "Messages"]                                                   ["hyper_sublayer_o" 1]]
+   ]}
 
  ]
 }
