@@ -29,6 +29,12 @@
     ;; Positioning via Rectangle URL scheme
     [{:key :j :modi {:optional [:any]}} [:rect "previous-display"] ["hyper_sublayer_w" 1]]
     [{:key :k :modi {:optional [:any]}} [:rect "next-display"]     ["hyper_sublayer_w" 1]]
+    ;;[{:key :j :modi {:optional [:any]}} [:rect "move-to-previous-display"] ["hyper_sublayer_w" 1]]
+    ;;[{:key :k :modi {:optional [:any]}} [:rect "move-to-next-display"]     ["hyper_sublayer_w" 1]]
+    ;;[{:key :j :modi {:optional [:any]}} [:rect "previous-display-ratio"] ["hyper_sublayer_w" 1]]
+    ;;[{:key :k :modi {:optional [:any]}} [:rect "next-display-ratio"]     ["hyper_sublayer_w" 1]]
+    ;;[{:key :j :modi {:optional [:any]}} :!Cf10 ["hyper_sublayer_w" 1]]
+    ;;[{:key :k :modi {:optional [:any]}} :!Cf9  ["hyper_sublayer_w" 1]]
     [{:key :h :modi {:optional [:any]}} [:rect "left-half"]        ["hyper_sublayer_w" 1]]
     [{:key :l :modi {:optional [:any]}} [:rect "right-half"]       ["hyper_sublayer_w" 1]]
     [{:key :i :modi {:optional [:any]}} [:rect "maximize"]         ["hyper_sublayer_w" 1]]
@@ -97,5 +103,25 @@
    :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
   {:des "hyper+r → ctrl+option+cmd+shift+r"
    :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
+  {:des "Hyper+j/k for tab navigation"
+   :rules [[:j :!TStab ["hyper" 1]]
+           [:k :!Ttab  ["hyper" 1]]]}
+
+  {:des "right control to f2"
+   :rules [[:right_control :f2]]}
+  {:des "right option to forward delete"
+   :rules [[:right_option :delete_forward]]}
+  {:des "In Finder and VS Code, remap command+down to enter/return"
+   :rules [[{:key :down_arrow :modi {:mandatory [:command]}} :return {:modifiers [:command]}]]
+   :conditions [{:type :frontmost_application_if
+                 :bundle_identifiers ["com.apple.finder" "com.microsoft.VSCode"]}]
+  }
+  {:des "Snagit: ctrl+g -> ctrl+u"
+    :rules [{:type :basic
+            :from {:key_code :g :modifiers {:mandatory [:left_control]}}
+            :to [{:key_code :u :modifiers [:left_control]}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+
  ]
 }
