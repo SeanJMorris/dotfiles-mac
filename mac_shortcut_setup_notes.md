@@ -82,4 +82,38 @@ to copy or to close the tab of a browser. Claude suggested that I edit the
 standard Karabiner.edn code that the author had suggested so that I would use
 the Hyper key instead.
 
-I wrote to Chris May to ask for advice on 4/26/26 but then realized that I could just work basically without the hammerspoon rigging - so just making changes to karabiner.edn. So then on 4/25/26, I started using Claude to make the edits. For the o-layer, I used the [ruby file here](https://github.com/NylonDiamond/o-launcher-script/blob/master/CreateLauncherModeTemplate.rb#L28) that was recommended by the maker of this good [Karabiner Tutorial](https://youtu.be/PBPS2D9AKtI?t=1026) and used Claude to turn the Ruby file into Goku.
+I wrote to Chris May to ask for advice on 4/26/26 but then realized that I could
+just work basically without the hammerspoon rigging - so just making changes to
+karabiner.edn. So then on 4/25/26, I started using Claude to make the edits. For
+the o-layer, I used the [ruby file
+here](https://github.com/NylonDiamond/o-launcher-script/blob/master/CreateLauncherModeTemplate.rb#L28)
+that was recommended by the maker of this good [Karabiner
+Tutorial](https://youtu.be/PBPS2D9AKtI?t=1026) and used Claude to turn the Ruby
+file into Goku.
+
+On the possibility of a tool to switch applications AND cycle through windows. I
+made a PRD with claude - see btt-window-cycling-prd.md but concluded that it was
+a huge quagmire rife with potential pitfalls and probably not worth it right now.
+I will come back to this later - for now just create another shortcut to cycle
+through windows of application with another o-layer. It's also not clear that
+the best solution ISN'T something that combines ALT+Tab's ability to do ths with
+a given application with some other kind of shortcut. Maybe I could still jerry
+rig this...
+
+On 5/2/26, I made two PRDs with claude foa a spatial windows management feature
+(to navigate around only visible windows) and an application activation AND
+cycling shortcut (an alt tab + window selector baked into one). Both were super
+duper complicated.
+
+## To Do Notes as of 5/2/26
+
+1. Start over completely with Max Stoiber's set up, then rebuild the other good
+   stuff you have. It's smart that his method locks out any other layers and is
+   extensible.
+   - O-Layer
+   - Window Management
+   - Vim-Navigation
+   - Bookmarks
+   - Other Alfred Actions
+2. Spatial window management may just be a pipe dream, but it's
+still possible and could be worth it!
