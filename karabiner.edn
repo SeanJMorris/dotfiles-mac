@@ -8,66 +8,52 @@
 ; layers is like a vim mode - caps lock acts as a dedicated hyper key so the real command key is unaffected
 ; main - the layers to respond to, in this case, caps_lock held down triggers the hyper layer
 
-{:simlayers {:launcher-mode {:key :o}}
- :layers    {:caps-layer {:key :caps_lock :alone {:key :escape}}}
- :templates {:open-app    "open -a '%s.app'"
-             :open-bundle "open -b %s"}
+{
+ :templates {:rect "open -g 'rectangle-pro://execute-action?name=%s'"}
+
  :main [
-        {:des "right control to f2"
-         :rules [[:right_control :f2]]}
-        {:des "right option to forward delete"
-         :rules [[:right_option :delete_forward]]}
-        {:des "Snagit: ctrl+g -> ctrl+u"
-         :rules [{:type :basic
-                  :from {:key_code :g :modifiers {:mandatory [:left_control]}}
-                  :to [{:key_code :u :modifiers [:left_control]}]
-                  :conditions [{:type :frontmost_application_if
-                                 :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
-        {:des "Chrome: caps-lock+t to cmd+shift+a"
-         :rules [{:type :basic
-                  :from {:key_code :t}
-                  :to [{:key_code :a :modifiers [:left_command :left_shift]}]
-                  :conditions [{:type :variable_if :name "caps-layer" :value 1}
-                               {:type :frontmost_application_if
-                                :bundle_identifiers ["com.google.Chrome"]}]}]}
-        {:des "O-Launcher"
-         :rules [[:e [:open-app "Google Meet"]                                               :launcher-mode]
-                 [:r [:open-app "Granola"]                                                   :launcher-mode]
-                 [:t [:open-app "iTerm"]                                                     :launcher-mode]
-                 [:a [:open-bundle "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep"]   :launcher-mode]
-                 [:s [:open-bundle "com.google.Chrome.app.gpnmjojgpojfhdidkfnhhggcghbbgpbp"] :launcher-mode]
-                 [:d [:open-app "Google Chrome"]                                             :launcher-mode]
-                 [:f [:open-app "Firefox"]                                                   :launcher-mode]
-                 [:g [:open-app "Snagit"]                                                    :launcher-mode]
-                 [:z [:open-app "zoom.us"]                                                   :launcher-mode]
-                 [:x [:open-app "Microsoft Excel"]                                           :launcher-mode]
-                 [:c [:open-app "Claude"]                                                    :launcher-mode]
-                 [:v [:open-app "Visual Studio Code"]                                        :launcher-mode]
-                 [:n [:open-app "Notes"]                                                     :launcher-mode]
-                 [:m [:open-app "Messages"]                                                  :launcher-mode]]}
-        {:des "g held in caps-layer activates numbers-layer"
-         :rules [{:type :basic
-                  :from {:key_code :g :modifiers {:optional [:any]}}
-                  :to [{:set_variable {:name "numbers-layer" :value 1}}]
-                  :to_after_key_up [{:set_variable {:name "numbers-layer" :value 0}}]
-                  :conditions [{:type :variable_if :name "caps-layer" :value 1}]}]}
-        {:des "Numbers layer (caps-lock + g)"
-         :rules [[:u :4 [:caps-layer :numbers-layer]]
-                 [:i :5 [:caps-layer :numbers-layer]]
-                 [:o :6 [:caps-layer :numbers-layer]]
-                 [:j :1 [:caps-layer :numbers-layer]]
-                 [:k :2 [:caps-layer :numbers-layer]]
-                 [:l :3 [:caps-layer :numbers-layer]]
-                 [:m :0 [:caps-layer :numbers-layer]]
-                 [:hyphen {:key :8 :modi :left_shift} [:caps-layer :numbers-layer]]
-                 [:p :hyphen [:caps-layer :numbers-layer]]
-                 [:semicolon :period [:caps-layer :numbers-layer]]]}
-        {:des "Tab navigation (caps-lock + j/k)"
-         :rules [[:j :!TStab :caps-layer]
-                 [:k :!Ttab  :caps-layer]]}
-        {:des "simultaneous left-shift right-shift press to ctrl+[ held for 1 second"
-         :rules [{:type :basic
-                  :from {:simultaneous [{:key_code :left_shift} {:key_code :right_shift}]
-                         :simultaneous_options {:key_up_when :any}}
-                  :to [{:key_code :open_bracket :modifiers [:left_control] :hold_down_milliseconds 1000}]}]}]
+
+  ;; ─── Caps Lock → Hyper Key ───────────────────────────────────────────────────
+  ;; Hold: sets variable hyper=1.  Tap alone: sends Escape.
+  {:des "caps lock - hyper key"
+   :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
+
+  ;; ─── Hyper + w → Window management sublayer ──────────────────────────────────
+  {:des "hyper-w sublayer - window management"
+   :rules [
+    ;; Activate sublayer on hold; cleared on key-up
+    [:w ["hyper_sublayer_w" 1] ["hyper" 1] {:afterup ["hyper_sublayer_w" 0]}]
+
+    ;; Positioning via Rectangle URL scheme
+    [:j [:rect "previous-display"] ["hyper_sublayer_w" 1]]
+    [:k [:rect "next-display"]     ["hyper_sublayer_w" 1]]
+    [:h [:rect "left-half"]        ["hyper_sublayer_w" 1]]
+    [:l [:rect "right-half"]       ["hyper_sublayer_w" 1]]
+    [:i [:rect "maximize"]         ["hyper_sublayer_w" 1]]
+    [:y [:rect "maximize-height"]         ["hyper_sublayer_w" 1]]
+    [:n [:rect "top-half"]         ["hyper_sublayer_w" 1]]
+    [:m [:rect "bottom-half"]      ["hyper_sublayer_w" 1]]
+    [:o [:rect "larger"]             ["hyper_sublayer_w" 1]]
+    [:u [:rect "smaller"]            ["hyper_sublayer_w" 1]]
+
+    ;; Tab / window navigation
+    ;[:u :!TStab                    ["hyper_sublayer_w" 1]]   ; ctrl+shift+tab → previous tab
+    ;[:i :!Ttab                     ["hyper_sublayer_w" 1]]   ; ctrl+tab → next tab
+    ;[:n :!Cgrave_accent_and_tilde  ["hyper_sublayer_w" 1]]   ; cmd+` → next window (same app)
+    ;[:b :!Copen_bracket            ["hyper_sublayer_w" 1]]   ; cmd+[ → back
+    ;[:m :!Cclose_bracket           ["hyper_sublayer_w" 1]]   ; cmd+] → forward
+
+    ;; Other
+    [:semicolon :!Ch               ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
+    ;[:d :!TOCright_arrow           ["hyper_sublayer_w" 1]]   ; ctrl+opt+cmd+→ → next display
+   ]}
+  {:des "hyper-o sublayer - app management"
+   :rules [
+    ;; Activate sublayer on hold; cleared on key-up
+    [:o ["hyper_sublayer_o" 1] ["hyper" 1] {:afterup ["hyper_sublayer_o" 0]}]
+
+    ;; Positioning via Rectangle URL scheme
+    [:j [:rect "previous-display"] ["hyper_sublayer_w" 1]]
+
+ ]
 }
