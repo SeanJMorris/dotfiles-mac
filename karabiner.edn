@@ -12,7 +12,6 @@
  :templates {:rect     "open -g 'rectangle-pro://execute-action?name=%s'"
             :open-app "open -a '%s.app'"
             :open-bundle "open -b %s"
-            :open-url "open '%s'"
             :script "%s"
 }
 
