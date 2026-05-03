@@ -105,6 +105,22 @@ The spatial positioning keys (`h`/`j`/`k`/`l`/`f`) deliberately reuse vim direct
 | `c` | Open camera |
 | `v` | opt+space (Raycast?) |
 
+### Sublayer `v` — Vim Navigation (full list)
+
+The spatial keys mirror vim directions for cursor movement. Scrolling bindings use Emacs-style control chords (`ctrl+f`, `ctrl+j`) whose exact behavior is app-dependent — they work well in Terminal, browser scroll views, and similar.
+
+| Key | Action |
+|-----|--------|
+| `h` | ← left arrow |
+| `j` | ↓ down arrow |
+| `k` | ↑ up arrow |
+| `l` | → right arrow |
+| `u` | Page Down |
+| `i` | Page Up |
+| `m` | ctrl+f (Emacs forward-page scroll) |
+| `s` | ctrl+j (Emacs scroll-down-line) |
+| `d` | shift+cmd+d (bookmark in Chrome / Desktop in Finder) |
+
 ### Sublayer `r` — Raycast Commands (full list)
 | Key | Action |
 |-----|--------|

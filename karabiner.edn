@@ -12,6 +12,8 @@
  :templates {:rect     "open -g 'rectangle-pro://execute-action?name=%s'"
             :open-app "open -a '%s.app'"
             :open-bundle "open -b %s"
+            :open-url "open '%s'"
+            :script "%s"
 }
 
  :main [
@@ -19,13 +21,6 @@
   ;; Hold: sets variable hyper=1.  Tap alone: sends Escape.
   {:des "caps lock - hyper key"
    :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
-
-  ;; Forward hyper+t as ctrl+option+cmd+shift+b so Alt-Tab (and similar apps) can bind to it
-  {:des "hyper+t → ctrl+option+cmd+shift+t"
-   :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
-  ;; Forward hyper+r as ctrl+option+cmd+shift+r so Alt-Tab (and similar apps) can bind to it
-   {:des "hyper+r → ctrl+option+cmd+shift+r"
-   :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
 
   {:des "hyper-w sublayer - window management"
    :rules [
@@ -49,6 +44,22 @@
     [{:key :quote :modi {:optional [:any]}} :!Cw ["hyper_sublayer_w" 1]]   ; cmd+w → close window
    ]}
 
+  {:des "hyper-g sublayer - numbers layer"
+   :rules [
+    ;; Activate sublayer on hold; cleared on key-up
+    [{:key :g :modi {:optional [:any]}} ["hyper_sublayer_g" 1] [["hyper" 1] ["hyper_sublayer_o" 0]] {:afterup ["hyper_sublayer_g" 0]}]
+
+    ;; Numbers Layer
+    [{:key :j :modi {:optional [:any]}} :1 ["hyper_sublayer_g" 1]]
+    [{:key :k :modi {:optional [:any]}} :2 ["hyper_sublayer_g" 1]]
+    [{:key :l :modi {:optional [:any]}} :3 ["hyper_sublayer_g" 1]]
+    [{:key :u :modi {:optional [:any]}} :4 ["hyper_sublayer_g" 1]]
+    [{:key :i :modi {:optional [:any]}} :5 ["hyper_sublayer_g" 1]]
+    [{:key :o :modi {:optional [:any]}} :6 ["hyper_sublayer_g" 1]]
+    [{:key :p :modi {:optional [:any]}} :hyphen ["hyper_sublayer_g" 1]]
+    [{:key :semicolon :modi {:optional [:any]}} :keypad_plus ["hyper_sublayer_g" 1]]
+   ]}
+
   {:des "hyper-o sublayer - open apps"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
@@ -70,5 +81,22 @@
     [{:key :m :modi {:optional [:any]}} [:open-app "Messages"]                                                   ["hyper_sublayer_o" 1]]
    ]}
 
+  {:des "hyper-s sublayer - system controls"
+   :rules [
+    ;; Activate sublayer on hold; cleared on key-up
+    [{:key :s :modi {:optional [:any]}} ["hyper_sublayer_s" 1] ["hyper" 1] {:afterup ["hyper_sublayer_s" 0]}]
+
+    [{:key :u :modi {:optional [:any]}} :volume_increment                                                         ["hyper_sublayer_s" 1]]
+    [{:key :j :modi {:optional [:any]}} :volume_decrement                                                         ["hyper_sublayer_s" 1]]
+    [{:key :i :modi {:optional [:any]}} :display_brightness_increment                                             ["hyper_sublayer_s" 1]]
+    [{:key :k :modi {:optional [:any]}} :display_brightness_decrement                                             ["hyper_sublayer_s" 1]]
+    [{:key :t :modi {:optional [:any]}} [:script "osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"] ["hyper_sublayer_s" 1]]
+   ]}
+
+  ;; Placed after all sublayers so sublayer action rules take priority over these
+  {:des "hyper+t → ctrl+option+cmd+shift+t"
+   :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
+  {:des "hyper+r → ctrl+option+cmd+shift+r"
+   :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
  ]
 }
