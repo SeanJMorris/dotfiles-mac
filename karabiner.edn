@@ -20,12 +20,12 @@
   {:des "caps lock - hyper key"
    :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
 
-  ;; Forward hyper+b as ctrl+option+cmd+shift+b so Alt-Tab (and similar apps) can bind to it
-  {:des "hyper+b → ctrl+option+cmd+shift+b"
-   :rules [[{:key :b :modi {:optional [:any]}} :!TOCSb ["hyper" 1]]]}
-  ;; Forward hyper+t as ctrl+option+cmd+shift+t so Alt-Tab (and similar apps) can bind to it
-   {:des "hyper+t → ctrl+option+cmd+shift+t"
+  ;; Forward hyper+t as ctrl+option+cmd+shift+b so Alt-Tab (and similar apps) can bind to it
+  {:des "hyper+t → ctrl+option+cmd+shift+t"
    :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
+  ;; Forward hyper+r as ctrl+option+cmd+shift+r so Alt-Tab (and similar apps) can bind to it
+   {:des "hyper+r → ctrl+option+cmd+shift+r"
+   :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
 
   {:des "hyper-w sublayer - window management"
    :rules [
