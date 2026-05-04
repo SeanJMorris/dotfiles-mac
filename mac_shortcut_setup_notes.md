@@ -136,6 +136,8 @@ version of raycast.
 
 ## To Do Notes as of 5/3/26
 
+Consider configuring windows key to also have tab navigation and new tab creation.
+
 1. Next Up
    - Vim-Navigation
    - Bookmarks
