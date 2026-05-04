@@ -111,17 +111,25 @@
    :rules [[:right_control :f2]]}
   {:des "right option to forward delete"
    :rules [[:right_option :delete_forward]]}
-  {:des "In Finder and VS Code, remap command+down to enter/return"
-   :rules [[{:key :down_arrow :modi {:mandatory [:command]}} :return {:modifiers [:command]}]]
-   :conditions [{:type :frontmost_application_if
-                 :bundle_identifiers ["com.apple.finder" "com.microsoft.VSCode"]}]
-  }
+  {:des "In Finder remap return to open file (cmd+down)"
+    :rules [{:type :basic
+            :from {:key_code :return_or_enter}
+            :to [{:key_code :down_arrow :modifiers [:left_command]}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.apple.finder"]}]}]}
   {:des "Snagit: ctrl+g -> ctrl+u"
     :rules [{:type :basic
             :from {:key_code :g :modifiers {:mandatory [:left_control]}}
             :to [{:key_code :u :modifiers [:left_control]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+  {:des "Chrome: caps-lock+a to cmd+shift+a"
+    :rules [{:type :basic
+            :from {:key_code :a}
+            :to [{:key_code :a :modifiers [:left_command :left_shift]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.google.Chrome"]}]}]}
 
  ]
 }
