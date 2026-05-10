@@ -95,7 +95,8 @@
     [{:key :j :modi {:optional [:any]}} :volume_decrement                                                         ["hyper_sublayer_s" 1]]
     [{:key :i :modi {:optional [:any]}} :display_brightness_increment                                             ["hyper_sublayer_s" 1]]
     [{:key :k :modi {:optional [:any]}} :display_brightness_decrement                                             ["hyper_sublayer_s" 1]]
-    [{:key :t :modi {:optional [:any]}} [:script "osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"] ["hyper_sublayer_s" 1]]
+    [{:key :o :modi {:optional [:any]}} [:script "osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"] ["hyper_sublayer_s" 1]]
+    [{:key :l :modi {:optional [:any]}} [:script "/bin/zsh -i -c 'togglescroll'"] ["hyper_sublayer_s" 1]]
    ]}
 
   ;; Placed after all sublayers so sublayer action rules take priority over these
@@ -107,10 +108,14 @@
    :rules [[:j :!TStab ["hyper" 1]]
            [:k :!Ttab  ["hyper" 1]]]}
 
-  {:des "right control to f2"
-   :rules [[:right_control :f2]]}
-  {:des "right option to forward delete"
-   :rules [[:right_option :delete_forward]]}
+  ;;{:des "right control to f2"
+  ;; :rules [[:right_control :f2]]}
+  ;;{:des "right option to forward delete"
+  ;; :rules [[:right_option :delete_forward]]}
+  {:des "right option to f2"
+   :rules [[:right_option :f2]]}
+  {:des "right control to forward delete"
+   :rules [[:right_control :delete_forward]]}
   {:des "In Finder remap return to open file (cmd+down)"
     :rules [{:type :basic
             :from {:key_code :return_or_enter}
