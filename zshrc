@@ -234,5 +234,42 @@ fi
 [ -f "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh" ] && source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
 [ -f "$BREW_PREFIX/opt/fzf/shell/completion.zsh" ] && source "$BREW_PREFIX/opt/fzf/shell/completion.zsh"
 
-# unalias gc which oh my zsh aliases as `git commit --verbose`
+# unalias gc which oh my zsh aliases as `git commit --verbose` 
+#   this was necessary to work with google cli
 unalias gc
+
+# create new toggle so that you can switch between mouse scroll and trackpad scrolls you expect
+
+togglescroll() {
+  current=$(defaults read -g com.apple.swipescrolldirection 2>/dev/null)
+  if [ "$current" = "1" ]; then
+    defaults write -g com.apple.swipescrolldirection -bool false
+    osascript -e 'display notification "Natural scrolling: OFF"'
+  else
+    defaults write -g com.apple.swipescrolldirection -bool true
+    osascript -e 'display notification "Natural scrolling: ON"'
+  fi
+}
+
+
+
+# togglescroll() {
+#   current=$(defaults read -g com.apple.swipescrolldirection 2>/dev/null)
+#   if [ "$current" = "1" ]; then
+#     defaults write -g com.apple.swipescrolldirection -bool false
+#   else
+#     defaults write -g com.apple.swipescrolldirection -bool true
+#   fi
+# }
+
+
+# togglescroll() {
+#   current=$(defaults read -g com.apple.swipescrolldirection 2>/dev/null)
+#   if [ "$current" = "1" ]; then
+#     defaults write -g com.apple.swipescrolldirection -bool false
+#     osascript -e 'display notification "Natural scrolling: OFF" with title "Trackpad"'
+#   else
+#     defaults write -g com.apple.swipescrolldirection -bool true
+#     osascript -e 'display notification "Natural scrolling: ON" with title "Trackpad"'
+#   fi
+# }
