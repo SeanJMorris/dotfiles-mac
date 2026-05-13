@@ -251,25 +251,5 @@ togglescroll() {
   fi
 }
 
-
-
-# togglescroll() {
-#   current=$(defaults read -g com.apple.swipescrolldirection 2>/dev/null)
-#   if [ "$current" = "1" ]; then
-#     defaults write -g com.apple.swipescrolldirection -bool false
-#   else
-#     defaults write -g com.apple.swipescrolldirection -bool true
-#   fi
-# }
-
-
-# togglescroll() {
-#   current=$(defaults read -g com.apple.swipescrolldirection 2>/dev/null)
-#   if [ "$current" = "1" ]; then
-#     defaults write -g com.apple.swipescrolldirection -bool false
-#     osascript -e 'display notification "Natural scrolling: OFF" with title "Trackpad"'
-#   else
-#     defaults write -g com.apple.swipescrolldirection -bool true
-#     osascript -e 'display notification "Natural scrolling: ON" with title "Trackpad"'
-#   fi
-# }
+# alias none as clear because sometimes if you type esc and c fzf thinks you want do cd search
+alias none='clear' 
