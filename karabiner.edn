@@ -27,14 +27,6 @@
     [{:key :w :modi {:optional [:any]}} ["hyper_sublayer_w" 1] ["hyper" 1] {:afterup ["hyper_sublayer_w" 0]}]
 
     ;; Positioning via Rectangle URL scheme
-    [{:key :j :modi {:optional [:any]}} [:rect "previous-display"] ["hyper_sublayer_w" 1]]
-    [{:key :k :modi {:optional [:any]}} [:rect "next-display"]     ["hyper_sublayer_w" 1]]
-    ;;[{:key :j :modi {:optional [:any]}} [:rect "move-to-previous-display"] ["hyper_sublayer_w" 1]]
-    ;;[{:key :k :modi {:optional [:any]}} [:rect "move-to-next-display"]     ["hyper_sublayer_w" 1]]
-    ;;[{:key :j :modi {:optional [:any]}} [:rect "previous-display-ratio"] ["hyper_sublayer_w" 1]]
-    ;;[{:key :k :modi {:optional [:any]}} [:rect "next-display-ratio"]     ["hyper_sublayer_w" 1]]
-    ;;[{:key :j :modi {:optional [:any]}} :!Cf10 ["hyper_sublayer_w" 1]]
-    ;;[{:key :k :modi {:optional [:any]}} :!Cf9  ["hyper_sublayer_w" 1]]
     [{:key :h :modi {:optional [:any]}} [:rect "left-half"]        ["hyper_sublayer_w" 1]]
     [{:key :l :modi {:optional [:any]}} [:rect "right-half"]       ["hyper_sublayer_w" 1]]
     [{:key :i :modi {:optional [:any]}} [:rect "maximize"]         ["hyper_sublayer_w" 1]]
@@ -43,6 +35,16 @@
     [{:key :m :modi {:optional [:any]}} [:rect "bottom-half"]      ["hyper_sublayer_w" 1]]
     [{:key :o :modi {:optional [:any]}} [:rect "larger"]           ["hyper_sublayer_w" 1]]
     [{:key :u :modi {:optional [:any]}} [:rect "smaller"]          ["hyper_sublayer_w" 1]]
+
+    ;; There was a problem with using the rectangle commands and none of the commented-out options below worked, so I gave up on using rectangle commands entirely and created new shortcuts (cmd + F9 / F10) directly in rectangle and then just remapped the keys to those
+    ;;[{:key :j :modi {:optional [:any]}} [:rect "move-to-previous-display"] ["hyper_sublayer_w" 1]]
+    ;;[{:key :k :modi {:optional [:any]}} [:rect "move-to-next-display"]     ["hyper_sublayer_w" 1]]
+    ;;[{:key :j :modi {:optional [:any]}} [:rect "previous-display-ratio"] ["hyper_sublayer_w" 1]]
+    ;;[{:key :k :modi {:optional [:any]}} [:rect "next-display-ratio"]     ["hyper_sublayer_w" 1]]
+    ;;[{:key :j :modi {:optional [:any]}} :!Cf10 ["hyper_sublayer_w" 1]]
+    ;;[{:key :k :modi {:optional [:any]}} :!Cf9  ["hyper_sublayer_w" 1]]
+    [{:key :j :modi {:optional [:any]}} :!Cf9 ["hyper_sublayer_w" 1]]
+    [{:key :k :modi {:optional [:any]}} :!Cf10 ["hyper_sublayer_w" 1]]
 
     ;; Other
     [{:key :semicolon :modi {:optional [:any]}} :!Ch ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
