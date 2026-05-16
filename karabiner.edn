@@ -111,14 +111,18 @@
    :rules [[:j :!TStab ["hyper" 1]]
            [:k :!Ttab  ["hyper" 1]]]}
 
-  ;;{:des "right control to f2"
-  ;; :rules [[:right_control :f2]]}
-  ;;{:des "right option to forward delete"
-  ;; :rules [[:right_option :delete_forward]]}
-  {:des "right option to f2"
-   :rules [[:right_option :f2]]}
-  {:des "right control to forward delete"
-   :rules [[:right_control :delete_forward]]}
+  ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
+  {:des "right control to f2"
+   :rules [[:right_control :f2]]}
+  {:des "right option to forward delete"
+   :rules [[:right_option :delete_forward]]}
+
+  ;; When traveling, use this block instead of the above
+  ;;{:des "right option to f2"
+  ;; :rules [[:right_option :f2]]}
+  ;;{:des "right control to forward delete"
+  ;; :rules [[:right_control :delete_forward]]}
+
   {:des "In Finder remap return to open file (cmd+down)"
     :rules [{:type :basic
             :from {:key_code :return_or_enter}
