@@ -1,8 +1,8 @@
 # PRD: BetterTouchTool App-Specific Window Cycling Shortcut
 
-**Author:** Sean Morris  
-**Date:** 2026-05-02  
-**Tool:** BetterTouchTool (macOS)  
+**Author:** Sean Morris
+**Date:** 2026-05-02
+**Tool:** BetterTouchTool (macOS)
 **Status:** Draft
 
 ---
@@ -115,7 +115,7 @@ During Cycle Mode, the user must be able to see which window they're about to se
 - Overlay should include the window's title string.
 - Overlay should dismiss instantly on modifier release.
 
-**Pros:** Non-intrusive, does not alter window state; capturing once at initiation avoids per-keypress latency.  
+**Pros:** Non-intrusive, does not alter window state; capturing once at initiation avoids per-keypress latency.
 **Cons:** Thumbnail may not reflect the very latest window contents if the window changed recently, but this is acceptable.
 
 ### Option B — Text-Only Window Title List (Fallback)
@@ -123,7 +123,7 @@ During Cycle Mode, the user must be able to see which window they're about to se
 - Use Accessibility APIs (`AXUIElement`) to read window titles and display them as a text-only list in a BTT HUD (no thumbnail).
 - Highlight the currently indexed window title in the list.
 
-**Pros:** Simpler to implement in pure AppleScript, no image capture required.  
+**Pros:** Simpler to implement in pure AppleScript, no image capture required.
 **Cons:** No visual thumbnail, relies on window titles being descriptive.
 
 ### Option C — App Exposé (Not Recommended)
