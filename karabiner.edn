@@ -101,9 +101,9 @@
    :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
   {:des "hyper+r → ctrl+option+cmd+shift+r"
    :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
-  {:des "Hyper+j/k for tab navigation"
+  {:des "Hyper+j/l for tab navigation"
    :rules [[:j :!TStab ["hyper" 1]]
-           [:k :!Ttab  ["hyper" 1]]]}
+           [:l :!Ttab  ["hyper" 1]]]}
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
   {:des "right control to f2"
