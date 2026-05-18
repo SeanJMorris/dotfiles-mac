@@ -47,7 +47,7 @@ to the front as you cycle.
 ## Trigger & Modifier Keys
 
 | Property | Value |
-|---|---|
+| --- | --- |
 | Modifier chord | `⌃` Control + `⌥` Option + `⌘` Command |
 | Trigger key (Chrome example) | `D` |
 | Cycle advance | Tap `D` again while all three modifiers remain held |
@@ -63,6 +63,7 @@ to the front as you cycle.
 **Trigger:** `⌃⌥⌘ D` pressed; Chrome has no windows open on the currently active Space.
 
 **Expected behavior:**
+
 - If Chrome is not running at all, launch it (which opens a new window on the current Space).
 - If Chrome is running but all its windows are on other Spaces, open a new Chrome window on the current Space.
 - Bring the new window to the foreground as the active window.
@@ -75,6 +76,7 @@ to the front as you cycle.
 **Trigger:** `⌃⌥⌘ D` pressed; Chrome has exactly one window on the currently active Space.
 
 **Expected behavior:**
+
 - Activate Chrome and bring that single window to the foreground.
 - No cycling UI is shown (nothing to cycle through).
 - Release of modifier keys is a no-op (window is already in front).
@@ -86,17 +88,20 @@ to the front as you cycle.
 **Trigger:** `⌃⌥⌘ D` pressed; Chrome has 2 or more windows on the currently active Space.
 
 **Expected behavior on first press:**
+
 - Enter "Cycle Mode."
 - The current cycle index is set to 0, pointing at the most-recently-active Chrome window on the current Space.
 - Display a preview of that window (see Preview UI section below).
 - Do **not** raise or reorder any windows yet.
 
 **Expected behavior on each subsequent `D` press (modifiers still held):**
+
 - Increment the cycle index (wrapping around after the last window).
 - Update the preview to show the newly indexed window.
 - Do **not** raise, focus, or change the z-order of any window during cycling. Windows being cycled past must remain in the same position in the MRU (most-recently-used) stack as they were before the shortcut was initiated.
 
 **Expected behavior on modifier key release (any of `⌃`, `⌥`, `⌘`):**
+
 - The window at the current cycle index is brought to the foreground and becomes the active window.
 - Cycle Mode is exited. The preview UI is dismissed.
 - All other Chrome windows remain in the z-order position they held before the shortcut was initiated (i.e., their MRU rank is unchanged relative to each other and relative to other apps' windows).
@@ -168,7 +173,7 @@ Windows in the cycle should be ordered by **most recently used (MRU)** — i.e.,
 The core logic is implemented once as a single reusable script that accepts two parameters:
 
 | Parameter | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `APP_NAME` | The macOS process name of the target application | `"Google Chrome"` |
 | `TRIGGER_KEY` | The letter key bound to this app (for documentation/logging only) | `"D"` |
 
@@ -177,7 +182,7 @@ Each per-app BTT shortcut (e.g., `⌃⌥⌘ D`, `⌃⌥⌘ T`, `⌃⌥⌘ S`) ca
 ### Suggested BTT Constructs
 
 | BTT Feature | Usage |
-|---|---|
+| --- | --- |
 | Named Trigger (parameterized) | Central entry point; receives `APP_NAME`, manages cycle state |
 | Global Variables | `btt_cycle_index`, `btt_cycle_window_ids` (comma-separated), `btt_cycle_app` |
 | AppleScript Action | Enumerate windows, build window ID list, activate final selection |
@@ -211,6 +216,7 @@ BTT supports triggering actions on **key up** events. To detect when any of the 
 ### State Cleanup
 
 On commit, the following must be reset:
+
 - `btt_cycle_index` → `0`
 - `btt_cycle_window_ids` → `""`
 - `btt_cycle_app` → `""`
@@ -221,7 +227,7 @@ On commit, the following must be reset:
 ## Edge Cases
 
 | Scenario | Expected Behavior |
-|---|---|
+| --- | --- |
 | Chrome window is minimized (on current Space) | Un-minimize and bring to foreground on selection |
 | Chrome window is on a different Space | Exclude from the cycle — only windows on the currently active Space are eligible |
 | Chrome is running but all windows are on other Spaces | Treat as State 1: open a new Chrome window on the current Space |
@@ -248,7 +254,7 @@ On commit, the following must be reset:
 ## Resolved Decisions
 
 | Decision | Resolution |
-|---|---|
+| --- | --- |
 | Cancel gesture | No explicit cancel. Releasing any modifier key always commits the currently previewed window. |
 | Space switching | No — the shortcut is strictly scoped to the currently active Space. Windows on other Spaces are excluded entirely. |
 | Thumbnail fidelity | A cached snapshot captured at shortcut-initiation time is sufficient. A live/real-time capture is not required. |
