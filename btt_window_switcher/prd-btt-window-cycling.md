@@ -9,18 +9,29 @@
 
 ## Overview
 
-This document specifies the behavior for a custom keyboard shortcut implemented in BetterTouchTool (BTT) that allows the user to launch, activate, and cycle through all open windows of a specific application — using a single chord of modifier keys plus one repeated trigger key — without disrupting the existing window z-order of windows that are not ultimately selected.
+This document specifies the behavior for a custom keyboard shortcut implemented
+in BetterTouchTool (BTT) that allows the user to launch, activate, and cycle
+through all open windows of a specific application — using a single chord of
+modifier keys plus one repeated trigger key — without disrupting the existing
+most-recently-used order of windows that are not ultimately selected.
 
-The example configuration described throughout this document binds **`⌃⌥⌘ D`** to **Google Chrome**. The implementation uses a single parameterized BTT script/named trigger that accepts an app name and trigger key, so additional app bindings (e.g., `⌃⌥⌘ T` → Terminal, `⌃⌥⌘ S` → Slack) require only a new BTT shortcut entry pointing at the same underlying script with different arguments — no duplication of logic.
+The example configuration described throughout this document binds **`⌃⌥⌘ D`**
+to **Google Chrome**. The implementation uses a single parameterized BTT
+script/named trigger that accepts an app name and trigger key, so additional app
+bindings (e.g., `⌃⌥⌘ T` → Terminal, `⌃⌥⌘ S` → Slack) require only a new BTT
+shortcut entry pointing at the same underlying script with different arguments —
+no duplication of logic.
 
 ---
 
 ## Goals
 
 - Provide instant keyboard-driven access to any window of a target application.
-- Allow visual cycling through multiple windows of the same app with a lightweight preview.
-- **Not** disrupt the window stack (z-order / "most recently used" order) of windows that the user cycles past but does not select.
-- Feel distinct from macOS's built-in `⌘ \`` behavior, which raises each window to the front as you cycle.
+- Allow visual cycling through multiple windows of the same app with a
+lightweight preview.  - **Not** disrupt the window stack (z-order / "most
+recently used" order) of windows that the user cycles past but does not select.
+- Feel distinct from macOS's built-in `⌘ \`` behavior, which raises each window
+to the front as you cycle.
 
 ---
 
