@@ -102,9 +102,15 @@
    :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
   {:des "hyper+r → ctrl+option+cmd+shift+r"
    :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
+  {:des "Hyper+space → Alfred (ctrl+option+cmd+shift+space)"
+   :rules [[{:key :spacebar :modi {:optional [:any]}} :!TOCSspacebar ["hyper" 1]]]}
   {:des "Hyper+j/l for tab navigation"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
+  ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)
+  ;;{:des "Hyper+t/w for new tab creation and tab closing"
+  ;; :rules [[:t :!St ["hyper" 1]]
+  ;;         [:w :!Sw ["hyper" 1]]]}
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
   {:des "right control to f2"
