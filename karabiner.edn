@@ -21,6 +21,7 @@
   {:des "caps lock - hyper key"
    :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
 
+  ;; HYPER-W WINDOW MANAGEMENT LAYER
   {:des "hyper-w sublayer - window management"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
@@ -46,6 +47,7 @@
 
    ]}
 
+  ;; HYPER-G NUMBERS LAYER
   {:des "hyper-g sublayer - numbers layer"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
@@ -63,6 +65,7 @@
     [{:key :semicolon :modi {:optional [:any]}} :keypad_plus ["hyper_sublayer_g" 1]]
    ]}
 
+  ;; HYPER-O APPLICATION LAUNCHING LAYER
   {:des "hyper-o sublayer - open apps"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
@@ -84,6 +87,7 @@
     [{:key :m :modi {:optional [:any]}} [:open-app "Messages"]                                                   ["hyper_sublayer_o" 1]]
    ]}
 
+  ;; HYPER-S SYSTEM CONTROLS LAYER
   {:des "hyper-s sublayer - system controls"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
@@ -126,6 +130,7 @@
   ;;{:des "right control to forward delete"
   ;; :rules [[:right_control :delete_forward]]}
 
+  ;; APPLICATION-SPECIFIC REMAPPINGS
   {:des "In Finder remap return to open file (cmd+down)"
     :rules [{:type :basic
             :from {:key_code :return_or_enter}
