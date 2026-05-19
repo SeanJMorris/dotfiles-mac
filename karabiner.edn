@@ -104,6 +104,8 @@
    :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
   {:des "Hyper+space → Alfred (ctrl+option+cmd+shift+space)"
    :rules [[{:key :spacebar :modi {:optional [:any]}} :!TOCSspacebar ["hyper" 1]]]}
+  {:des "Hyper+f → Homerow (ctrl+option+cmd+shift+f)"
+   :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
   {:des "Hyper+j/l for tab navigation"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
