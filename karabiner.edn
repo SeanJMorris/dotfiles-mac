@@ -115,6 +115,8 @@
   {:des "Hyper+j/l for tab navigation"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
+  {:des "Hyper+h → Homerow (ctrl+option+cmd+shift+h)"
+   :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
   ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)
   ;;{:des "Hyper+t/w for new tab creation and tab closing"
   ;; :rules [[:t :!St ["hyper" 1]]
