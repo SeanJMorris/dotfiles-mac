@@ -36,7 +36,7 @@
     [{:key :o :modi {:optional [:any]}} [:rect "larger"]           ["hyper_sublayer_w" 1]]
     [{:key :u :modi {:optional [:any]}} [:rect "smaller"]          ["hyper_sublayer_w" 1]]
     [{:key :quote :modi {:optional [:any]}} :!Ch ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
-    [{:key :p :modi {:optional [:any]}} :!Cw ["hyper_sublayer_w" 1]]   ; cmd+w → close window
+    [{:key :p :modi {:optional [:any]}} :!Cw ["hyper_sublayer_w" 1]]   ; cmd+w → close tab/window
     [{:key :leftbracket :modi {:optional [:any]}} :!Cq ["hyper_sublayer_w" 1]]   ; cmd+q → quit app
     ;; Note: Options with "move-to-previous-display", "previous-display-ratio",
     ;and "next-display-ratio" (and vice versa with 'next' instead of previous)
@@ -76,6 +76,8 @@
     [{:key :t :modi {:optional [:any]}} [:open-app "iTerm"]                                                      ["hyper_sublayer_o" 1]]
     [{:key :a :modi {:optional [:any]}} [:open-bundle "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep"] ["hyper_sublayer_o" 1]]
     [{:key :s :modi {:optional [:any]}} [:open-bundle "com.google.Chrome.app.gpnmjojgpojfhdidkfnhhggcghbbgpbp"] ["hyper_sublayer_o" 1]]
+    ;; Tried switching to Slack App on 5/20/26 because I installed Homerow, but scrolling wasn't better
+    ;;[{:key :s :modi {:optional [:any]}} [:open-app "Slack"]                                                      ["hyper_sublayer_o" 1]]
     [{:key :d :modi {:optional [:any]}} [:open-app "Google Chrome"]                                              ["hyper_sublayer_o" 1]]
     [{:key :f :modi {:optional [:any]}} [:open-app "Firefox"]                                                    ["hyper_sublayer_o" 1]]
     [{:key :g :modi {:optional [:any]}} [:open-app "Snagit"]                                                     ["hyper_sublayer_o" 1]]
