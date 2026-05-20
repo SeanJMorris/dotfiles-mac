@@ -104,23 +104,32 @@
    ]}
 
   ;; Placed after all sublayers so sublayer action rules take priority over these
+  ;; ALT-TAB
   {:des "hyper+t → ctrl+option+cmd+shift+t"
    :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
   {:des "hyper+r → ctrl+option+cmd+shift+r"
    :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
+  {:des "hyper+i → ctrl+option+cmd+shift+i"
+   :rules [[{:key :i :modi {:optional [:any]}} :!TOCSi ["hyper" 1]]]}
+  {:des "hyper+u → ctrl+option+cmd+shift+u"
+   :rules [[{:key :u :modi {:optional [:any]}} :!TOCSu ["hyper" 1]]]}
+
+  ; ALFRED
   {:des "Hyper+space → Alfred (ctrl+option+cmd+shift+space)"
    :rules [[{:key :spacebar :modi {:optional [:any]}} :!TOCSspacebar ["hyper" 1]]]}
-  {:des "Hyper+f → Homerow (ctrl+option+cmd+shift+f)"
+  {:des "Hyper+p → Alfred clipboard (ctrl+option+cmd+shift+p)"
+   :rules [[{:key :p :modi {:optional [:any]}} :!TOCSp ["hyper" 1]]]}
+
+  ;; HOMEROW
+  {:des "Hyper+f → Start Homerow (ctrl+option+cmd+shift+f)"
    :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
   {:des "Hyper+j/l for tab navigation"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
+
+  ;; UNIVERSAL
   {:des "Hyper+h → Homerow (ctrl+option+cmd+shift+h)"
    :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
-  ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)
-  ;;{:des "Hyper+t/w for new tab creation and tab closing"
-  ;; :rules [[:t :!St ["hyper" 1]]
-  ;;         [:w :!Sw ["hyper" 1]]]}
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
   {:des "right control to f2"
