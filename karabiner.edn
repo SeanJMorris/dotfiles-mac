@@ -123,13 +123,29 @@
   ;; HOMEROW
   {:des "Hyper+f → Start Homerow (ctrl+option+cmd+shift+f)"
    :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
+  {:des "Hyper+h → Homerow (ctrl+option+cmd+shift+h)"
+   :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
+
+  ;; Snagit
+  {:des "Snagit: caps-lock+j -> cmd+["
+    :rules [{:type :basic
+            :from {:key_code :j}
+            :to [{:key_code :open_bracket :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+  {:des "Snagit: caps-lock+l -> cmd+]"
+    :rules [{:type :basic
+            :from {:key_code :l}
+            :to [{:key_code :close_bracket :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+
+  ;; UNIVERSAL
   {:des "Hyper+j/l for tab navigation"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
-
-  ;; UNIVERSAL
-  {:des "Hyper+h → Homerow (ctrl+option+cmd+shift+h)"
-   :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
   {:des "right control to f2"
