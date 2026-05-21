@@ -253,3 +253,6 @@ togglescroll() {
 
 # alias none as clear because sometimes if you type esc and c fzf thinks you want do cd search
 alias none='clear' 
+
+# alias excel so you can open stuff there if you need
+alias excel='open -a "Microsoft Excel"'
