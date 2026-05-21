@@ -10,6 +10,7 @@
 6. Alfred - banner be gone doesn't work with Granola and Zoom messages.
 7. Alfred - make the modal appear on all windows instead of just one.
 8. Find better shortcut for tab creation and tab closing bc hyper t/w conflict with alt-tab.
+9. Create a SHIFT option with the right shift BTT tools to open a new instance of the app (so you don't have to navigate to the app and then do cmd+N)
 
 ```clojure
   ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)

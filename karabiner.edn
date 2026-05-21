@@ -126,6 +126,7 @@
   {:des "Hyper+h → Homerow (ctrl+option+cmd+shift+h)"
    :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
 
+  ;; APPLICATION-SPECIFIC REMAPPINGS
   ;; Snagit
   {:des "Snagit: caps-lock+j -> cmd+["
     :rules [{:type :basic
@@ -142,24 +143,21 @@
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
 
-  ;; UNIVERSAL
-  {:des "Hyper+j/l for tab navigation"
-   :rules [[:j :!TStab ["hyper" 1]]
-           [:l :!Ttab  ["hyper" 1]]]}
+  {:des "Excel: caps-lock+j -> cmd+page_up"
+    :rules [{:type :basic
+            :from {:key_code :j}
+            :to [{:key_code :page_up :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.microsoft.Excel"]}]}]}
+  {:des "Excel: caps-lock+l -> cmd+page_down"
+    :rules [{:type :basic
+            :from {:key_code :l}
+            :to [{:key_code :page_down :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.microsoft.Excel"]}]}]}
 
-  ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
-  {:des "right control to f2"
-   :rules [[:right_control :f2]]}
-  {:des "right option to forward delete"
-   :rules [[:right_option :delete_forward]]}
-
-  ;; When traveling, use this block instead of the above
-  ;;{:des "right option to f2"
-  ;; :rules [[:right_option :f2]]}
-  ;;{:des "right control to forward delete"
-  ;; :rules [[:right_control :delete_forward]]}
-
-  ;; APPLICATION-SPECIFIC REMAPPINGS
   {:des "In Finder remap return to open file (cmd+down)"
     :rules [{:type :basic
             :from {:key_code :return_or_enter}
@@ -179,6 +177,23 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.google.Chrome"]}]}]}
+
+  ;; UNIVERSAL
+  {:des "Hyper+j/l for tab navigation"
+   :rules [[:j :!TStab ["hyper" 1]]
+           [:l :!Ttab  ["hyper" 1]]]}
+
+  ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
+  {:des "right control to f2"
+   :rules [[:right_control :f2]]}
+  {:des "right option to forward delete"
+   :rules [[:right_option :delete_forward]]}
+
+  ;; When traveling, use this block instead of the above
+  ;;{:des "right option to f2"
+  ;; :rules [[:right_option :f2]]}
+  ;;{:des "right control to forward delete"
+  ;; :rules [[:right_control :delete_forward]]}
 
  ]
 }
