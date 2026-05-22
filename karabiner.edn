@@ -18,11 +18,10 @@
  :main [
 
   ;; Hold: sets variable hyper=1.  Tap alone: sends Escape.
-  {:des "caps lock - hyper key"
+  {:des "CAPS LOCK - HYPER KEY"
    :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
 
-  ;; HYPER-W WINDOW MANAGEMENT LAYER
-  {:des "hyper-w sublayer - window management"
+  {:des "HYPER-W: WINDOW MANAGEMENT LAYER"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
     [{:key :w :modi {:optional [:any]}} ["hyper_sublayer_w" 1] ["hyper" 1] {:afterup ["hyper_sublayer_w" 0]}]
@@ -47,8 +46,7 @@
 
    ]}
 
-  ;; HYPER-G NUMBERS LAYER
-  {:des "hyper-g sublayer - numbers layer"
+  {:des "HYPER-G: NUMBERS LAYER"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
     [{:key :g :modi {:optional [:any]}} ["hyper_sublayer_g" 1] [["hyper" 1] ["hyper_sublayer_o" 0]] {:afterup ["hyper_sublayer_g" 0]}]
@@ -65,8 +63,7 @@
     [{:key :semicolon :modi {:optional [:any]}} :keypad_plus ["hyper_sublayer_g" 1]]
    ]}
 
-  ;; HYPER-O APPLICATION LAUNCHING LAYER
-  {:des "hyper-o sublayer - open apps"
+  {:des "HYPER-O: APPLICATION LAUNCHING LAYER"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
     [{:key :o :modi {:optional [:any]}} ["hyper_sublayer_o" 1] ["hyper" 1] {:afterup ["hyper_sublayer_o" 0]}]
@@ -89,8 +86,7 @@
     [{:key :m :modi {:optional [:any]}} [:open-app "Messages"]                                                   ["hyper_sublayer_o" 1]]
    ]}
 
-  ;; HYPER-S SYSTEM CONTROLS LAYER
-  {:des "hyper-s sublayer - system controls"
+  {:des "HYPER-S: SYSTEM CONTROLS LAYER"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
     [{:key :s :modi {:optional [:any]}} ["hyper_sublayer_s" 1] ["hyper" 1] {:afterup ["hyper_sublayer_s" 0]}]
@@ -103,43 +99,43 @@
     [{:key :l :modi {:optional [:any]}} [:script "/bin/zsh -i -c 'togglescroll'"] ["hyper_sublayer_s" 1]]
    ]}
 
-  ;; PRODUCTIVITY APP HYPER LAYER
+  ;; PRODUCTIVITY APPS DIRECT HYPER LAYER - (NO OTHER MODIFIERS)
   ;; ALT-TAB
-  {:des "hyper+i → ctrl+option+cmd+shift+i"
+  {:des "HYPER-I: ALT-TAB FOR ALL WINDOWS"
    :rules [[{:key :i :modi {:optional [:any]}} :!TOCSi ["hyper" 1]]]}
-  {:des "hyper+u → ctrl+option+cmd+shift+u"
+  {:des "HYPER-U: ALT-TAB FOR ACTIVE APP"
    :rules [[{:key :u :modi {:optional [:any]}} :!TOCSu ["hyper" 1]]]}
 
   ; ALFRED
-  {:des "Hyper+space → Alfred (ctrl+option+cmd+shift+space)"
+  {:des "HYPER+SPACE: OPEN ALFRED"
    :rules [[{:key :spacebar :modi {:optional [:any]}} :!TOCSspacebar ["hyper" 1]]]}
-  {:des "Hyper+p → Alfred clipboard (ctrl+option+cmd+shift+p)"
+  {:des "HYPER+P: OPEN ALFRED CLIPBOARD HISTORY"
    :rules [[{:key :p :modi {:optional [:any]}} :!TOCSp ["hyper" 1]]]}
 
   ;; HOMEROW
-  {:des "Hyper+f → Start Homerow (ctrl+option+cmd+shift+f)"
+  {:des "HYPER+F: HOMEROW CLICKING"
    :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
-  {:des "Hyper+h → Homerow (ctrl+option+cmd+shift+h)"
+  {:des "HYPER+H: HOMEROW SCROLLING"
    :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
 
   ;; APPLICATION-SPECIFIC REMAPPINGS
 
   ;; SNAGIT
-  {:des "Snagit: caps-lock+j -> cmd+["
+  {:des "SNAGIT: HYPER+J: PREVIOUS IMAGE"
     :rules [{:type :basic
             :from {:key_code :j}
             :to [{:key_code :open_bracket :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
-  {:des "Snagit: caps-lock+l -> cmd+]"
+  {:des "SNAGIT: HYPER+L: NEXT IMAGE"
     :rules [{:type :basic
             :from {:key_code :l}
             :to [{:key_code :close_bracket :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
-  {:des "Snagit: ctrl+g -> ctrl+u"
+  {:des "SNAGIT: CTRL+G -> CTRL+U (FOR SHAPE CREATION)"
     :rules [{:type :basic
             :from {:key_code :g :modifiers {:mandatory [:left_control]}}
             :to [{:key_code :u :modifiers [:left_control]}]
@@ -147,14 +143,14 @@
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
 
   ;; EXCEL
-  {:des "Excel: caps-lock+j -> cmd+page_up"
+  {:des "EXCEL: HYPER+J: PREVIOUS TAB"
     :rules [{:type :basic
             :from {:key_code :j}
             :to [{:key_code :page_up :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.Excel"]}]}]}
-  {:des "Excel: caps-lock+l -> cmd+page_down"
+  {:des "EXCEL: HYPER+L: NEXT TAB"
     :rules [{:type :basic
             :from {:key_code :l}
             :to [{:key_code :page_down :modifiers [:left_command]}]
@@ -179,11 +175,11 @@
                             :bundle_identifiers ["com.google.Chrome"]}]}]}
 
   ;; UNIVERSAL
-  {:des "Hyper+j/l for tab navigation"
+  {:des "HYPER+J/L: TAB NAVIGATION"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
 
-  {:des "Hyper+n/m for zoom out/in"
+  {:des "HYPER+N/M: ZOOM OUT/IN"
    :rules [[:n :!Chyphen     ["hyper" 1]]
            [:m :!Cequal_sign ["hyper" 1]]]}
 
