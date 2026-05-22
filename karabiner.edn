@@ -103,12 +103,8 @@
     [{:key :l :modi {:optional [:any]}} [:script "/bin/zsh -i -c 'togglescroll'"] ["hyper_sublayer_s" 1]]
    ]}
 
-  ;; Placed after all sublayers so sublayer action rules take priority over these
+  ;; PRODUCTIVITY APP HYPER LAYER
   ;; ALT-TAB
-  {:des "hyper+t → ctrl+option+cmd+shift+t"
-   :rules [[{:key :t :modi {:optional [:any]}} :!TOCSt ["hyper" 1]]]}
-  {:des "hyper+r → ctrl+option+cmd+shift+r"
-   :rules [[{:key :r :modi {:optional [:any]}} :!TOCSr ["hyper" 1]]]}
   {:des "hyper+i → ctrl+option+cmd+shift+i"
    :rules [[{:key :i :modi {:optional [:any]}} :!TOCSi ["hyper" 1]]]}
   {:des "hyper+u → ctrl+option+cmd+shift+u"
@@ -127,7 +123,8 @@
    :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
 
   ;; APPLICATION-SPECIFIC REMAPPINGS
-  ;; Snagit
+
+  ;; SNAGIT
   {:des "Snagit: caps-lock+j -> cmd+["
     :rules [{:type :basic
             :from {:key_code :j}
@@ -142,7 +139,14 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+  {:des "Snagit: ctrl+g -> ctrl+u"
+    :rules [{:type :basic
+            :from {:key_code :g :modifiers {:mandatory [:left_control]}}
+            :to [{:key_code :u :modifiers [:left_control]}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
 
+  ;; EXCEL
   {:des "Excel: caps-lock+j -> cmd+page_up"
     :rules [{:type :basic
             :from {:key_code :j}
@@ -157,22 +161,18 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.Excel"]}]}]}
-
+  ;; FINDER
   {:des "In Finder remap return to open file (cmd+down)"
     :rules [{:type :basic
             :from {:key_code :return_or_enter}
             :to [{:key_code :down_arrow :modifiers [:left_command]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
-  {:des "Snagit: ctrl+g -> ctrl+u"
+
+  ;; CHROME
+  {:des "Chrome: caps-lock+t to cmd+shift+a (tab search)"
     :rules [{:type :basic
-            :from {:key_code :g :modifiers {:mandatory [:left_control]}}
-            :to [{:key_code :u :modifiers [:left_control]}]
-            :conditions [{:type :frontmost_application_if
-                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
-  {:des "Chrome: caps-lock+a to cmd+shift+a"
-    :rules [{:type :basic
-            :from {:key_code :a}
+            :from {:key_code :t}
             :to [{:key_code :a :modifiers [:left_command :left_shift]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
