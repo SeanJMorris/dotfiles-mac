@@ -183,6 +183,10 @@
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
 
+  {:des "Hyper+n/m for zoom out/in"
+   :rules [[:n :!Chyphen     ["hyper" 1]]
+           [:m :!Cequal_sign ["hyper" 1]]]}
+
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
   {:des "right control to f2"
    :rules [[:right_control :f2]]}
