@@ -11,6 +11,8 @@
 7. Alfred - make the modal appear on all windows instead of just one.
 8. Find better shortcut for tab creation and tab closing bc hyper t/w conflict with alt-tab.
 9. Create a SHIFT option with the right shift BTT tools to open a new instance of the app (so you don't have to navigate to the app and then do cmd+N)
+10. BTT when I touch any other key other than the key that I'm using, I want to stop the one that I'm in and use another app switcher.
+
 
 ```clojure
   ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)
