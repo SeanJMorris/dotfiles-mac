@@ -8,6 +8,7 @@
 2. Doesn't appropriately select windows with right Shift + x for Excel — even though you select one, it doesn't actually become active. Maybe related to insert mode?
 3. When any key other than the current app-switcher key is pressed, stop the current switcher and allow switching to another.
 4. Use right shift + o to cycle through non-otherwise-specified apps.
+5. Make the BTT window switcher show up on every window instead of just the active one.
 
 ### Alt-Tab
 
@@ -25,7 +26,13 @@
   ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)
   ;;{:des "Hyper+t/w for new tab creation and tab closing"
   ;; :rules [[:t :!St ["hyper" 1]]]
-  ;;         [:w :!Sw ["hyper" 1]]]}```
+  ;;         [:w :!Sw ["hyper" 1]]]}
+```
+
+### Other
+
+1. Implement something like vim chords to navigate around text easier.
+2. Implement another layer for arrow keys?
 
 ## BTT App Switcher Design
 
