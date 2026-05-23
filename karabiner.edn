@@ -36,7 +36,7 @@
     [{:key :u :modi {:optional [:any]}} [:rect "smaller"]          ["hyper_sublayer_w" 1]]
     [{:key :quote :modi {:optional [:any]}} :!Ch ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
     [{:key :p :modi {:optional [:any]}} :!Cw ["hyper_sublayer_w" 1]]   ; cmd+w → close tab/window
-    [{:key :leftbracket :modi {:optional [:any]}} :!Cq ["hyper_sublayer_w" 1]]   ; cmd+q → quit app
+    [{:key :open_bracket :modi {:optional [:any]}} :!Cq ["hyper_sublayer_w" 1]]   ; cmd+q → quit app
     ;; Note: Options with "move-to-previous-display", "previous-display-ratio",
     ;and "next-display-ratio" (and vice versa with 'next' instead of previous)
     ;didn't work, so I implemented the following as a workaround by creating
