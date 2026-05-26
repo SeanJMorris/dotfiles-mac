@@ -115,8 +115,8 @@
   ;; HOMEROW
   {:des "HYPER+F: HOMEROW CLICKING"
    :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
-  {:des "HYPER+H: HOMEROW SCROLLING"
-   :rules [[{:key :h :modi {:optional [:any]}} :!TOCSh ["hyper" 1]]]}
+  {:des "HYPER+K: HOMEROW SCROLLING"
+   :rules [[{:key :k :modi {:optional [:any]}} :!TOCSk ["hyper" 1]]]}
 
   ;; APPLICATION-SPECIFIC REMAPPINGS
 
@@ -164,6 +164,15 @@
             :to [{:key_code :down_arrow :modifiers [:left_command]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
+
+  ;; CHROME + FIREFOX
+  {:des "Chrome/Firefox: hyper+h to go back (cmd+[)"
+    :rules [{:type :basic
+            :from {:key_code :h}
+            :to [{:key_code :open_bracket :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
 
   ;; CHROME
   {:des "Chrome: caps-lock+t to cmd+shift+a (tab search)"
