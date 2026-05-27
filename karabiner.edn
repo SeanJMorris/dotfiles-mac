@@ -97,6 +97,10 @@
     [{:key :k :modi {:optional [:any]}} :display_brightness_decrement                                             ["hyper_sublayer_s" 1]]
     [{:key :o :modi {:optional [:any]}} [:script "osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"] ["hyper_sublayer_s" 1]]
     [{:key :l :modi {:optional [:any]}} [:script "/bin/zsh -i -c 'togglescroll'"] ["hyper_sublayer_s" 1]]
+    [{:key :7 :modi {:optional [:any]}} [:script "/opt/homebrew/bin/blueutil --connect a4-77-58-3d-ee-b6"] ["hyper_sublayer_s" 1]]
+    [{:key :8 :modi {:optional [:any]}} [:script "/opt/homebrew/bin/blueutil --disconnect a4-77-58-3d-ee-b6"] ["hyper_sublayer_s" 1]]
+    [{:key :9 :modi {:optional [:any]}} [:script "/opt/homebrew/bin/blueutil --connect 2c-fd-b3-e5-f7-c3"] ["hyper_sublayer_s" 1]]
+    [{:key :0 :modi {:optional [:any]}} [:script "/opt/homebrew/bin/blueutil --disconnect 2c-fd-b3-e5-f7-c3"] ["hyper_sublayer_s" 1]]
    ]}
 
   ;; PRODUCTIVITY APPS DIRECT HYPER LAYER - (NO OTHER MODIFIERS)
@@ -154,6 +158,20 @@
     :rules [{:type :basic
             :from {:key_code :l}
             :to [{:key_code :page_down :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.microsoft.Excel"]}]}]}
+  {:des "EXCEL: CAPS+N -> CTRL+SHIFT+N"
+    :rules [{:type :basic
+            :from {:key_code :n}
+            :to [{:key_code :n :modifiers [:left_control :left_shift]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.microsoft.Excel"]}]}]}
+  {:des "EXCEL: CAPS+M -> CTRL+SHIFT+M"
+    :rules [{:type :basic
+            :from {:key_code :m}
+            :to [{:key_code :m :modifiers [:left_control :left_shift]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.Excel"]}]}]}
