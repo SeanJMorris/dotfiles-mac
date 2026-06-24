@@ -34,6 +34,7 @@
     [{:key :n :modi {:optional [:any]}} [:rect "top-half"]         ["hyper_sublayer_w" 1]]
     [{:key :o :modi {:optional [:any]}} [:rect "larger"]           ["hyper_sublayer_w" 1]]
     [{:key :u :modi {:optional [:any]}} [:rect "smaller"]          ["hyper_sublayer_w" 1]]
+    [{:key :t :modi {:optional [:any]}} :!Ct ["hyper_sublayer_w" 1]]   ; cmd+t → new tab
     [{:key :quote :modi {:optional [:any]}} :!Ch ["hyper_sublayer_w" 1]]   ; cmd+h → hide window
     [{:key :p :modi {:optional [:any]}} :!Cw ["hyper_sublayer_w" 1]]   ; cmd+w → close tab/window
     [{:key :open_bracket :modi {:optional [:any]}} :!Cq ["hyper_sublayer_w" 1]]   ; cmd+q → quit app
@@ -143,6 +144,12 @@
     :rules [{:type :basic
             :from {:key_code :g :modifiers {:mandatory [:left_control]}}
             :to [{:key_code :u :modifiers [:left_control]}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+  {:des "SNAGIT: CTRL+S -> CTRL+L"
+    :rules [{:type :basic
+            :from {:key_code :s :modifiers {:mandatory [:left_control]}}
+            :to [{:key_code :l :modifiers [:left_control]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
 

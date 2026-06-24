@@ -1,5 +1,28 @@
 # Dotfiles
 
+## Troubleshooting
+
+### Hyper key (caps lock) suddenly stops working — all Karabiner remaps dead
+
+**Symptom:** Holding caps lock + a layer key (e.g. caps+w, then h/j/l/i) does nothing — the key just types literally (caps+w types "w"). Affects the *whole* hyper layer, not one chord. Hammerspoon reloads, `goku` recompiles, and Karabiner restarts do **not** fix it.
+
+**Root cause (seen 2026-06-24):** A Karabiner-Elements major update (→ v16.0.0) silently dropped macOS permissions / left the privileged **grabber daemon** unable to read the keyboard. The config (`karabiner.edn` → `karabiner.json`) is fine — this is a macOS permission/daemon problem, not a dotfiles problem.
+
+**Where the chord actually runs (not Hammerspoon):** Karabiner-Elements intercepts caps+w+key → sends e.g. ⌘F9/⌘F10 → **Rectangle Pro** moves the window. Hammerspoon only recompiles the `.edn` via `goku`; it does not run the chord. So "I reloaded Hammerspoon" is a red herring.
+
+**Diagnosis checklist (in order):**
+
+1. Confirm config is loaded: selected profile in `~/.config/karabiner/karabiner.json` contains the rules (first rule = "CAPS LOCK - HYPER KEY").
+2. Check Input Monitoring grants: `sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "SELECT client, auth_value FROM access WHERE service='kTCCServiceListenEvent';"` — **`org.pqrs.Karabiner-Core-Service` must be present and = 2**. If it's missing, that's the bug.
+3. Check the privileged grabber daemon is running: `ps aux | grep -iE "karabiner_grabber|Karabiner-Core-Service" | grep -v grep`. If absent, the daemon isn't grabbing → no Input Monitoring prompt ever fires.
+4. Check daemon log for the loop: `tail ~/.local/share/karabiner/log/core_service.log` — repeated `connect_failed: Permission denied` confirms it.
+
+**Fix that worked:**
+
+1. Ensure Karabiner is approved under **System Settings → General → Login Items & Extensions → Allow in the Background**.
+2. Ensure **Karabiner-Core-Service** is enabled in **Input Monitoring** AND **Accessibility** (the `+` button often adds the wrong bundle — the Settings UI app, not Core-Service — so verify with the `sqlite3` query above).
+3. **Reboot.** A `brew reinstall --cask karabiner-elements` alone does NOT fix it (only swaps files; doesn't restart the system daemon or re-fire permission prompts). The reboot is what lets the grabber daemon start clean and request Input Monitoring.
+
 ## To Do
 
 ### BTT
