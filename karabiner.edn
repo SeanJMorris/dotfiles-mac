@@ -118,9 +118,9 @@
    :rules [[{:key :p :modi {:optional [:any]}} :!TOCSp ["hyper" 1]]]}
 
   ;; HOMEROW
-  {:des "HYPER+F: HOMEROW CLICKING"
+  {:des "HYPER+F: HOMEROW SCROLLING"
    :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
-  {:des "HYPER+K: HOMEROW SCROLLING"
+  {:des "HYPER+K: HOMEROW CLICKING"
    :rules [[{:key :k :modi {:optional [:any]}} :!TOCSk ["hyper" 1]]]}
 
   ;; APPLICATION-SPECIFIC REMAPPINGS
@@ -150,6 +150,13 @@
     :rules [{:type :basic
             :from {:key_code :s :modifiers {:mandatory [:left_control]}}
             :to [{:key_code :l :modifiers [:left_control]}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+  {:des "SNAGIT: CMD+C -> CMD+A THEN CMD+C (SELECT ALL BEFORE COPY)"
+    :rules [{:type :basic
+            :from {:key_code :c :modifiers {:mandatory [:left_command]}}
+            :to [{:key_code :a :modifiers [:left_command]}
+                 {:key_code :c :modifiers [:left_command]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
 

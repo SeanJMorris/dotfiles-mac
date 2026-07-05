@@ -23,6 +23,8 @@
 2. Ensure **Karabiner-Core-Service** is enabled in **Input Monitoring** AND **Accessibility** (the `+` button often adds the wrong bundle — the Settings UI app, not Core-Service — so verify with the `sqlite3` query above).
 3. **Reboot.** A `brew reinstall --cask karabiner-elements` alone does NOT fix it (only swaps files; doesn't restart the system daemon or re-fire permission prompts). The reboot is what lets the grabber daemon start clean and request Input Monitoring.
 
+**Also check the Kinesis keyboard layout.** If the hyper layer still misbehaves after the daemon and permissions are confirmed healthy, verify the active hardware layout on the Kinesis Freestyle Pro itself — the physical key positions Karabiner sees depend on which onboard layout is selected. As of 2026-06-25, the intended layout was **layout 2**.
+
 ## To Do
 
 ### BTT
