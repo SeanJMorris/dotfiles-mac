@@ -39,8 +39,7 @@
 
 ### Alt-Tab
 
-1. Implement a fix to go forward and back with .
-2. Find better shortcut for tab creation and tab closing — hyper+t/w conflict with alt-tab.
+1. Find better shortcut for tab creation and tab closing — hyper+t/w conflict with alt-tab.
 
 ### Alfred
 
