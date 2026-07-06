@@ -48,6 +48,7 @@
 2. Fix Alfred not showing same options as standard Spotlight.
 3. Banner be gone doesn't work with Granola and Zoom messages.
 4. Make the modal appear on all windows instead of just one.
+5. Set up capslock+j and capslock+k to scroll through alfred results only when alfred is the open application.
 
 ```clojure
   ;; TRIED TO IMPLEMENT THIS, BUT REALIZED IT CONFLICTS WITH WINDOW MANAGEMENT (W) AND ALT-TAB (T)
