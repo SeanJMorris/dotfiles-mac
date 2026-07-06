@@ -19,7 +19,7 @@
 
   ;; Hold: sets variable hyper=1.  Tap alone: sends Escape.
   {:des "CAPS LOCK - HYPER KEY"
-   :rules [[:caps_lock ["hyper" 1] nil {:afterup ["hyper" 0] :alone :escape}]]}
+   :rules [[:caps_lock ["hyper" 1] nil {:afterup [["hyper" 0] ["alt_tab_mode" 0]] :alone :escape}]]}
 
   {:des "HYPER-W: WINDOW MANAGEMENT LAYER"
    :rules [
@@ -106,10 +106,31 @@
 
   ;; PRODUCTIVITY APPS DIRECT HYPER LAYER - (NO OTHER MODIFIERS)
   ;; ALT-TAB
-  {:des "HYPER-I: ALT-TAB FOR ALL WINDOWS"
-   :rules [[{:key :i :modi {:optional [:any]}} :!TOCSi ["hyper" 1]]]}
-  {:des "HYPER-U: ALT-TAB FOR ACTIVE APP"
-   :rules [[{:key :u :modi {:optional [:any]}} :!TOCSu ["hyper" 1]]]}
+  ;; Trigger AltTab AND enter alt_tab_mode so h/j/k/l act as arrows while the switcher is open.
+  {:des "CTRL+ALT+CMD+I: ALT-TAB FOR ACTIVE APP"
+   :rules [[{:key :i :modi {:optional [:any]}} [:!TOCi ["alt_tab_mode" 1]] ["hyper" 1]]]}
+  {:des "CTRL+ALT+CMD+U: ALT-TAB FOR ALL WINDOWS"
+   :rules [[{:key :u :modi {:optional [:any]}} [:!TOCu ["alt_tab_mode" 1]] ["hyper" 1]]]}
+
+  ;; ALT-TAB VIM NAVIGATION: while the switcher is open (alt_tab_mode=1), send hyper+h/j/k/l so the
+  ;; ⌃⌥⌘ hold modifiers stay present (keeping the switcher open) and AltTab's native "vim keys"
+  ;; setting moves the selection. Placed before the pure-hyper k / universal j,l / Chrome h rules.
+  ;; ALT-TAB trigger must be ⌃⌥⌘ in order for this to work
+  {:des "ALT-TAB: H/J/K/L -> CTRL+ALT+CMD+H/J/K/L"
+  ;; OPTION 1: h, j, k, l are used as traditional vim keys
+   :rules [[{:key :h :modi {:optional [:any]}} :!TOCleft_arrow ["alt_tab_mode" 1]]
+           [{:key :l :modi {:optional [:any]}} :!TOCright_arrow ["alt_tab_mode" 1]]
+           [{:key :k :modi {:optional [:any]}} :!TOCup_arrow ["alt_tab_mode" 1]]
+           [{:key :j :modi {:optional [:any]}} :!TOCdown_arrow ["alt_tab_mode" 1]]]
+           }
+
+   ;; OPTION 2: i, j, k, l are remappped to arrow key to be like the arrow pad
+   ;;:rules [[{:key :j :modi {:optional [:any]}} :!TOCleft_arrow ["alt_tab_mode" 1]]
+   ;;        [{:key :l :modi {:optional [:any]}} :!TOCright_arrow ["alt_tab_mode" 1]]
+   ;;        [{:key :i :modi {:optional [:any]}} :!TOCup_arrow ["alt_tab_mode" 1]]
+   ;;        [{:key :k :modi {:optional [:any]}} :!TOCdown_arrow ["alt_tab_mode" 1]]]}
+   ;;        }
+
 
   ; ALFRED
   {:des "HYPER+SPACE: OPEN ALFRED"
