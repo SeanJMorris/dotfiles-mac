@@ -234,6 +234,9 @@ fi
 [ -f "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh" ] && source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
 [ -f "$BREW_PREFIX/opt/fzf/shell/completion.zsh" ] && source "$BREW_PREFIX/opt/fzf/shell/completion.zsh"
 
+# Load secrets / license keys from the gitignored .env (see .env.example for the template)
+[ -f "$HOME/.dotfiles/.env" ] && source "$HOME/.dotfiles/.env"
+
 # unalias gc which oh my zsh aliases as `git commit --verbose` 
 #   this was necessary to work with google cli
 unalias gc

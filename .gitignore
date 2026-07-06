@@ -1,2 +1,8 @@
 .claude
 .vscode/
+
+# Secrets — real values live here, never commit. Use .env.example as the template.
+.env
+
+# License files and other secret files live here, never commit.
+secrets/
