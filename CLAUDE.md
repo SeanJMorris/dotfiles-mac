@@ -46,7 +46,7 @@
 1. The shortcut to go to a specific tab brings all windows to the front.
 2. Fix Alfred not showing same options as standard Spotlight.
 3. Banner be gone doesn't work with Granola and Zoom messages.
-4. Make the modal appear on all windows instead of just one.
+4. Make the modal appear on all windows instead of just one. (Sean confirmed that this can't be done).
 5. Set up capslock+j and capslock+k to scroll through alfred results only when alfred is the open application.
 
 ```clojure
@@ -61,6 +61,9 @@
 1. Implement something like vim chords to navigate around text easier.
 2. Implement another layer for arrow keys?
 3. Shortcuts for Increase/Decrease font size.
+4. Hyper + 9? to show active window.
+5. add a new shortcut in karabiner.edn. I want it to be the case that, in Chrome, if and only if the active tab begins with "https://docs.google.com/spreadsheets", when i press the key combination of ctrl+page down it acts as if i am pressing alt+down arrow. Similarly, when I press ctrl+page up, it acts as if I am pressing alt+up arrow. ask me questions if anything is unclear.
+
 
 ## BTT App Switcher Design
 
