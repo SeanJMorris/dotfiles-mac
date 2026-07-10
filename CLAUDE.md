@@ -58,12 +58,9 @@
 
 ### Other
 
-1. Implement something like vim chords to navigate around text easier.
-2. Implement another layer for arrow keys?
-3. Shortcuts for Increase/Decrease font size.
-4. Hyper + 9? to show active window.
-5. add a new shortcut in karabiner.edn. I want it to be the case that, in Chrome, if and only if the active tab begins with "https://docs.google.com/spreadsheets", when i press the key combination of ctrl+page down it acts as if i am pressing alt+down arrow. Similarly, when I press ctrl+page up, it acts as if I am pressing alt+up arrow. ask me questions if anything is unclear.
-
+1. Fix layer for text editing vim-style.
+2. Shortcuts for Increase/Decrease font size.
+3. Hyper + 9? to show active window. (Sean attempted this but couldn't find an easy way on 7/7/26)
 
 ## BTT App Switcher Design
 

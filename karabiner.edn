@@ -30,8 +30,9 @@
     [{:key :i :modi {:optional [:any]}} [:rect "maximize"]         ["hyper_sublayer_w" 1]]
     [{:key :h :modi {:optional [:any]}} [:rect "left-half"]        ["hyper_sublayer_w" 1]]
     [{:key :semicolon :modi {:optional [:any]}} [:rect "right-half"]       ["hyper_sublayer_w" 1]]
-    [{:key :k :modi {:optional [:any]}} [:rect "bottom-half"]         ["hyper_sublayer_w" 1]]
+    ;; k is handled below in "HYPER-W: K DOUBLE-TAP" (single k = bottom-half, kk = hide app)
     [{:key :n :modi {:optional [:any]}} [:rect "top-half"]         ["hyper_sublayer_w" 1]]
+    [{:key :m :modi {:optional [:any]}} [:rect "bottom-half"]         ["hyper_sublayer_w" 1]]
     [{:key :o :modi {:optional [:any]}} [:rect "larger"]           ["hyper_sublayer_w" 1]]
     [{:key :u :modi {:optional [:any]}} [:rect "smaller"]          ["hyper_sublayer_w" 1]]
     [{:key :t :modi {:optional [:any]}} :!Ct ["hyper_sublayer_w" 1]]   ; cmd+t → new tab
@@ -45,6 +46,30 @@
     [{:key :j :modi {:optional [:any]}} :!Cf9 ["hyper_sublayer_w" 1]]
     [{:key :l :modi {:optional [:any]}} :!Cf10 ["hyper_sublayer_w" 1]]
 
+   ]}
+
+  ;; HYPER-W: single k = bottom-half (fires after the ~200ms double-tap window), rapid kk = hide app.
+  ;; Raw manipulators are needed because double-tap requires a delayed action, which goku's short
+  ;; syntax can't express. Order matters: the "second press" rule (w_kk=1) MUST come before the
+  ;; "first press" rule so the second k is caught before the flag gets reset.
+  {:des "HYPER-W: K DOUBLE-TAP TO HIDE (single k = bottom-half)"
+   :rules [
+    ;; Second press within the window -> hide app (cmd+h), clear the pending flag.
+    {:type :basic
+     :from {:key_code :k :modifiers {:optional [:any]}}
+     :to [{:key_code :h :modifiers [:left_command]}
+          {:set_variable {:name "w_kk" :value 0}}]
+     :conditions [{:type :variable_if :name "hyper_sublayer_w" :value 1}
+                  {:type :variable_if :name "w_kk" :value 1}]}
+    ;; First press -> arm the flag; if no 2nd k in 200ms do bottom-half, if interrupted just clear.
+    {:type :basic
+     :from {:key_code :k :modifiers {:optional [:any]}}
+     :to [{:set_variable {:name "w_kk" :value 1}}]
+     :to_delayed_action {:to_if_invoked [{:shell_command "open -g 'rectangle-pro://execute-action?name=bottom-half'"}
+                                         {:set_variable {:name "w_kk" :value 0}}]
+                         :to_if_canceled [{:set_variable {:name "w_kk" :value 0}}]}
+     :parameters {:basic.to_delayed_action_delay_milliseconds 200}
+     :conditions [{:type :variable_if :name "hyper_sublayer_w" :value 1}]}
    ]}
 
   {:des "HYPER-G: NUMBERS LAYER"
