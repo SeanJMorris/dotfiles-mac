@@ -34,6 +34,7 @@
 3. When any key other than the current app-switcher key is pressed, stop the current switcher and allow switching to another.
 4. Use right shift + o to cycle through non-otherwise-specified apps.
 5. Figure out a way for BTT script to be in dotfiles for consistency.
+6. Find a way to feed in the dotfile-backed core_window_switcher.js and open_new_app_instance.js into btt rather than keeping them there in BTT.
 
 **Note**: . Gemini and GPT said that it was not possible for the BTT Window switcher to show up on every monitor.
 
@@ -61,6 +62,7 @@
 1. Fix layer for text editing vim-style.
 2. Shortcuts for Increase/Decrease font size.
 3. Hyper + 9? to show active window. (Sean attempted this but couldn't find an easy way on 7/7/26)
+4. You recently implented a useful shortcut in
 
 ## BTT App Switcher Design
 
