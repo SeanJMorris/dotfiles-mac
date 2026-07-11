@@ -41,6 +41,13 @@
 ### Alt-Tab
 
 1. Find better shortcut for tab creation and tab closing — hyper+t/w conflict with alt-tab.
+2. When I open iTerm with the BetterTouchTool double Shift+T shortcut, that new iTerm window doesn't appear with Alt+Tab when I'm looking for all windows. Fix this (I've tried to with open_new_app_instance2.js - claude says to use this applescript:
+
+```applescript
+tell application "iTerm"
+    create window with default profile
+end tell
+```
 
 ### Alfred
 

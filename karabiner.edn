@@ -307,6 +307,7 @@
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.google.Chrome"]}]}]}
 
+
   ;; UNIVERSAL
   {:des "HYPER+J/L: TAB NAVIGATION"
    :rules [[:j :!TStab ["hyper" 1]]

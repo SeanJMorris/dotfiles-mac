@@ -254,6 +254,15 @@ togglescroll() {
   fi
 }
 
+# reset stuck Karabiner layer variables (e.g. caps+t opening a new tab
+#   instead of tab search means hyper_sublayer_w got stuck at 1 after a
+#   dropped key-up during restart/sleep)
+kbreset() {
+  local kcli="/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
+  "$kcli" --set-variables '{"hyper_sublayer_w":0,"hyper_sublayer_g":0,"hyper_sublayer_a":0,"hyper_sublayer_a_shift":0,"hyper_sublayer_s":0,"hyper_sublayer_o":0,"w_kk":0,"alt_tab_mode":0}' \
+    && osascript -e 'display notification "Karabiner layer variables reset"'
+}
+
 # alias none as clear because sometimes if you type esc and c fzf thinks you want do cd search
 alias none='clear' 
 
