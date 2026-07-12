@@ -48,7 +48,8 @@ After
 ### Karabiner To Do
 
 1. Fix layer for text editing vim-style.
-2. Flesh out shortcuts for Increase/Decrease font size. They work in
+2. Flesh out shortcuts for Increase/Decrease font size. Snagit uses system
+settings > keyboard > keyboard shortcuts > app shortcuts. Maybe this could work for others too like Lucid?
 3. Hyper + 9? to show active window. (Sean attempted this but couldn't find an easy way on 7/7/26)
 4. Shortcut for applying specific colors to things (like in Snagit)
 
