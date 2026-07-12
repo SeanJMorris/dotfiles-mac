@@ -1,20 +1,31 @@
-async function transformedActions() {
+async function coreWindowSwitcher() {
   let result = undefined;
 
   const appName = await get_string_variable({ variable_name: 'btt_ws_app_name' });
 
-  // Apps that are known to create extra hidden/minimized "phantom" windows
-  // with no real title/content (these show up as blank thumbnails).
-  // Add other app names here if you find the same issue elsewhere.
-  const appsWithPhantomWindows = ['Microsoft Excel'];
+  // Per-app "junk" patterns: extra regex fragments (matched against the
+  // window/app name) that should ALSO be excluded for a given app. These
+  // filter out helper processes and blank "phantom" windows that share the
+  // app's name prefix but aren't real windows you'd want to switch to.
+  // Add more apps/patterns here if you find the same issue elsewhere.
+  const extraExcludesByApp = {
+    // Excel creates blank phantom windows whose title is just the app name
+    // (optionally followed by a dangling "-"/":" separator).
+    'Microsoft Excel': [`^${appName}(\\s*[-:]\\s*)?$`],
+    // Firefox spawns background helper processes that macOS exposes as
+    // separate apps ("FirefoxCP Privileged Content", "FirefoxCP RDD
+    // Process", etc.) — all prefixed "FirefoxCP". The real browser is just
+    // "Firefox", so excluding this prefix leaves the real windows intact.
+    Firefox: ['^FirefoxCP'],
+    // Granola spawns a "Granola Helper" background process.
+    Granola: ['^Granola Helper'],
+  };
 
   // Base rule (used for every app): only show windows belonging to the
-  // currently focused app.
-  // Extra rule (only for apps in the list above): also exclude any window
-  // whose title is empty/blank — that's the signature of the phantom windows.
-  const excludeRegex = appsWithPhantomWindows.includes(appName)
-    ? `^(?!${appName})|^${appName}(\\s*[-:]\\s*)?$`
-    : `^(?!${appName})`;
+  // currently focused app (i.e. exclude anything NOT starting with appName).
+  // Then append any app-specific junk patterns from the map above.
+  const excludeParts = [`^(?!${appName})`, ...(extraExcludesByApp[appName] || [])];
+  const excludeRegex = excludeParts.join('|');
 
   const windowSwitcherConfig = {
     BTTWindowSwitcherHeight: 500,

@@ -1,20 +1,40 @@
-async function transformedActions() {
+async function peripheralWindowSwitcher() {
   let result = undefined;
 
-  const appName = await get_string_variable({ variable_name: 'btt_ws_app_name' });
+  // This "unassigned apps" switcher should show every OTHER app that's not in
+  // the list below, so we exclude any window belonging to one of these. BTT
+  // matches this regex against each window entry, which begins with the app
+  // name.
+  const assignedApps = [
+    'Google Meet',
+    //hello from sean
+    'Granola',
+    'iTerm',
+    'Google Calendar',
+    'Slack',
+    'Google Chrome',
+    'Firefox',
+    'Snagit',
+    'zoom.us',
+    'Microsoft Excel',
+    'Claude',
+    'Code',
+    'Notes',
+    'Messages',
+  ];
 
-  // Apps that are known to create extra hidden/minimized "phantom" windows
-  // with no real title/content (these show up as blank thumbnails).
-  // Add other app names here if you find the same issue elsewhere.
-  const appsWithPhantomWindows = ['Microsoft Excel'];
+  // Escape any regex-special characters (e.g. the "." in "zoom.us") so the
+  // app names are matched literally.
+  const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-  // Base rule (used for every app): only show windows belonging to the
-  // currently focused app.
-  // Extra rule (only for apps in the list above): also exclude any window
-  // whose title is empty/blank — that's the signature of the phantom windows.
-  const excludeRegex = appsWithPhantomWindows.includes(appName)
-    ? `^(?!${appName})|^${appName}(\\s*[-:]\\s*)?$`
-    : `^(?!${appName})`;
+  // Exclude any window whose title starts with one of the assigned app names.
+  // The leading `[^A-Za-z]*` skips any non-letter decoration that web apps
+  // prepend to the title — e.g. an unread badge count like "(3) Google
+  // Calendar" — which would otherwise defeat a strict start-of-string match.
+  // Because we still require the app name immediately after that leading
+  // junk (not anywhere mid-title), a real window merely *containing* one of
+  // these words (e.g. a document named "Meeting Notes") is NOT excluded.
+  const excludeRegex = `^[^A-Za-z]*(${assignedApps.map(escapeRegex).join('|')})`;
 
   const windowSwitcherConfig = {
     BTTWindowSwitcherHeight: 500,

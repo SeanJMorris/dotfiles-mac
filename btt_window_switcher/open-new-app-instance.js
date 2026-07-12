@@ -1,8 +1,24 @@
 async function openNewAppInstance() {
   const appName = await get_string_variable({ variable_name: 'btt_ws_app_name_to_open' });
+  // iTerm
+  // Granola
+  // Chrome
+  // Firefox
+  // Snagit
+  // zoom.us (Zoom)
+  // Microsoft Excel
+  // Claude
+  // Notes
+  // Messages
   const appPath = await get_string_variable({ variable_name: 'btt_ws_app_path_to_open' });
+  // Google Meet
+  // Google Calendar
+  // Slack
   const bundleId = await get_string_variable({ variable_name: 'btt_ws_app_bundle_id_to_open' });
+  // Google Meet
+  // Google Calendar
   const shellCommand = await get_string_variable({ variable_name: 'btt_ws_app_shell_command_to_open' });
+  // Code
 
   await set_string_variable({ variable_name: 'btt_ws_app_name_to_open', to: '' });
   await set_string_variable({ variable_name: 'btt_ws_app_path_to_open', to: '' });
