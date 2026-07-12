@@ -248,8 +248,7 @@
 
 ;; Note that I also set up custom Mac menu shortcuts to change the font size for
 ;text in Snagit: system settings > keyboard > keyboard shortcuts > app
-;shortcuts. These require using menu command binding which can't really be done
-;in karabiner so it's fine to do it in system settings.
+;shortcuts. These require using menu command binding which can't really be done;in karabiner so it's fine to do it in system settings.
 
   ;; EXCEL
   {:des "EXCEL: HYPER+J: PREVIOUS TAB"
@@ -320,6 +319,16 @@
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.google.Chrome"]}]}]}
 
+  ;; VS CODE
+  ;; Command+Escape cycles focus just between the Claude auxiliary pane and the
+  ;; code editor.
+  {:des "VS CODE: HYPER+RIGHT-SHIFT: TOGGLE CLAUDE / CODE EDITOR (CMD+ESC)"
+    :rules [{:type :basic
+            :from {:key_code :right_shift}
+            :to [{:key_code :escape :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.microsoft.VSCode"]}]}]}
 
   ;; UNIVERSAL
   {:des "HYPER+J/L: TAB NAVIGATION"
@@ -333,6 +342,7 @@
   {:des "HYPER+C/V: COPY & PASTE"
    :rules [[:c :!Cc ["hyper" 1]]
            [:v :!Cv ["hyper" 1]]]}
+
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
   {:des "right control to f2"
