@@ -246,6 +246,11 @@
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
 
+;; Note that I also set up custom Mac menu shortcuts to change the font size for
+;text in Snagit: system settings > keyboard > keyboard shortcuts > app
+;shortcuts. These require using menu command binding which can't really be done
+;in karabiner so it's fine to do it in system settings.
+
   ;; EXCEL
   {:des "EXCEL: HYPER+J: PREVIOUS TAB"
     :rules [{:type :basic
@@ -275,6 +280,7 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.Excel"]}]}]}
+
   ;; FINDER
   {:des "In Finder remap return to open file (cmd+down)"
     :rules [{:type :basic
@@ -282,6 +288,13 @@
             :to [{:key_code :down_arrow :modifiers [:left_command]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
+  {:des "In Finder F2 acts like return (rename file)"
+    :rules [{:type :basic
+            :from {:key_code :f2}
+            :to [{:key_code :return_or_enter}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.apple.finder"]}]}]}
+
 
   ;; CHROME + FIREFOX
   {:des "Chrome/Firefox: hyper+h to go back (cmd+[)"
