@@ -11,11 +11,13 @@ Use a keyboard shortcut to cycle focus through windows that are prominently disp
 ## Window Eligibility
 
 **A window MUST be included if:**
+
 - It occupies 40% or more of the visible screen area of the monitor it is on
 - It is on a currently active Space across any connected monitor
 - This applies across all monitors
 
 **A window MUST be excluded if:**
+
 - It occupies less than 40% of the visible screen area of the monitor it is on
 - It is minimized, hidden, or on a non-active Space
 
