@@ -1,5 +1,19 @@
 # Dotfiles
 
+## Customizing VS Code
+
+On 7/12/26, I edited settings.json so that when I used the BTT window switcher it only showed the root directory. Before:
+
+```json
+"window.title": "${dirty}${rootPath}${separator}${activeEditorMedium}${separator}${remoteName}"
+```
+
+After
+
+```json
+"window.title": "${rootName}"
+```
+
 ## Troubleshooting
 
 ### Hyper key (caps lock) suddenly stops working — all Karabiner remaps dead
@@ -25,20 +39,34 @@
 
 **Also check the Kinesis keyboard layout.** If the hyper layer still misbehaves after the daemon and permissions are confirmed healthy, verify the active hardware layout on the Kinesis Freestyle Pro itself — the physical key positions Karabiner sees depend on which onboard layout is selected. As of 2026-06-25, the intended layout was **layout 2**.
 
-## To Do
+### `kbreset` — reset stuck Karabiner layer variables (updated SUN 2026-07-12)
 
-### BTT
+`kbreset` is a shell function defined in `zshrc`. Run it when a hyper sublayer gets "stuck on" — e.g. caps+t opens a new tab instead of tab search — which happens when a key-up event is dropped during a restart or sleep and a sublayer variable stays at `1`. The function calls `karabiner_cli --set-variables` to force all the sublayer flags (`hyper_sublayer_w`, `_g`, `_a`, `_a_shift`, `_s`, `_o`, `w_kk`, `alt_tab_mode`) back to `0`, then shows a "Karabiner layer variables reset" notification. This is distinct from the daemon/permissions failure above — `kbreset` fixes a *stuck-state* glitch, not a dead grabber daemon.
 
-1. When switching between windows, it might seem like it selects the next window but doesn't actually. Happens specifically when in an insert mode (e.g. Notes open in Firefox, or a terminal window with Claude running).
-2. Doesn't appropriately select windows with right Shift + x for Excel — even though you select one, it doesn't actually become active. Maybe related to insert mode?
-3. When any key other than the current app-switcher key is pressed, stop the current switcher and allow switching to another.
-4. Use right shift + o to cycle through non-otherwise-specified apps.
-5. Figure out a way for BTT script to be in dotfiles for consistency.
-6. Find a way to feed in the dotfile-backed core_window_switcher.js and open_new_app_instance.js into btt rather than keeping them there in BTT.
+## To Dos and Known Limitations
 
-**Note**: . Gemini and GPT said that it was not possible for the BTT Window switcher to show up on every monitor.
+### Karabiner To Do
 
-### Alt-Tab
+1. Fix layer for text editing vim-style.
+2. Flesh out shortcuts for Increase/Decrease font size. They work in
+3. Hyper + 9? to show active window. (Sean attempted this but couldn't find an easy way on 7/7/26)
+4. Shortcut for applying specific colors to things (like in Snagit)
+
+### Karabiner Known Limitations
+
+None yet identified.
+
+### BTT To Do
+
+1. When any key other than the current app-switcher key is pressed, stop the current switcher and allow switching to another.
+2. Find a way to feed in the dotfile-backed core_window_switcher.js and open_new_app_instance.js into btt rather than keeping them there in BTT.
+
+### BTT Known limitations
+
+1. **BTT Window switcher can't activate a specific Excel window (confirmed 2026-07-11)**. Using `core_window_switcher.js` for Excel, the switcher shows correct thumbnail previews of every open Excel window, and you can cycle/select them (hold left shift, tap the app key, release). But on release the selected window is **not** activated — Excel always surfaces its most-recently-used window instead. Happens both Excel-to-Excel and coming from another app. **Root cause:** This is a BetterTouchTool + Microsoft Office limitation, **not** a config bug. Native macOS apps expose each window through the standard Accessibility API, so BTT can make a specific window key. Excel (like other Office apps) manages its document windows in a non-standard way, so BTT can *enumerate and screenshot* them (previews work) but **cannot activate an individual one**. On release BTT can only activate the Excel *application*, and Excel then brings its own last-used window forward. BTT's docs even note it "ignores non-standard windows" for window-activation actions.
+2. BTT window switcher can't show up on every monitor. Gemini and GPT said that it was not possible for the BTT Window switcher to show up on every monitor.
+
+### Alt-Tab To Do
 
 1. Find better shortcut for tab creation and tab closing — hyper+t/w conflict with alt-tab.
 2. When I open iTerm with the BetterTouchTool double Shift+T shortcut, that new iTerm window doesn't appear with Alt+Tab when I'm looking for all windows. Fix this (I've tried to with open_new_app_instance2.js - claude says to use this applescript:
@@ -49,7 +77,11 @@ tell application "iTerm"
 end tell
 ```
 
-### Alfred
+### Alt-Tab Known Limitations
+
+None yet identified.
+
+### Alfred To Do
 
 1. The shortcut to go to a specific tab brings all windows to the front.
 2. Fix Alfred not showing same options as standard Spotlight.
@@ -64,12 +96,9 @@ end tell
   ;;         [:w :!Sw ["hyper" 1]]]}
 ```
 
-### Other
+### Alfred Known Limitations
 
-1. Fix layer for text editing vim-style.
-2. Shortcuts for Increase/Decrease font size.
-3. Hyper + 9? to show active window. (Sean attempted this but couldn't find an easy way on 7/7/26)
-4. You recently implented a useful shortcut in
+None yet identified.
 
 ## BTT App Switcher Design
 
