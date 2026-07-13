@@ -1,5 +1,9 @@
 # Dotfiles
 
+Note: on 7/12/26 I changed .gitconfig so that my personal email alias for my
+personal account on Github would be the default instead of my thumbtack account,
+which I am phasing out of as of 7/12/26.
+
 ## Customizing VS Code
 
 On 7/12/26, I edited settings.json so that when I used the BTT window switcher it only showed the root directory. Before:
