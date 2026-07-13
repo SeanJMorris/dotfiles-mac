@@ -205,8 +205,9 @@ alias cl='clear'
 alias trail='<<<${(F)path}'
 alias tree='eza --tree --level=2'
 alias reload="source ~/.zshrc"
-alias pjj='cd ~/Projects/ && la'
+alias pjj='clear -x && cd ~/Projects/ && la'
 alias lac='clear && la'
+alias psl='clear -x && cd ~/Personal/ && la'
 
 cdl() {
 	cd "$1" && la
