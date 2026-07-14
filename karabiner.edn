@@ -212,20 +212,17 @@
   ;; APPLICATION-SPECIFIC REMAPPINGS
 
   ;; SNAGIT
-  {:des "SNAGIT: HYPER+J: PREVIOUS IMAGE"
+  {:des "SNAGIT: HYPER+J/L: PREVIOUS/NEXT IMAGE (cmd+[ / cmd+])"
     :rules [{:type :basic
             :from {:key_code :j}
             :to [{:key_code :open_bracket :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
-                         {:type :frontmost_application_if
-                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
-  {:des "SNAGIT: HYPER+L: NEXT IMAGE"
-    :rules [{:type :basic
+                         {:type :frontmost_application_if :bundle_identifiers ["com.TechSmith.Snagit"]}]}
+           {:type :basic
             :from {:key_code :l}
             :to [{:key_code :close_bracket :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
-                         {:type :frontmost_application_if
-                            :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
+                         {:type :frontmost_application_if :bundle_identifiers ["com.TechSmith.Snagit"]}]}]}
   {:des "SNAGIT: CTRL+G -> CTRL+U (FOR SHAPE CREATION)"
     :rules [{:type :basic
             :from {:key_code :g :modifiers {:mandatory [:left_control]}}
@@ -248,31 +245,29 @@
 
 ;; Note that I also set up custom Mac menu shortcuts to change the font size for
 ;text in Snagit: system settings > keyboard > keyboard shortcuts > app
-;shortcuts. These require using menu command binding which can't really be done;in karabiner so it's fine to do it in system settings.
+;shortcuts. These require using menu command binding which can't really be
+;done;in karabiner so it's fine to do it in system settings.
 
   ;; EXCEL
-  {:des "EXCEL: HYPER+J: PREVIOUS TAB"
+  {:des "EXCEL: HYPER+J/L: PREVIOUS/NEXT TAB (cmd+PgUp / cmd+PgDn)"
     :rules [{:type :basic
             :from {:key_code :j}
             :to [{:key_code :page_up :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
-                         {:type :frontmost_application_if
-                            :bundle_identifiers ["com.microsoft.Excel"]}]}]}
-  {:des "EXCEL: HYPER+L: NEXT TAB"
-    :rules [{:type :basic
+                         {:type :frontmost_application_if :bundle_identifiers ["com.microsoft.Excel"]}]}
+           {:type :basic
             :from {:key_code :l}
             :to [{:key_code :page_down :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
-                         {:type :frontmost_application_if
-                            :bundle_identifiers ["com.microsoft.Excel"]}]}]}
-  {:des "EXCEL: CAPS+N -> CTRL+SHIFT+N"
+                         {:type :frontmost_application_if :bundle_identifiers ["com.microsoft.Excel"]}]}]}
+  {:des "EXCEL: CAPS+N -> CTRL+SHIFT+N (maps to zoom out macro)"
     :rules [{:type :basic
             :from {:key_code :n}
             :to [{:key_code :n :modifiers [:left_control :left_shift]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.Excel"]}]}]}
-  {:des "EXCEL: CAPS+M -> CTRL+SHIFT+M"
+  {:des "EXCEL: CAPS+M -> CTRL+SHIFT+M (maps to zoom in macro)"
     :rules [{:type :basic
             :from {:key_code :m}
             :to [{:key_code :m :modifiers [:left_control :left_shift]}]
@@ -281,19 +276,36 @@
                             :bundle_identifiers ["com.microsoft.Excel"]}]}]}
 
   ;; FINDER
-  {:des "In Finder remap return to open file (cmd+down)"
+  {:des "In Finder return opens file (acts like cmd+down)"
     :rules [{:type :basic
             :from {:key_code :return_or_enter}
             :to [{:key_code :down_arrow :modifiers [:left_command]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
-  {:des "In Finder F2 acts like return (rename file)"
+  {:des "In Finder F2 renames file (acts like return)"
     :rules [{:type :basic
             :from {:key_code :f2}
             :to [{:key_code :return_or_enter}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
 
+  {:des "FINDER: LEFT-ALT + H/J/K/L -> ARROW KEYS (vim navigation)"
+    :rules [{:type :basic
+            :from {:key_code :h :modifiers {:mandatory [:left_option]}}
+            :to [{:key_code :left_arrow}]
+            :conditions [{:type :frontmost_application_if :bundle_identifiers ["com.apple.finder"]}]}
+           {:type :basic
+            :from {:key_code :j :modifiers {:mandatory [:left_option]}}
+            :to [{:key_code :down_arrow}]
+            :conditions [{:type :frontmost_application_if :bundle_identifiers ["com.apple.finder"]}]}
+           {:type :basic
+            :from {:key_code :k :modifiers {:mandatory [:left_option]}}
+            :to [{:key_code :up_arrow}]
+            :conditions [{:type :frontmost_application_if :bundle_identifiers ["com.apple.finder"]}]}
+           {:type :basic
+            :from {:key_code :l :modifiers {:mandatory [:left_option]}}
+            :to [{:key_code :right_arrow}]
+            :conditions [{:type :frontmost_application_if :bundle_identifiers ["com.apple.finder"]}]}]}
 
   ;; CHROME + FIREFOX
   {:des "Chrome/Firefox: hyper+h to go back (cmd+[)"
@@ -309,11 +321,18 @@
             :to [{:key_code :r :modifiers [:left_command :left_control]}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
-
-  ;; CHROME
-  {:des "Chrome: caps-lock+t to cmd+shift+a (tab search)"
+  {:des "Chrome/Firefox: hyper + t -> new tab (cmd+t)"
     :rules [{:type :basic
             :from {:key_code :t}
+            :to [{:key_code :t :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
+
+  ;; CHROME
+  {:des "Chrome: caps-lock+o to cmd+shift+a (tab search)"
+    :rules [{:type :basic
+            :from {:key_code :o}
             :to [{:key_code :a :modifiers [:left_command :left_shift]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
@@ -330,7 +349,7 @@
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.VSCode"]}]}]}
 
-  ;; UNIVERSAL
+  ;; UNIVERSAL FOR ALL APPS
   {:des "HYPER+J/L: TAB NAVIGATION"
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
@@ -350,7 +369,7 @@
   {:des "right option to forward delete"
    :rules [[:right_option :delete_forward]]}
 
-  ;; When traveling, use this block instead of the above
+  ;; WHEN TRAVELING, USE THIS BLOCK INSTEAD OF THE ABOVE
   ;;{:des "right option to f2"
   ;; :rules [[:right_option :f2]]}
   ;;{:des "right control to forward delete"
