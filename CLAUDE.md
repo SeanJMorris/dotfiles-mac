@@ -67,6 +67,7 @@ because it offers to remove or add new rows/columns. Zooming is hard in Sheets b
  50%, 75%, 90%, 100%, 125%, 150%, 200%.
 6. **REALLY GOOD IDEA** Use the right control functionality to alternate between tapping for F2 and holding down for right control. In conjunction with right shift, turn this into a new shortcut combo that goes to a specific tab that can be specified by you ("Element", specific Lucid chart, "Roster", whatever is appropriate at the time). This will work best with shortcuts enabled with the left hand (e for Element, r for roster) but we could also use ctrl+shift for the right hand equivalents (to do this, we should assess the other applications where ctrl+shift are used - I am already using them in Excel, for example...).
 7. **ANOTHER GOOD ONE** Make Hyper+t work whether or not you're in Chrome (so first, it would switch to the most recently active window and search from there, or I guess maybe you could just use Alfred...).
+8. Another good one - right shift+ backspace goes to alt+tab. Since you're already using left shift for the BTT it's a place where you're hand "remembers" to
 
 ### Karabiner Known Limitations
 
