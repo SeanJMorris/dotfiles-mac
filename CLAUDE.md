@@ -49,6 +49,10 @@ After
 
 ## To Dos and Known Limitations
 
+### Dotfiles to do
+
+1. Add personal macro workbook and vimium c configuration.
+
 ### Karabiner To Do
 
 1. Fix layer for text editing vim-style.
@@ -56,6 +60,13 @@ After
 settings > keyboard > keyboard shortcuts > app shortcuts. Maybe this could work for others too like Lucid?
 3. Hyper + 9? to show active window. (Sean attempted this but couldn't find an easy way on 7/7/26)
 4. Shortcut for applying specific colors to things (like in Snagit)
+5. Implement a way to keep using the combatible spreadsheet shortcuts in Google
+Sheets without sacrificing the shortcut to zoom in our out (hyper+n/m). As of
+right now 7/15/26, it's the case that you can't use hyper+n/m as a zoom in
+because it offers to remove or add new rows/columns. Zooming is hard in Sheets because they only give you these options:
+ 50%, 75%, 90%, 100%, 125%, 150%, 200%.
+6. **REALLY GOOD IDEA** Use the right control functionality to alternate between tapping for F2 and holding down for right control. In conjunction with right shift, turn this into a new shortcut combo that goes to a specific tab that can be specified by you ("Element", specific Lucid chart, "Roster", whatever is appropriate at the time). This will work best with shortcuts enabled with the left hand (e for Element, r for roster) but we could also use ctrl+shift for the right hand equivalents (to do this, we should assess the other applications where ctrl+shift are used - I am already using them in Excel, for example...).
+7. **ANOTHER GOOD ONE** Make Hyper+t work whether or not you're in Chrome (so first, it would switch to the most recently active window and search from there, or I guess maybe you could just use Alfred...).
 
 ### Karabiner Known Limitations
 
