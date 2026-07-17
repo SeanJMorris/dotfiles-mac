@@ -51,3 +51,66 @@ sheetsCtrlPageNav = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, functio
     return false                                   -- not Sheets: let the key pass through unchanged
 end)
 sheetsCtrlPageNav:start()
+
+-- GOOGLE SHEETS ZOOM: hyper+n / hyper+m arrive here as F17 / F18 (emitted by Karabiner).
+-- When the active Chrome tab is a Google Sheet, step the SHEET's own zoom by ±10%
+-- (clamped 50–200) by writing the value into the toolbar Zoom box via injected JS.
+-- Anywhere else — non-Sheets Chrome tab, or any other app — fall back to normal
+-- browser zoom (cmd+- / cmd+=), preserving the old behavior.
+-- Requires Chrome menu: View > Developer > "Allow JavaScript from Apple Events".
+local SHEETS_ZOOM_MIN, SHEETS_ZOOM_MAX = 50, 200
+
+-- Run one line of JS (SINGLE quotes only) in Chrome's active tab; returns ok, result.
+local function chromeJsExec(js)
+  return hs.osascript.applescript(
+    'tell application "Google Chrome" to tell active tab of front window '
+    .. 'to execute javascript "' .. js .. '"')
+end
+
+-- True only when Chrome is frontmost AND its active tab is a Google Sheet.
+-- Uses the same URL check as sheetsCtrlPageNav (no JS needed, so no toggle dependency here).
+local function chromeSheetActive()
+  local app = hs.application.frontmostApplication()
+  if not app or app:bundleID() ~= "com.google.Chrome" then return false end
+  local ok, url = hs.osascript.applescript(
+    'tell application "Google Chrome" to get URL of active tab of front window')
+  return ok and type(url) == "string" and url:sub(1, #SHEETS_PREFIX) == SHEETS_PREFIX
+end
+
+-- Read current sheet zoom, compute current+delta (clamped), and write it back.
+-- Returns true if handled (including a no-op at the clamp limits), false if it
+-- couldn't read the zoom (e.g. the Apple Events toggle is off) so the caller falls back.
+local function sheetsStepZoom(delta)
+  local ok, val = chromeJsExec("document.querySelector('input[aria-label=Zoom]').value")
+  local cur = (ok and type(val) == "string") and tonumber(val:match("%d+")) or nil
+  if not cur then return false end
+  local target = math.max(SHEETS_ZOOM_MIN, math.min(SHEETS_ZOOM_MAX, cur + delta))
+  if target == cur then return true end  -- already at 50/200; stay clamped, don't browser-zoom
+  chromeJsExec("(function(){"
+    .. "var i=document.querySelector('input[aria-label=Zoom]');if(!i)return 'NO_INPUT';"
+    .. "var b=i.closest('.goog-toolbar-combo-button')||i.parentElement;"
+    .. "['mousedown','mouseup','click'].forEach(function(t){"
+    .. "b.dispatchEvent(new MouseEvent(t,{bubbles:true,cancelable:true,view:window}))});"
+    .. "i.removeAttribute('disabled');i.focus();i.value='" .. target .. "';"
+    .. "i.dispatchEvent(new Event('input',{bubbles:true}));"
+    .. "i.dispatchEvent(new Event('change',{bubbles:true}));"
+    .. "['keydown','keypress','keyup'].forEach(function(t){"
+    .. "i.dispatchEvent(new KeyboardEvent(t,{bubbles:true,key:'Enter',code:'Enter',keyCode:13,which:13}))});"
+    .. "return 'OK'})();")
+  -- The write leaves the Zoom combo focused/open, which steals arrow keys until you
+  -- press Escape a few times. Mirror that automatically so you can resume editing.
+  -- Spaced out because Closure's menu can drop back-to-back key events.
+  for i = 1, 3 do
+    hs.timer.doAfter(0.04 * i, function() hs.eventtap.keyStroke({}, "escape", 0) end)
+  end
+  return true
+end
+
+-- delta < 0 = zoom out (hyper+n / F17); delta > 0 = zoom in (hyper+m / F18).
+local function handleZoomKey(delta)
+  if chromeSheetActive() and sheetsStepZoom(delta) then return end
+  hs.eventtap.keyStroke({ "cmd" }, (delta < 0) and "-" or "=", 0)
+end
+
+hs.hotkey.bind({}, "f17", function() handleZoomKey(-10) end)  -- hyper+n -> zoom out
+hs.hotkey.bind({}, "f18", function() handleZoomKey(10) end)   -- hyper+m -> zoom in

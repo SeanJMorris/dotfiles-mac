@@ -354,9 +354,11 @@
    :rules [[:j :!TStab ["hyper" 1]]
            [:l :!Ttab  ["hyper" 1]]]}
 
-  {:des "HYPER+N/M: ZOOM OUT/IN"
-   :rules [[:n :!Chyphen     ["hyper" 1]]
-           [:m :!Cequal_sign ["hyper" 1]]]}
+  ;; hyper+n/m emit F17/F18 (keys the Kinesis never produces) so Hammerspoon can
+  ;; branch: in a Google Sheets tab -> step the sheet's own zoom; else -> cmd+-/cmd+=.
+  {:des "HYPER+N/M: ZOOM OUT/IN (via F17/F18 -> Hammerspoon)"
+   :rules [[:n :f17 ["hyper" 1]]
+           [:m :f18 ["hyper" 1]]]}
 
   {:des "HYPER+C/V: COPY & PASTE"
    :rules [[:c :!Cc ["hyper" 1]]
