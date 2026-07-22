@@ -177,6 +177,17 @@
   {:des "CTRL+ALT+CMD+U: ALT-TAB FOR ALL WINDOWS"
    :rules [[{:key :u :modi {:optional [:any]}} [:!TOCu ["alt_tab_mode" 1]] ["hyper" 1]]]}
 
+  ;; RIGHT SHIFT + BACKSPACE: alternative alt-tab. Emits the exact same
+  ;; ⌃⌥⌘+U as the "all windows" trigger above, so AltTab behaves identically to
+  ;; caps+u. Hold right_shift and tap backspace to cycle. Deliberately does NOT
+  ;; set alt_tab_mode (nothing on right_shift release would reset it, which would
+  ;; leave h/j/k/l hijacked). :mandatory consumes right_shift so the output is a
+  ;; clean ⌃⌥⌘+U with no stray shift.
+  {:des "RIGHT SHIFT + BACKSPACE: ALT-TAB FOR ALL WINDOWS"
+   :rules [{:type :basic
+            :from {:key_code :delete_or_backspace :modifiers {:mandatory [:right_shift]}}
+            :to [{:key_code :u :modifiers [:left_control :left_option :left_command]}]}]}
+
   ;; ALT-TAB VIM NAVIGATION: while the switcher is open (alt_tab_mode=1), send hyper+h/j/k/l so the
   ;; ⌃⌥⌘ hold modifiers stay present (keeping the switcher open) and AltTab's native "vim keys"
   ;; setting moves the selection. Placed before the pure-hyper k / universal j,l / Chrome h rules.
