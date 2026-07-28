@@ -377,16 +377,18 @@
 
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
-  {:des "right control to f2"
-   :rules [[:right_control :f2]]}
-  {:des "right option to forward delete"
-   :rules [[:right_option :delete_forward]]}
+;;   {:des "right control to f2"
+;;    :rules [[:right_control :f2]]}
+;;   {:des "right option to forward delete"
+;;    :rules [[:right_option :delete_forward]]}
 
-  ;; WHEN TRAVELING, USE THIS BLOCK INSTEAD OF THE ABOVE
-  ;;{:des "right option to f2"
-  ;; :rules [[:right_option :f2]]}
-  ;;{:des "right control to forward delete"
-  ;; :rules [[:right_control :delete_forward]]}
+  ;; WITH PROTOARC KEYBOARD, USE THIS BLOCK INSTEAD OF THE ABOVE
+  ;; AND CHANGE ALT TAB SHORTCUTS TO CMD+TAB FOR ALL APPS AND
+  ;; ALT+TAB FOR ACTIVE APP
+  {:des "right option to f2"
+  :rules [[:right_option :f2]]}
+  {:des "right command to forward delete"
+  :rules [[:right_command :delete_forward]]}
 
  ]
 }
