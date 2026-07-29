@@ -258,9 +258,12 @@ togglescroll() {
 # reset stuck Karabiner layer variables (e.g. caps+t opening a new tab
 #   instead of tab search means hyper_sublayer_w got stuck at 1 after a
 #   dropped key-up during restart/sleep)
+# includes the top-level "hyper" var: if caps_lock's key-up is dropped, hyper
+#   stays 1 and every hyper-conditional rule fires on bare keypresses
+#   (added 2026-07-28 while chasing intermittent dead-shift)
 kbreset() {
   local kcli="/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
-  "$kcli" --set-variables '{"hyper_sublayer_w":0,"hyper_sublayer_g":0,"hyper_sublayer_a":0,"hyper_sublayer_a_shift":0,"hyper_sublayer_s":0,"hyper_sublayer_o":0,"w_kk":0,"alt_tab_mode":0}' \
+  "$kcli" --set-variables '{"hyper":0,"hyper_sublayer_w":0,"hyper_sublayer_g":0,"hyper_sublayer_a":0,"hyper_sublayer_a_shift":0,"hyper_sublayer_s":0,"hyper_sublayer_o":0,"w_kk":0,"alt_tab_mode":0}' \
     && osascript -e 'display notification "Karabiner layer variables reset"'
 }
 

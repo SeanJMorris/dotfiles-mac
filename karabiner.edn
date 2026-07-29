@@ -352,9 +352,13 @@
   ;; VS CODE
   ;; Command+Escape cycles focus just between the Claude auxiliary pane and the
   ;; code editor.
-  {:des "VS CODE: HYPER+RIGHT-SHIFT: TOGGLE CLAUDE / CODE EDITOR (CMD+ESC)"
+  ;; Was hyper+right_shift until 2026-07-28. Binding a bare modifier key is
+  ;; fragile: if "hyper" gets stuck at 1 (dropped caps_lock key-up), right shift
+  ;; silently stops shifting in VS Code and holds cmd down instead. Moved to
+  ;; return, which is not a modifier, so no stuck variable can disable a shift key.
+  {:des "VS CODE: HYPER+RETURN: TOGGLE CLAUDE / CODE EDITOR (CMD+ESC)"
     :rules [{:type :basic
-            :from {:key_code :right_shift}
+            :from {:key_code :return_or_enter}
             :to [{:key_code :escape :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
