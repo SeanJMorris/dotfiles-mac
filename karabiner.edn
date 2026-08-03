@@ -299,6 +299,15 @@
             :to [{:key_code :return_or_enter}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
+  ;; Must come BEFORE the global "right control to f2" rule below. Karabiner does
+  ;; not re-run its own output through the rule list, so right_control -> f2 would
+  ;; emit a literal F2 that the rule above never sees, and Finder ignores F2.
+  {:des "In Finder right control renames file (acts like return)"
+    :rules [{:type :basic
+            :from {:key_code :right_control}
+            :to [{:key_code :return_or_enter}]
+            :conditions [{:type :frontmost_application_if
+                            :bundle_identifiers ["com.apple.finder"]}]}]}
 
   {:des "FINDER: LEFT-ALT + H/J/K/L -> ARROW KEYS (vim navigation)"
     :rules [{:type :basic
@@ -381,18 +390,18 @@
 
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
-;;   {:des "right control to f2"
-;;    :rules [[:right_control :f2]]}
-;;   {:des "right option to forward delete"
-;;    :rules [[:right_option :delete_forward]]}
+  {:des "right control to f2"
+   :rules [[:right_control :f2]]}
+  {:des "right option to forward delete"
+   :rules [[:right_option :delete_forward]]}
 
   ;; WITH PROTOARC KEYBOARD, USE THIS BLOCK INSTEAD OF THE ABOVE
   ;; AND CHANGE ALT TAB SHORTCUTS TO CMD+TAB FOR ALL APPS AND
   ;; ALT+TAB FOR ACTIVE APP
-  {:des "right option to f2"
-  :rules [[:right_option :f2]]}
-  {:des "right command to forward delete"
-  :rules [[:right_command :delete_forward]]}
+  ;; {:des "right option to f2"
+  ;; :rules [[:right_option :f2]]}
+  ;; {:des "right command to forward delete"
+  ;; :rules [[:right_command :delete_forward]]}
 
  ]
 }
