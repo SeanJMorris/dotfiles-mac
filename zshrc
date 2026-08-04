@@ -1,13 +1,13 @@
-#      ____                        _                   _ _  ___  _              
-#     |  _ \ _____      _____ _ __| |    _____   _____| / |/ _ \| | __          
-#     | |_) / _ \ \ /\ / / _ \ '__| |   / _ \ \ / / _ \ | | | | | |/ /          
-#     |  __/ (_) \ V  V /  __/ |  | |__|  __/\ V /  __/ | | |_| |   <           
-#     |_|___\___/ \_/\_/ \___|_|  |_____\___| \_/ \___|_|_|\___/|_|\_\          
-#     |_   _| |__   ___ _ __ ___   ___     / \   __| | __| (_) |_(_) ___  _ __  
-#       | | | '_ \ / _ \ '_ ` _ \ / _ \   / _ \ / _` |/ _` | | __| |/ _ \| '_ \ 
+#      ____                        _                   _ _  ___  _
+#     |  _ \ _____      _____ _ __| |    _____   _____| / |/ _ \| | __
+#     | |_) / _ \ \ /\ / / _ \ '__| |   / _ \ \ / / _ \ | | | | | |/ /
+#     |  __/ (_) \ V  V /  __/ |  | |__|  __/\ V /  __/ | | |_| |   <
+#     |_|___\___/ \_/\_/ \___|_|  |_____\___| \_/ \___|_|_|\___/|_|\_\
+#     |_   _| |__   ___ _ __ ___   ___     / \   __| | __| (_) |_(_) ___  _ __
+#       | | | '_ \ / _ \ '_ ` _ \ / _ \   / _ \ / _` |/ _` | | __| |/ _ \| '_ \
 #       | | | | | |  __/ | | | | |  __/  / ___ \ (_| | (_| | | |_| | (_) | | | |
 #       |_| |_| |_|\___|_| |_| |_|\___| /_/   \_\__,_|\__,_|_|\__|_|\___/|_| |_|
-#                                                                               
+#
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -15,16 +15,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#      ____        __             _ _              _   _   _                  
-#     |  _ \  ___ / _| __ _ _   _| | |_   ___  ___| |_| |_(_)_ __   __ _ ___  
-#     | | | |/ _ \ |_ / _` | | | | | __| / __|/ _ \ __| __| | '_ \ / _` / __| 
-#     | |_| |  __/  _| (_| | |_| | | |_  \__ \  __/ |_| |_| | | | | (_| \__ \ 
-#     |____/ \___|_|  \__,_|\__,_|_|\__| |___/\___|\__|\__|_|_| |_|\__, |___/ 
-#     __      _(_) |_| |__     ___ | |__  _ __ ___  _   _ _______| |___/      
-#     \ \ /\ / / | __| '_ \   / _ \| '_ \| '_ ` _ \| | | |_  / __| '_ \       
-#      \ V  V /| | |_| | | | | (_) | | | | | | | | | |_| |/ /\__ \ | | |      
-#       \_/\_/ |_|\__|_| |_|  \___/|_| |_|_| |_| |_|\__, /___|___/_| |_|      
-#                                                   |___/                     
+#      ____        __             _ _              _   _   _
+#     |  _ \  ___ / _| __ _ _   _| | |_   ___  ___| |_| |_(_)_ __   __ _ ___
+#     | | | |/ _ \ |_ / _` | | | | | __| / __|/ _ \ __| __| | '_ \ / _` / __|
+#     | |_| |  __/  _| (_| | |_| | | |_  \__ \  __/ |_| |_| | | | | (_| \__ \
+#     |____/ \___|_|  \__,_|\__,_|_|\__| |___/\___|\__|\__|_|_| |_|\__, |___/
+#     __      _(_) |_| |__     ___ | |__  _ __ ___  _   _ _______| |___/
+#     \ \ /\ / / | __| '_ \   / _ \| '_ \| '_ ` _ \| | | |_  / __| '_ \
+#      \ V  V /| | |_| | | | | (_) | | | | | | | | | |_| |/ /\__ \ | | |
+#       \_/\_/ |_|\__|_| |_|  \___/|_| |_|_| |_| |_|\__, /___|___/_| |_|
+#                                                   |___/
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -132,17 +132,17 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-#       ____ _                 _         ____          _      
-#      / ___| | __ _ _   _  __| | ___   / ___|___   __| | ___ 
+#       ____ _                 _         ____          _
+#      / ___| | __ _ _   _  __| | ___   / ___|___   __| | ___
 #     | |   | |/ _` | | | |/ _` |/ _ \ | |   / _ \ / _` |/ _ \
 #     | |___| | (_| | |_| | (_| |  __/ | |__| (_) | (_| |  __/
 #      \____|_|\__,_|\__,_|\__,_|\___|  \____\___/ \__,_|\___|
-#      ____       _                                           
-#     / ___|  ___| |_ _   _ _ __                              
-#     \___ \ / _ \ __| | | | '_ \                             
-#      ___) |  __/ |_| |_| | |_) |                            
-#     |____/ \___|\__|\__,_| .__/                             
-#                          |_|                                
+#      ____       _
+#     / ___|  ___| |_ _   _ _ __
+#     \___ \ / _ \ __| | | | '_ \
+#      ___) |  __/ |_| |_| | |_) |
+#     |____/ \___|\__|\__,_| .__/
+#                          |_|
 
 # AWS SSO authentication (okta-login)
 source ~/.okta/okta-login-shell-function-nondev
@@ -159,25 +159,25 @@ export PATH="$HOME/.local/bin:$PATH"
 # start claude code alias
 alias clo="yoda launch claude-code"
 
-#      ____                        _                   _ _  ___  _              
-#     |  _ \ _____      _____ _ __| |    _____   _____| / |/ _ \| | __          
-#     | |_) / _ \ \ /\ / / _ \ '__| |   / _ \ \ / / _ \ | | | | | |/ /          
-#     |  __/ (_) \ V  V /  __/ |  | |__|  __/\ V /  __/ | | |_| |   <           
-#     |_|___\___/ \_/\_/ \___|_|  |_____\___| \_/ \___|_|_|\___/|_|\_\          
-#     |_   _| |__   ___ _ __ ___   ___     / \   __| | __| (_) |_(_) ___  _ __  
-#       | | | '_ \ / _ \ '_ ` _ \ / _ \   / _ \ / _` |/ _` | | __| |/ _ \| '_ \ 
+#      ____                        _                   _ _  ___  _
+#     |  _ \ _____      _____ _ __| |    _____   _____| / |/ _ \| | __
+#     | |_) / _ \ \ /\ / / _ \ '__| |   / _ \ \ / / _ \ | | | | | |/ /
+#     |  __/ (_) \ V  V /  __/ |  | |__|  __/\ V /  __/ | | |_| |   <
+#     |_|___\___/ \_/\_/ \___|_|  |_____\___| \_/ \___|_|_|\___/|_|\_\
+#     |_   _| |__   ___ _ __ ___   ___     / \   __| | __| (_) |_(_) ___  _ __
+#       | | | '_ \ / _ \ '_ ` _ \ / _ \   / _ \ / _` |/ _` | | __| |/ _ \| '_ \
 #       | | | | | |  __/ | | | | |  __/  / ___ \ (_| | (_| | | |_| | (_) | | | |
 #       |_| |_| |_|\___|_| |_| |_|\___| /_/   \_\__,_|\__,_|_|\__|_|\___/|_| |_|
-#                                                                               
+#
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-#       ____            _          _    __                                    _ 
+#       ____            _          _    __                                    _
 #      / ___|___  _ __ (_) ___  __| |  / _|_ __ ___  _ __ ___   __      _____| |
 #     | |   / _ \| '_ \| |/ _ \/ _` | | |_| '__/ _ \| '_ ` _ \  \ \ /\ / / __| |
 #     | |__| (_) | |_) | |  __/ (_| | |  _| | | (_) | | | | | |  \ V  V /\__ \ |
 #      \____\___/| .__/|_|\___|\__,_| |_| |_|  \___/|_| |_| |_|   \_/\_/ |___/_|
-#                |_|                                                            
+#                |_|
 # ** MOSTLY copied and pasted from WSL .zshrc**
 
 
@@ -186,7 +186,7 @@ alias clo="yoda launch claude-code"
 # https://github.com/sharkdp/bat)
 
 # Set up `man` such that it uses bat (with better syntax highlighting)
-# I set up `#export MANPAGER="bat -plman"` in my dotfiles course, but the problem with this was that 
+# I set up `#export MANPAGER="bat -plman"` in my dotfiles course, but the problem with this was that
 # it wasn't reading certain characters correctly - the following change to MANPAGER corrected this
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
@@ -238,7 +238,7 @@ fi
 # Load secrets / license keys from the gitignored .env (see .env.example for the template)
 [ -f "$HOME/.dotfiles/.env" ] && source "$HOME/.dotfiles/.env"
 
-# unalias gc which oh my zsh aliases as `git commit --verbose` 
+# unalias gc which oh my zsh aliases as `git commit --verbose`
 #   this was necessary to work with google cli
 unalias gc
 
@@ -268,7 +268,10 @@ kbreset() {
 }
 
 # alias none as clear because sometimes if you type esc and c fzf thinks you want do cd search
-alias none='clear' 
+alias none='clear'
 
 # alias excel so you can open stuff there if you need
 alias excel='open -a "Microsoft Excel"'
+
+# add a git commit alias that will add all changes and commit with a message
+alias gitac='git add -A && git commit -m'
