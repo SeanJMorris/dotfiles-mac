@@ -6,3 +6,5 @@
 
 # License files and other secret files live here, never commit.
 secrets/
+
+SEAN_GENERAL_SETUP_GUIDE.md
