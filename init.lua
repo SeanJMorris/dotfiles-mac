@@ -114,3 +114,32 @@ end
 
 hs.hotkey.bind({}, "f17", function() handleZoomKey(-10) end)  -- hyper+n -> zoom out
 hs.hotkey.bind({}, "f18", function() handleZoomKey(10) end)   -- hyper+m -> zoom in
+
+-- GOOGLE SHEETS MACROS: ctrl+shift+i -> cmd+opt+shift+1, ctrl+shift+k -> cmd+opt+shift+2.
+-- Google Sheets assigns imported macros the shortcuts cmd+opt+shift+1..9, which are awkward
+-- to reach. These give the first two macros a home-row-friendly chord instead.
+-- This lives in Hammerspoon (not karabiner.edn) because the requirement is "only in a Sheets
+-- tab": Karabiner can see the frontmost app but not the active tab's URL, so a Karabiner rule
+-- would fire on every Chrome tab. chromeSheetActive() (defined above) checks the URL, and only
+-- runs when the chord is actually pressed, so it adds no typing lag.
+-- Note: use the LEFT control key — Karabiner remaps right_control to F2, so it never sends ctrl.
+local SHEETS_MACRO_KEYS = { i = "1", k = "2" }
+sheetsMacroChords = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
+    local f = e:getFlags()
+    -- Require ctrl+shift exactly, with neither cmd nor alt (fn allowed).
+    if not (f.ctrl and f.shift and not f.cmd and not f.alt) then return false end
+
+    local map = hs.keycodes.map
+    local target
+    for key, number in pairs(SHEETS_MACRO_KEYS) do
+        if e:getKeyCode() == map[key] then target = number end
+    end
+    if not target then return false end
+
+    if chromeSheetActive() then
+        hs.eventtap.keyStroke({ "cmd", "alt", "shift" }, target, 0)
+        return true                                -- swallow the original ctrl+shift+i/k
+    end
+    return false                                   -- not Sheets: let the key pass through unchanged
+end)
+sheetsMacroChords:start()
