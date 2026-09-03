@@ -1,0 +1,132 @@
+{
+	"name": "Vimium C",
+	"@time": "8/25/2026, 9:32:20 PM",
+	"time": 1787707940955,
+	"environment": {
+		"extension": "2.12.3",
+		"platform": "mac",
+		"firefox": 153
+	},
+	"allBrowserUrls": true,
+	"autoDarkMode": 1,
+	"exclusionRules": [
+		{
+			"passKeys": "N ` i j k n o ",
+			"pattern": "^https://mail\\.google\\.com/mail/u/0/(?!(.*[A-Za-z0-9_-]{16,}))"
+		},
+		{
+			"passKeys": "N i n p r ",
+			"pattern": "^https://mail.google.com/mail/u/0/.*([A-Za-z0-9_-]{16,})"
+		},
+		{
+			"passKeys": "d j k m t w ",
+			"pattern": ":https://calendar.google.com/"
+		},
+		{
+			"passKeys": ", . 0 1 2 3 4 5 6 7 8 9 < > N P l ",
+			"pattern": ":https://www.youtube.com/watch"
+		},
+		{
+			"passKeys": "<f2> q ",
+			"pattern": ":https://docs.google.com/"
+		},
+		{
+			"passKeys": "o u ",
+			"pattern": ":https://harvard.simplesyllabus.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.keyhero.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.figma.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.bobavim.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.vimfinesse.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://codepen.io/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://vimaroo.vercel.app/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://openvim.com/"
+		},
+		{
+			"passKeys": "[ ",
+			"pattern": ":https://thumbtack.atlassian.net/jira/plans/"
+		},
+		{
+			"passKeys": "[ ",
+			"pattern": ":https://thumbtack.atlassian.net/jira/software/c/projects/BAS/boards/"
+		},
+		{
+			"passKeys": "[ ",
+			"pattern": ":https://thumbtack.atlassian.net/"
+		}
+	],
+	"grabBackFocus": true,
+	"keyLayout": 2,
+	"keyMappings": [
+		"#!no-check",
+		"unmap p",
+		"map W moveTabToNewWindow",
+		"map w removeTab",
+		"unmap x",
+		"map g0 scrollToTop",
+		""
+	],
+	"searchEngines": [
+		"bi: https://cn.bing.com/search?q=$s",
+		"bi|bing: https://www.bing.com/search?q=%s \\",
+		"  blank=https://www.bing.com/ Bing",
+		"b|ba|baidu|百度: https://www.baidu.com/s?ie=utf-8&wd=%s \\",
+		"  blank=https://www.baidu.com/ 百度",
+		"g|go|gg|google|Google: https://www.google.com/search?q=%s \\",
+		"  www.google.com re=/^(?:\\.[a-z]{2,4})?\\/search\\b.*?[#&?]q=([^#&]*)/i\\",
+		"  blank=https://www.google.com/ Google",
+		"br|brave: https://search.brave.com/search?q=%s Brave",
+		"d|dd|ddg|duckduckgo: https://duckduckgo.com/?q=%s DuckDuckGo",
+		"ec|ecosia: https://www.ecosia.org/search?q=%s Ecosia",
+		"qw|qwant: https://www.qwant.com/?q=%s Qwant",
+		"ya|yd|yandex: https://yandex.com/search/?text=%s Yandex",
+		"yh|yahoo: https://search.yahoo.com/search?p=%s Yahoo",
+		"maru|mailru|mail.ru: https://go.mail.ru/search?q=%s Mail.ru",
+		"",
+		"g.m|gm|g.map|gmap: https://www.google.com/maps?q=%s \\",
+		"  blank=https://www.google.com/maps Google Maps",
+		"fromhome: https://www.google.com/maps/dir/home/%s \\",
+		"y|yt: https://www.youtube.com/results?search_query=%s \\",
+		"  blank=https://www.youtube.com/ YouTube",
+		"w|wiki: https://www.wikipedia.org/w/index.php?search=%s Wikipedia",
+		"g.s|gs|gscholar: https://scholar.google.com/scholar?q=$s \\",
+		"  scholar.google.com re=/^(?:\\.[a-z]{2,4})?\\/scholar\\b.*?[#&?]q=([^#&]*)/i\\",
+		"  blank=https://scholar.google.com/ Google Scholar",
+		"",
+		"a|az|amazon: https://www.amazon.com/s?k=%s \\",
+		"  blank=https://www.amazon.com/ Amazon",
+		"",
+		"\\:i: vimium://sed/s/^//,lower\\ $S re= Lower case",
+		"v.m|math: vimium://math\\ $S re= Calculate",
+		"v.p: vimium://parse\\ $S re= Redo Search",
+		"gh|github: https://github.com/search?q=$s \\",
+		"  blank=https://github.com/ GitHub Repo",
+		"ge|gitee: https://search.gitee.com/?type=repository&q=$s \\",
+		"  blank=https://gitee.com/ Gitee 仓库",
+		"js\\:|Js: javascript:\\ $S; JavaScript",
+		"gem: https://gemini.google.com/app",
+		"no: https://www.notion.so/CATCH-ALL-4a55f9060da1468a82718753450389e9",
+		""
+	],
+	"vimSync": true
+}

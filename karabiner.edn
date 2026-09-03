@@ -398,10 +398,10 @@
   ;; WITH PROTOARC KEYBOARD, USE THIS BLOCK INSTEAD OF THE ABOVE
   ;; AND CHANGE ALT TAB SHORTCUTS TO CMD+TAB FOR ALL APPS AND
   ;; ALT+TAB FOR ACTIVE APP
-  ;; {:des "right option to f2"
-  ;; :rules [[:right_option :f2]]}
-  ;; {:des "right command to forward delete"
-  ;; :rules [[:right_command :delete_forward]]}
+;;   {:des "right option to f2"
+;;   :rules [[:right_option :f2]]}
+;;   {:des "right command to forward delete"
+;;   :rules [[:right_command :delete_forward]]}
 
  ]
 }
