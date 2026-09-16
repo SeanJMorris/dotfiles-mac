@@ -72,6 +72,28 @@
      :conditions [{:type :variable_if :name "hyper_sublayer_w" :value 1}]}
    ]}
 
+  ;; caps+w (windows layer) + 9 -> a different chord per browser:
+  ;;   Chrome  -> cmd+shift+d (overwrites bookmark all open tabs)
+  ;;   Firefox -> option+ctrl+d
+  ;; Raw manipulators because the short syntax can't combine a sublayer variable with
+  ;; a frontmost-application condition. The two app conditions are mutually exclusive,
+  ;; so order between them doesn't matter.
+  ;; in Chrome, this works because I'm using the "Tab to Window/Popup" extension where I've specified that shortcut.
+  ;; in Firefox, this works because I'm using the "Move Tab to Next Window" extension where I've specified that shortcut.
+  {:des "CHROME/FIREFOX: HYPER-W + 9 -> CMD+SHIFT+D / OPT+CTRL+D"
+   :rules [{:type :basic
+            :from {:key_code :9 :modifiers {:optional [:any]}}
+            :to [{:key_code :d :modifiers [:left_command :left_shift]}]
+            :conditions [{:type :variable_if :name "hyper_sublayer_w" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.google.Chrome"]}]}
+           {:type :basic
+            :from {:key_code :9 :modifiers {:optional [:any]}}
+            :to [{:key_code :d :modifiers [:left_option :left_control]}]
+            :conditions [{:type :variable_if :name "hyper_sublayer_w" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["org.mozilla.firefox"]}]}]}
+
   {:des "HYPER-G: NUMBERS LAYER"
    :rules [
     ;; Activate sublayer on hold; cleared on key-up
