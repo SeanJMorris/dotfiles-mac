@@ -28,6 +28,28 @@ end):start()
 -- Karabiner can't see tab URLs, so this must live in Hammerspoon. It checks the URL only
 -- when you actually press Ctrl+PageDown/Up while Chrome is frontmost, so it adds no typing lag.
 local SHEETS_PREFIX = "https://docs.google.com/spreadsheets"
+
+-- Tag for keystrokes this file synthesizes, so our own eventtaps can tell an
+-- event we posted from one the user actually typed. Needed because two rules
+-- below both involve option+down: sheetsCtrlPageNav *emits* it (it is Sheets'
+-- native next-sheet key) and sheetsFilterMenu *consumes* it. Without the tag,
+-- sheetsFilterMenu would swallow sheetsCtrlPageNav's output and ctrl+pagedown
+-- would open the filter menu instead of moving to the next sheet.
+local SYNTHETIC_TAG = 0x53485453                    -- "SHTS"
+local USER_DATA = hs.eventtap.event.properties.eventSourceUserData
+
+local function postTagged(mods, key)
+    for _, isDown in ipairs({ true, false }) do
+        local ev = hs.eventtap.event.newKeyEvent(mods, key, isDown)
+        ev:setProperty(USER_DATA, SYNTHETIC_TAG)
+        ev:post()
+    end
+end
+
+local function isSynthetic(e)
+    return e:getProperty(USER_DATA) == SYNTHETIC_TAG
+end
+
 sheetsCtrlPageNav = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
     local f = e:getFlags()
     -- Require Ctrl held, and none of Cmd/Alt/Shift (fn is allowed for keyboards that need it).
@@ -45,7 +67,7 @@ sheetsCtrlPageNav = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, functio
         'tell application "Google Chrome" to get URL of active tab of front window')
     if ok and type(url) == "string" and url:sub(1, #SHEETS_PREFIX) == SHEETS_PREFIX then
         local dir = (code == map.pagedown) and "down" or "up"
-        hs.eventtap.keyStroke({ "alt" }, dir, 0)  -- Alt(Option)+Down / +Up
+        postTagged({ "alt" }, dir)                 -- Alt(Option)+Down / +Up, tagged as ours
         return true                                -- swallow the original Ctrl+PageDown/Up
     end
     return false                                   -- not Sheets: let the key pass through unchanged
@@ -143,3 +165,33 @@ sheetsMacroChords = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, functio
     return false                                   -- not Sheets: let the key pass through unchanged
 end)
 sheetsMacroChords:start()
+
+-- GOOGLE SHEETS SORT/FILTER MENU: option+down -> cmd+ctrl+r, only in a Sheets tab.
+-- Ported out of karabiner.edn on 9/14/26. Karabiner could only scope this to "Chrome or
+-- Firefox is frontmost", which killed option+down (end-of-paragraph) in every text field
+-- in the browser — Gmail compose, Slack, comment boxes. chromeSheetActive() narrows it to
+-- an actual spreadsheet URL, so option+down behaves normally everywhere else.
+-- Two deliberate trade-offs:
+--   1. Inside Sheets this overrides the native option+down (next sheet tab). That key is
+--      already covered by ctrl+pagedown (see sheetsCtrlPageNav above), which is the Excel
+--      chord being preserved, so option+down is free to reuse here.
+--   2. The isSynthetic() check is load-bearing: sheetsCtrlPageNav posts option+down itself,
+--      and without the tag this tap would eat it and break ctrl+pagedown.
+-- Chrome only — Karabiner's version also covered Firefox, but the URL check is
+-- Chrome-specific AppleScript, so Firefox loses this mapping.
+sheetsFilterMenu = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
+    if isSynthetic(e) then return false end        -- our own next-sheet keystroke: pass through
+
+    local f = e:getFlags()
+    -- Require option alone, with none of ctrl/cmd/shift (fn allowed).
+    if not (f.alt and not f.ctrl and not f.cmd and not f.shift) then return false end
+
+    if e:getKeyCode() ~= hs.keycodes.map.down then return false end
+
+    if chromeSheetActive() then
+        hs.eventtap.keyStroke({ "cmd", "ctrl" }, "r", 0)
+        return true                                -- swallow the original option+down
+    end
+    return false                                   -- not Sheets: let the key pass through unchanged
+end)
+sheetsFilterMenu:start()

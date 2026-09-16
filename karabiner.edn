@@ -335,12 +335,6 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
-  {:des "Chrome/Firefox: ctrl+shift+l -> cmd+ctrl+r (Google Sheets sort/filter menu)"
-    :rules [{:type :basic
-            :from {:key_code :l :modifiers {:mandatory [:left_control :left_shift]}}
-            :to [{:key_code :r :modifiers [:left_command :left_control]}]
-            :conditions [{:type :frontmost_application_if
-                            :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
   {:des "Chrome/Firefox: hyper + t -> new tab (cmd+t)"
     :rules [{:type :basic
             :from {:key_code :t}
