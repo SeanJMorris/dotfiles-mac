@@ -7,8 +7,8 @@ suite of shortcut configurations for basically everything I do on my Mac.
 
 Thanks to Patrick McDonald for the guidance and inspiration in his [Udemy
 course](https://www.udemy.com/course/dotfiles-from-start-to-finish-ish/) on how
-to set up dotfiles and use [Dotbot](https://github.com/anishathalye/dotbot),
-developed by Anish Athalye.
+to set up dotfiles. Patrick's course uses [Dotbot](https://github.com/anishathalye/dotbot),
+which was developed by Anish Athalye.
 
 For an overview of the dotfiles structure, see video 81 of Patrick's course,
 "Cultivate Skills Section Conclusion."
