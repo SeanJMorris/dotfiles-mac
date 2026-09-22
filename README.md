@@ -3,6 +3,37 @@
 This repository contains my dotfiles and my `karabiner.edn` file, which holds a
 suite of shortcut configurations for basically everything I do on my Mac.
 
+## A Note for Normal, Sane People 🙃
+
+I don't worry about shortcuts because I want to use my computer more efficiently
+(although I certainly hope that that's true). I spend time configuring shortcuts
+because it's fun, because it makes me think critically about how I accomplish my
+work, and because I like thinking of my computer like an instrument that I can
+play to make awesome things happen.
+
+If you're either:
+A) not comfortable with basic software development concepts or
+B) not ready to spend a weekend (even with Claude) fooling around with setting
+up `goku`, `karabiner-elements`, and `hyperspoon` (the key workhorses of my
+setup), I wouldn't recommend starting with the setup that I have here.
+
+Instead, probably the single thing that I've done to make using my computer more fun and
+(at least subjectively, faster) is to start using [Vimium
+C](https://chromewebstore.google.com/detail/vimium-c-all-by-keyboard/hfjbmagddngcpeloejdejnfgbamkjaeg?hl=en),
+which is a browser extension that embeds shortcuts on browser pages. Watch [this
+tutorial for Vimium C's cousin,
+Vimium](https://youtu.be/jeRSReSbxjw?si=6yLO9h7AM3vbNc2N) (I prefer Vimium C
+over Vimium because it can do even more than Vimium) - this has been HUGE for
+me.
+
+Other game changers have been:
+
+- Alfred for a enhanced version of Mac's spotlight.
+- BetterTouchTool (for custom scripts to cycle between windows, this is the driver behind a custom application that I produced that lets me cycle through windows of a specific application with the right-shift key which I otherwise don't use -- right shift+G = Granola; right shift+S = Slack; right shift+C = Claude, etc).
+- Rectangle (for moving windows)
+
+All of these have their own configurable shortcuts and can open worlds of possibilities.
+
 ## Dotfiles & Dotbot
 
 Thanks to Patrick McDonald for the guidance and inspiration in his [Udemy
