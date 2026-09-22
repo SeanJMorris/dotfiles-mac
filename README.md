@@ -1,47 +1,65 @@
 # Dotfiles - Mac
 
-This repository contains my dotfiles and my karabiner.edn file, which contains a
+This repository contains my dotfiles and my `karabiner.edn` file, which holds a
 suite of shortcut configurations for basically everything I do on my Mac.
 
 ## Dotfiles & Dotbot
 
-Thanks to Patrick McDonald for guidance offered in his [Udemy
-course](https://www.udemy.com/course/dotfiles-from-start-to-finish-ish/) for how
+Thanks to Patrick McDonald for the guidance and inspiration in his [Udemy
+course](https://www.udemy.com/course/dotfiles-from-start-to-finish-ish/) on how
 to set up dotfiles and use [Dotbot](https://github.com/anishathalye/dotbot),
 developed by Anish Athalye.
 
-For an overview of the dotfiles structure, see Patrick's video, see video 81:
-"Cultivate Skills Section Conclusion" from Patrick's course.
+For an overview of the dotfiles structure, see video 81 of Patrick's course,
+"Cultivate Skills Section Conclusion."
 
-Note: dotbot is a submodule in this repository, if you need to clone this repo
-fresh elsewhere, then use
+`install.conf.yaml` is the source of truth for what gets symlinked where.
+
+Note: dotbot is a submodule in this repository. To clone this repo fresh
+elsewhere, use:
 
 `git clone --recurse-submodules`
 
 ## Karabiner & Hammerspoon Shortcuts
 
 First, I have to thank the incredible [Chris
-May](https://everydaysuperpowers.dev/) - a true computer whisperer - who
-inspired me to take up this initiative , turned me on to the resources below,
+May](https://everydaysuperpowers.dev/) — a true computer whisperer — who
+inspired me to take up this initiative, turned me on to the resources below,
 and opened my eyes to the incredibly powerful world of customizing your
-keyboard.
+keyboard 🙏.
 
-The shortcut configuration setup used in this repo is inspired by the work of
-Andrew Morgan as shared in this blog post: [How To Train Your
-Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/) Andrew makes
-use of the following Hammerspoon Spoons in this [Hyperspoon Github
-Repo](https://github.com/andrewmile/hyperspoon), which I have downloaded into my
-Hammerspoon Spoons directory.
+The setup in this repo is inspired by Andrew Morgan's blog post [How To Train
+Your Keyboard](https://tighten.com/insights/how-to-train-your-keyboard/).
+Andrew uses the Hammerspoon Spoons in his [Hyperspoon
+repo](https://github.com/andrewmile/hyperspoon); I have `Hyper.spoon` and
+`Helpers.spoon` downloaded in `~/.hammerspoon/Spoons/`, but `init.lua` does not
+currently load them — the layer logic lives in `karabiner.edn` instead.
 
-- `~/.hammerspoon/Spoons/Hyper.spoon`
-- `~/.hammerspoon/Spoons/Helpers.spoon`
+### How the pieces fit together
+
+Karabiner-Elements stores its config as JSON, which gets unreadable fast. So
+instead of editing that JSON, I write the config in EDN (a Clojure-flavored
+syntax) and let [goku](https://github.com/yqrashawn/GokuRakuJoudo) compile it
+down. The chain:
+
+1. I edit `karabiner.edn` — layers and mappings in readable EDN.
+2. Hammerspoon watches that file. On save it runs `goku`, which compiles the
+   EDN into `karabiner.json`. Hammerspoon only *triggers* the compile; goku
+   does the translating.
+3. Karabiner-Elements reads the JSON and does all the key interception itself.
+   A chord like caps+w+i fires a `rectangle-pro://` URL straight from
+   Karabiner — Hammerspoon is not involved.
+4. Hammerspoon handles only what Karabiner can't see, since Karabiner has no
+   idea what browser tab you're on. For the Google Sheets rules, Karabiner
+   emits F17/F18 and Hammerspoon checks the tab URL before acting.
+
+Practical consequence: if a chord stops working, the problem is almost always
+Karabiner (or its permissions), not Hammerspoon. See the troubleshooting
+section in `CLAUDE.md`.
 
 ### Karabiner Shortcut Files Overview
 
-Basically, the karabiner.edn file captures the keystrokes and Hammerspoon acts
-on it. Here's the symlink structure and the general picture.
-
-| File | Symlink Reference | Summary | Description |
-| ----- | ---- | ----- | ----------- |
-| `./karabiner.edn` | `~/.config/karabiner.edn` | Goku File -> Karabiner JSON | Where layers and mappings are specified (symlinked from ./karabiner.edn) |
-| `./init.lua` | `~/.hammerspoon/init.lua` | Hammerspoon Lua File | Defines what the signals from Karabiner actually do. |
+| File | Symlinked to | Role |
+| ----- | ----- | ----- |
+| `./karabiner.edn` | `~/.config/karabiner.edn` | Goku source file — where layers and mappings are specified |
+| `./init.lua` | `~/.hammerspoon/init.lua` | Hammerspoon config — recompiles the EDN on save, plus the URL-aware rules Karabiner can't express |
