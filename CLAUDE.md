@@ -6,7 +6,8 @@ which I am phasing out of as of 7/12/26.
 
 ## Customizing VS Code
 
-On 7/12/26, I edited settings.json so that when I used the BTT window switcher it only showed the root directory. Before:
+On 7/12/26, I edited settings.json so that when I used the BTT window switcher
+it only showed the root directory. Before:
 
 ```json
 "window.title": "${dirty}${rootPath}${separator}${activeEditorMedium}${separator}${remoteName}"
@@ -22,11 +23,20 @@ After
 
 ### Hyper key (caps lock) suddenly stops working — all Karabiner remaps dead
 
-**Symptom:** Holding caps lock + a layer key (e.g. caps+w, then h/j/l/i) does nothing — the key just types literally (caps+w types "w"). Affects the *whole* hyper layer, not one chord. Hammerspoon reloads, `goku` recompiles, and Karabiner restarts do **not** fix it.
+**Symptom:** Holding caps lock + a layer key (e.g. caps+w, then h/j/l/i) does
+*nothing — the key just types literally (caps+w types "w"). Affects the *whole*
+*hyper layer, not one chord. Hammerspoon reloads, `goku` recompiles, and
+*Karabiner restarts do **not** fix it.
 
-**Root cause (seen 2026-06-24):** A Karabiner-Elements major update (→ v16.0.0) silently dropped macOS permissions / left the privileged **grabber daemon** unable to read the keyboard. The config (`karabiner.edn` → `karabiner.json`) is fine — this is a macOS permission/daemon problem, not a dotfiles problem.
+**Root cause (seen 2026-06-24):** A Karabiner-Elements major update (→ v16.0.0)
+*silently dropped macOS permissions / left the privileged **grabber daemon**
+*unable to read the keyboard. The config (`karabiner.edn` → `karabiner.json`) is
+*fine — this is a macOS permission/daemon problem, not a dotfiles problem.
 
-**Where the chord actually runs (not Hammerspoon):** Karabiner-Elements intercepts caps+w+key → sends e.g. ⌘F9/⌘F10 → **Rectangle Pro** moves the window. Hammerspoon only recompiles the `.edn` via `goku`; it does not run the chord. So "I reloaded Hammerspoon" is a red herring.
+**Where the chord actually runs (not Hammerspoon):** Karabiner-Elements
+*intercepts caps+w+key → sends e.g. ⌘F9/⌘F10 → **Rectangle Pro** moves the
+*window. Hammerspoon only recompiles the `.edn` via `goku`; it does not run the
+*chord. So "I reloaded Hammerspoon" is a red herring.
 
 **Diagnosis checklist (in order):**
 
@@ -41,11 +51,23 @@ After
 2. Ensure **Karabiner-Core-Service** is enabled in **Input Monitoring** AND **Accessibility** (the `+` button often adds the wrong bundle — the Settings UI app, not Core-Service — so verify with the `sqlite3` query above).
 3. **Reboot.** A `brew reinstall --cask karabiner-elements` alone does NOT fix it (only swaps files; doesn't restart the system daemon or re-fire permission prompts). The reboot is what lets the grabber daemon start clean and request Input Monitoring.
 
-**Also check the Kinesis keyboard layout.** If the hyper layer still misbehaves after the daemon and permissions are confirmed healthy, verify the active hardware layout on the Kinesis Freestyle Pro itself — the physical key positions Karabiner sees depend on which onboard layout is selected. As of 2026-06-25, the intended layout was **layout 2**.
+**Also check the Kinesis keyboard layout.** If the hyper layer still misbehaves
+*after the daemon and permissions are confirmed healthy, verify the active
+*hardware layout on the Kinesis Freestyle Pro itself — the physical key
+*positions Karabiner sees depend on which onboard layout is selected. As of
+*2026-06-25, the intended layout was **layout 2**.
 
 ### `kbreset` — reset stuck Karabiner layer variables (updated SUN 2026-07-12)
 
-`kbreset` is a shell function defined in `zshrc`. Run it when a hyper sublayer gets "stuck on" — e.g. caps+t opens a new tab instead of tab search — which happens when a key-up event is dropped during a restart or sleep and a sublayer variable stays at `1`. The function calls `karabiner_cli --set-variables` to force all the sublayer flags (`hyper_sublayer_w`, `_g`, `_a`, `_a_shift`, `_s`, `_o`, `w_kk`, `alt_tab_mode`) back to `0`, then shows a "Karabiner layer variables reset" notification. This is distinct from the daemon/permissions failure above — `kbreset` fixes a *stuck-state* glitch, not a dead grabber daemon.
+`kbreset` is a shell function defined in `zshrc`. Run it when a hyper sublayer
+gets "stuck on" — e.g. caps+t opens a new tab instead of tab search — which
+happens when a key-up event is dropped during a restart or sleep and a sublayer
+variable stays at `1`. The function calls `karabiner_cli --set-variables` to
+force all the sublayer flags (`hyper_sublayer_w`, `_g`, `_a`, `_a_shift`, `_s`,
+`_o`, `w_kk`, `alt_tab_mode`) back to `0`, then shows a "Karabiner layer
+variables reset" notification. This is distinct from the daemon/permissions
+failure above — `kbreset` fixes a *stuck-state* glitch, not a dead grabber
+daemon.
 
 ## To Dos and Known Limitations
 
