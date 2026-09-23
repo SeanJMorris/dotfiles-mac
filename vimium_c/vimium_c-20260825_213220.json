@@ -61,18 +61,6 @@
 		{
 			"passKeys": "",
 			"pattern": ":https://openvim.com/"
-		},
-		{
-			"passKeys": "[ ",
-			"pattern": ":https://thumbtack.atlassian.net/jira/plans/"
-		},
-		{
-			"passKeys": "[ ",
-			"pattern": ":https://thumbtack.atlassian.net/jira/software/c/projects/BAS/boards/"
-		},
-		{
-			"passKeys": "[ ",
-			"pattern": ":https://thumbtack.atlassian.net/"
 		}
 	],
 	"grabBackFocus": true,
@@ -125,7 +113,6 @@
 		"  blank=https://gitee.com/ Gitee 仓库",
 		"js\\:|Js: javascript:\\ $S; JavaScript",
 		"gem: https://gemini.google.com/app",
-		"no: https://www.notion.so/CATCH-ALL-4a55f9060da1468a82718753450389e9",
 		""
 	],
 	"vimSync": true
