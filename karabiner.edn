@@ -394,6 +394,15 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.google.Chrome"]}]}]}
+  {:des "Chrome: hyper+semicolon to cmd+shift+l (hide/show vertical tabs sidebar)"
+        ;; Note that this works because I remapped Bitwarden's autofil to ctrl+shift+l in Chrome (default is cmd+shift+L)
+    :rules [{:type :basic
+            :from {:key_code :semicolon}
+            :to [{:key_code :l :modifiers [:left_command :left_shift]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["com.google.Chrome"]}]}]}
+
 
   ;; VS CODE
   ;; Command+Escape cycles focus just between the Claude auxiliary pane and the
