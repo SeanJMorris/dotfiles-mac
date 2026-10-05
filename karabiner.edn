@@ -210,6 +210,27 @@
             :from {:key_code :delete_or_backspace :modifiers {:mandatory [:right_shift]}}
             :to [{:key_code :u :modifiers [:left_control :left_option :left_command]}]}]}
 
+  ;; RIGHT SHIFT + W: alternative alt-tab via AltTab's ⌘+Tab shortcut (all
+  ;; windows). Hold right_shift and tap w to cycle; release right_shift to pick.
+  ;; Same pattern as right shift + backspace above. Tradeoff: right shift can no
+  ;; longer type a capital W (use left shift).
+  ;; While engaged, rshift_alt_tab=1 so right shift + b steps backwards (⌘+←).
+  ;; The right_shift rule passes the key through unchanged; it only exists to
+  ;; clear rshift_alt_tab on release, so capital B still works outside the switcher.
+  {:des "RIGHT SHIFT + W: ALT-TAB (CMD+TAB), + B: BACKWARDS"
+   :rules [{:type :basic
+            :from {:key_code :right_shift :modifiers {:optional [:any]}}
+            :to [{:key_code :right_shift}]
+            :to_after_key_up [{:set_variable {:name "rshift_alt_tab" :value 0}}]}
+           {:type :basic
+            :from {:key_code :w :modifiers {:mandatory [:right_shift]}}
+            :to [{:set_variable {:name "rshift_alt_tab" :value 1}}
+                 {:key_code :tab :modifiers [:left_command]}]}
+           {:type :basic
+            :from {:key_code :b :modifiers {:mandatory [:right_shift]}}
+            :to [{:key_code :left_arrow :modifiers [:left_command]}]
+            :conditions [{:type :variable_if :name "rshift_alt_tab" :value 1}]}]}
+
   ;; ALT-TAB VIM NAVIGATION: while the switcher is open (alt_tab_mode=1), send hyper+h/j/k/l so the
   ;; ⌃⌥⌘ hold modifiers stay present (keeping the switcher open) and AltTab's native "vim keys"
   ;; setting moves the selection. Placed before the pure-hyper k / universal j,l / Chrome h rules.

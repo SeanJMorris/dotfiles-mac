@@ -263,7 +263,7 @@ togglescroll() {
 #   (added 2026-07-28 while chasing intermittent dead-shift)
 kbreset() {
   local kcli="/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
-  "$kcli" --set-variables '{"hyper":0,"hyper_sublayer_w":0,"hyper_sublayer_g":0,"hyper_sublayer_a":0,"hyper_sublayer_a_shift":0,"hyper_sublayer_s":0,"hyper_sublayer_o":0,"w_kk":0,"alt_tab_mode":0}' \
+  "$kcli" --set-variables '{"hyper":0,"hyper_sublayer_w":0,"hyper_sublayer_g":0,"hyper_sublayer_a":0,"hyper_sublayer_a_shift":0,"hyper_sublayer_s":0,"hyper_sublayer_o":0,"w_kk":0,"alt_tab_mode":0,"rshift_alt_tab":0}' \
     && osascript -e 'display notification "Karabiner layer variables reset"'
 }
 
