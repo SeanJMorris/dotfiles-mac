@@ -387,13 +387,26 @@
                             :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
 
   ;; CHROME
+  ;; bundle_identifiers are regexes, so the hyper+o rules anchor with ^...$ --
+  ;; otherwise "com.google.Chrome" also matches Chrome Apps (com.google.Chrome.app.*)
+  ;; like Slack/Calendar/Meet.
   {:des "Chrome: caps-lock+o to cmd+shift+a (tab search)"
     :rules [{:type :basic
             :from {:key_code :o}
             :to [{:key_code :a :modifiers [:left_command :left_shift]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
-                            :bundle_identifiers ["com.google.Chrome"]}]}]}
+                            :bundle_identifiers ["^com\\.google\\.Chrome$"]}]}]}
+  ;; From any other app (including Chrome Apps): jump to the most recent regular
+  ;; Chrome browser window, then open tab search. Does nothing if Chrome isn't
+  ;; running or has no visible browser window. Logic lives in the script.
+  {:des "Not Chrome: caps-lock+o -> most recent Chrome window + tab search"
+    :rules [{:type :basic
+            :from {:key_code :o}
+            :to [{:shell_command "osascript ~/.dotfiles/scripts/chrome_tab_search.applescript"}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_unless
+                            :bundle_identifiers ["^com\\.google\\.Chrome$"]}]}]}
   {:des "Chrome: hyper+semicolon to cmd+shift+l (hide/show vertical tabs sidebar)"
         ;; Note that this works because I remapped Bitwarden's autofil to ctrl+shift+l in Chrome (default is cmd+shift+L)
     :rules [{:type :basic
