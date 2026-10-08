@@ -397,13 +397,13 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["^com\\.google\\.Chrome$"]}]}]}
-  ;; From any other app (including Chrome Apps): jump to the most recent regular
-  ;; Chrome browser window, then open tab search. Does nothing if Chrome isn't
-  ;; running or has no visible browser window. Logic lives in the script.
-  {:des "Not Chrome: caps-lock+o -> most recent Chrome window + tab search"
+  ;; From any other app (including Chrome Apps): send F19, which Hammerspoon
+  ;; (init.lua, "CHROME TAB SEARCH FROM ANY APP") turns into "raise one Chrome
+  ;; browser window, then open tab search". The window-picking logic lives there.
+  {:des "Not Chrome: caps-lock+o -> F19 (Hammerspoon: Chrome window + tab search)"
     :rules [{:type :basic
             :from {:key_code :o}
-            :to [{:shell_command "osascript ~/.dotfiles/scripts/chrome_tab_search.applescript"}]
+            :to [{:key_code :f19}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_unless
                             :bundle_identifiers ["^com\\.google\\.Chrome$"]}]}]}

@@ -9,6 +9,10 @@
 -- spoon and it downloads and starts it automatically
 hs.loadSpoon("SpoonInstall")
 
+-- Lets the `hs` command-line tool run Lua in this Hammerspoon instance
+-- (e.g. `hs -c 'hs.reload()'`), which makes testing changes from the terminal possible.
+require("hs.ipc")
+
 -- ADD SPOONS HERE
 --This Spoon allows you to reload your Hammerspoon configuration automatically
     --when you save changes to your init.lua file
@@ -195,3 +199,87 @@ sheetsFilterMenu = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function
     return false                                   -- not Sheets: let the key pass through unchanged
 end)
 sheetsFilterMenu:start()
+
+-- CHROME TAB SEARCH FROM ANY APP: hyper+o arrives here as F19 (emitted by Karabiner),
+-- but only when Chrome is NOT frontmost -- inside Chrome, Karabiner sends cmd+shift+a directly.
+-- Brings forward exactly ONE Chrome browser window, then opens tab search (cmd+shift+a).
+-- Which window:
+--   1. The topmost Chrome window that is at least partly showing on any monitor, so
+--      whenever possible nothing you were looking at gets covered.
+--   2. Otherwise, the most recently used Chrome window on the current Space.
+--   3. Otherwise (Chrome not running, or only minimized windows): do nothing.
+-- Chrome App windows (Slack, Calendar, Meet) report their own bundle IDs
+-- (com.google.Chrome.app.*), so the exact bundle-ID check skips them.
+-- Uses window:focus() instead of activating Chrome, because activating the app (what
+-- AppleScript's "activate" / "set frontmost" do) brings EVERY Chrome window forward.
+local CHROME_ID = "com.google.Chrome"
+local MIN_VISIBLE_AREA = 10000   -- px²: a sliver smaller than ~100x100 doesn't count as "showing"
+
+-- Pieces of rectangle r left over after cutting out rectangle c (0 to 4 rectangles).
+local function subtractRect(r, c)
+  local x1, y1 = math.max(r.x, c.x), math.max(r.y, c.y)
+  local x2, y2 = math.min(r.x + r.w, c.x + c.w), math.min(r.y + r.h, c.y + c.h)
+  if x1 >= x2 or y1 >= y2 then return { r } end   -- no overlap: r is untouched
+  local pieces = {}
+  if r.y < y1 then table.insert(pieces, { x = r.x, y = r.y, w = r.w, h = y1 - r.y }) end                -- strip above
+  if y2 < r.y + r.h then table.insert(pieces, { x = r.x, y = y2, w = r.w, h = r.y + r.h - y2 }) end    -- strip below
+  if r.x < x1 then table.insert(pieces, { x = r.x, y = y1, w = x1 - r.x, h = y2 - y1 }) end            -- strip left
+  if x2 < r.x + r.w then table.insert(pieces, { x = x2, y = y1, w = r.x + r.w - x2, h = y2 - y1 }) end -- strip right
+  return pieces
+end
+
+-- How many px² of `frame` are not covered by any of `coveringFrames`.
+local function uncoveredArea(frame, coveringFrames)
+  local pieces = { frame }
+  for _, c in ipairs(coveringFrames) do
+    local remaining = {}
+    for _, p in ipairs(pieces) do
+      for _, q in ipairs(subtractRect(p, c)) do table.insert(remaining, q) end
+    end
+    pieces = remaining
+    if #pieces == 0 then return 0 end
+  end
+  local area = 0
+  for _, p in ipairs(pieces) do area = area + p.w * p.h end
+  return area
+end
+
+-- Walk on-screen windows front to back, remembering every frame above the current one.
+local function pickChromeWindow()
+  if not hs.application.get(CHROME_ID) then return nil end   -- not running: do nothing
+  local above, mostRecent = {}, nil
+  for _, w in ipairs(hs.window.orderedWindows()) do
+    local app = w:application()
+    if app and app:bundleID() == CHROME_ID and w:isStandard() then
+      mostRecent = mostRecent or w
+      if uncoveredArea(w:frame(), above) >= MIN_VISIBLE_AREA then return w end
+    end
+    table.insert(above, w:frame())
+  end
+  return mostRecent
+end
+
+-- Global (not local) so the timer isn't garbage-collected mid-wait.
+chromeTabSearchTimer = nil
+
+local function chromeTabSearch()
+  local win = pickChromeWindow()
+  if not win then return end
+  win:focus()
+  -- Wait (up to ~1s) until Chrome is actually frontmost, so cmd+shift+a can't
+  -- land in the app we just left.
+  if chromeTabSearchTimer then chromeTabSearchTimer:stop() end
+  local tries = 0
+  chromeTabSearchTimer = hs.timer.doEvery(0.05, function()
+    tries = tries + 1
+    local front = hs.application.frontmostApplication()
+    if front and front:bundleID() == CHROME_ID then
+      chromeTabSearchTimer:stop()
+      hs.eventtap.keyStroke({ "cmd", "shift" }, "a", 0)
+    elseif tries >= 20 then
+      chromeTabSearchTimer:stop()
+    end
+  end)
+end
+
+hs.hotkey.bind({}, "f19", chromeTabSearch)   -- hyper+o outside Chrome
