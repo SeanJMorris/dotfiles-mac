@@ -256,6 +256,9 @@
    :rules [[{:key :spacebar :modi {:optional [:any]}} :!TOCSspacebar ["hyper" 1]]]}
   {:des "HYPER+P: OPEN ALFRED CLIPBOARD HISTORY"
    :rules [[{:key :p :modi {:optional [:any]}} :!TOCSp ["hyper" 1]]]}
+  {:des "HYPER+Y: Alfred search Chrome tabs (Alfred workflow) (which is configured in Alfred as ctrl+alt+shift+cmd+F11)"
+   :rules [[{:key :y :modi {:optional [:any]}} :!TOCSf11 ["hyper" 1]]]}
+
 
   ;; HOMEROW
   {:des "HYPER+F: HOMEROW SCROLLING"
@@ -342,13 +345,16 @@
             :to [{:key_code :return_or_enter}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
-  ;; Must come BEFORE the global "right control to f2" rule below. Karabiner does
-  ;; not re-run its own output through the rule list, so right_control -> f2 would
-  ;; emit a literal F2 that the rule above never sees, and Finder ignores F2.
-  {:des "In Finder right control renames file (acts like return)"
+  ;; Must come BEFORE the global "RIGHT CONTROL: TAP F2 / HOLD MEGA (RCTRL) LAYER"
+  ;; rule below. Karabiner does not re-run its own output through the rule list, so a
+  ;; tapped right_control -> f2 would emit a literal F2 that the rule above never sees,
+  ;; and Finder ignores F2. Holding still enters the MEGA layer, same as everywhere else.
+  {:des "In Finder right control tap renames file (acts like return), hold = MEGA (RCTRL) LAYER"
     :rules [{:type :basic
-            :from {:key_code :right_control}
-            :to [{:key_code :return_or_enter}]
+            :from {:key_code :right_control :modifiers {:optional [:any]}}
+            :to [{:set_variable {:name "mega_layer" :value 1}}]
+            :to_after_key_up [{:set_variable {:name "mega_layer" :value 0}}]
+            :to_if_alone [{:key_code :return_or_enter}]
             :conditions [{:type :frontmost_application_if
                             :bundle_identifiers ["com.apple.finder"]}]}]}
 
@@ -407,14 +413,27 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_unless
                             :bundle_identifiers ["^com\\.google\\.Chrome$"]}]}]}
-  {:des "Chrome: hyper+semicolon to cmd+shift+l (hide/show vertical tabs sidebar)"
-        ;; Note that this works because I remapped Bitwarden's autofil to ctrl+shift+l in Chrome (default is cmd+shift+L)
+  ;; Clicks Chrome's View > "Collapse/Expand Vertical Tabs" menu item via Hammerspoon
+  ;; (init.lua, "CHROME VERTICAL TABS TOGGLE") instead of sending cmd+shift+l, because
+  ;; web pages can swallow cmd+shift+l (e.g. Google Docs uses it for "left align").
+  ;; Older note: Bitwarden's autofill was remapped to ctrl+shift+l in Chrome so it
+  ;; wouldn't clash with cmd+shift+l -- no longer needed for this rule.
+  {:des "Chrome: hyper+semicolon to expand/collapse vertical tabs sidebar (via Hammerspoon)"
     :rules [{:type :basic
             :from {:key_code :semicolon}
-            :to [{:key_code :l :modifiers [:left_command :left_shift]}]
+            :to [{:shell_command "open -g 'hammerspoon://toggle-vertical-tabs'"}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
-                            :bundle_identifiers ["com.google.Chrome"]}]}]}
+                            :bundle_identifiers ["^com\\.google\\.Chrome$"]}]}]}
+
+  ;; FIREFOX
+  {:des "Firefox: hyper+semicolon to ctrl+z (expand/collapse sidebar)"
+    :rules [{:type :basic
+            :from {:key_code :semicolon}
+            :to [{:key_code :z :modifiers [:left_control]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["org.mozilla.firefox"]}]}]}
 
 
   ;; VS CODE
@@ -431,6 +450,23 @@
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.VSCode"]}]}]}
+
+  ;; FIGMA (desktop app)
+  ;; Must come BEFORE the universal "HYPER+'" -> F16 (Lucidchart) rule below, so
+  ;; Figma gets its own shortcut instead of an F16 that Hammerspoon would ignore.
+  {:des "FIGMA: HYPER+' -> SHIFT+CMD+BACKSLASH"
+    :rules [{:type :basic
+            :from {:key_code :quote}
+            :to [{:key_code :backslash :modifiers [:left_shift :left_command]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["^com\\.figma\\.Desktop$"]}]}]}
+
+  ;; hyper+' emits F16 so Hammerspoon (init.lua, "LUCIDCHART: HYPER+'") can check
+  ;; whether Chrome's active tab is Lucidchart -- Karabiner can only see the app,
+  ;; not the tab. F16 (not F14/F15) because MonitorControl treats F14/F15 as brightness.
+  {:des "HYPER+': OPT+SHIFT+F IN LUCIDCHART (via F16 -> Hammerspoon)"
+   :rules [[:quote :f16 ["hyper" 1]]]}
 
   ;; UNIVERSAL FOR ALL APPS
   {:des "HYPER+J/L: TAB NAVIGATION"
@@ -449,8 +485,41 @@
 
 
   ;; This is for your normal keyboard setup with Kinesis Freestyle Pro
-  {:des "right control to f2"
-   :rules [[:right_control :f2]]}
+  ;; RIGHT CONTROL: tap = F2, hold = MEGA (RCTRL) LAYER. "MEGA" is Sean's own
+  ;; name for this layer, not a Karabiner/goku term. Works like the caps-lock
+  ;; hyper key: holding only sets mega_layer=1 -- apps never see a ctrl press,
+  ;; so ctrl shortcuts can't leak out. Keys without a MEGA rule type normally.
+  ;; Tap = released within ~1s with no other key pressed (Karabiner's to_if_alone
+  ;; timeout); hold longer and let go alone, and nothing is sent.
+  ;; The Finder version of this rule (above) must stay before this one.
+  {:des "RIGHT CONTROL: TAP F2 / HOLD MEGA (RCTRL) LAYER"
+   :rules [{:type :basic
+            :from {:key_code :right_control :modifiers {:optional [:any]}}
+            :to [{:set_variable {:name "mega_layer" :value 1}}]
+            :to_after_key_up [{:set_variable {:name "mega_layer" :value 0}}]
+            :to_if_alone [{:key_code :f2}]}]}
+
+  ;; MEGA + letter emits a spare F-key (keys the Kinesis never produces) so
+  ;; Hammerspoon (init.lua, "JUMP TO A NAMED CHROME TAB") can raise just the one
+  ;; Chrome window holding that tab. Tab titles are set there, not here.
+  ;; Free F-keys Hammerspoon can still see: F14, F15 (but MonitorControl treats these as brightness).
+  {:des "MEGA (RCTRL) + E: JUMP TO ELEMENT GOOGLE DOC TAB (via F20 -> Hammerspoon)"
+   :rules [{:type :basic
+            :from {:key_code :e :modifiers {:optional [:any]}}
+            :to [{:key_code :f20}]
+            :conditions [{:type :variable_if :name "mega_layer" :value 1}]}]}
+  {:des "MEGA (RCTRL) + C: JUMP TO CATCHALL LUCIDCHART TAB (via F13 -> Hammerspoon)"
+   :rules [{:type :basic
+            :from {:key_code :c :modifiers {:optional [:any]}}
+            :to [{:key_code :f13}]
+            :conditions [{:type :variable_if :name "mega_layer" :value 1}]}]}
+  ;; No usable F-keys left, so this one opens a hammerspoon:// link instead
+  ;; (init.lua, "jump-tab-dash"). Same tab-jump behavior as the F-key rules above.
+  {:des "MEGA (RCTRL) + D: JUMP TO DASH LUCIDCHART TAB (via hammerspoon://jump-tab-dash)"
+   :rules [{:type :basic
+            :from {:key_code :d :modifiers {:optional [:any]}}
+            :to [{:shell_command "open -g 'hammerspoon://jump-tab-dash'"}]
+            :conditions [{:type :variable_if :name "mega_layer" :value 1}]}]}
   {:des "right option to forward delete"
    :rules [[:right_option :delete_forward]]}
 

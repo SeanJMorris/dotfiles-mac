@@ -141,6 +141,20 @@ end
 hs.hotkey.bind({}, "f17", function() handleZoomKey(-10) end)  -- hyper+n -> zoom out
 hs.hotkey.bind({}, "f18", function() handleZoomKey(10) end)   -- hyper+m -> zoom in
 
+-- LUCIDCHART: HYPER+' arrives here as F16 (emitted by Karabiner).
+-- When Chrome's active tab is Lucidchart, send option+shift+f. Anywhere else, do nothing.
+local function chromeLucidActive()
+  local app = hs.application.frontmostApplication()
+  if not app or app:bundleID() ~= "com.google.Chrome" then return false end
+  local ok, url = hs.osascript.applescript(
+    'tell application "Google Chrome" to get URL of active tab of front window')
+  return ok and type(url) == "string" and url:find("^https://lucid%.app/lucidchart/") ~= nil
+end
+
+hs.hotkey.bind({}, "f16", function()
+  if chromeLucidActive() then hs.eventtap.keyStroke({ "alt", "shift" }, "f", 0) end
+end)  -- hyper+' -> option+shift+f in Lucidchart
+
 -- GOOGLE SHEETS MACROS: ctrl+shift+i -> cmd+opt+shift+1, ctrl+shift+k -> cmd+opt+shift+2.
 -- Google Sheets assigns imported macros the shortcuts cmd+opt+shift+1..9, which are awkward
 -- to reach. These give the first two macros a home-row-friendly chord instead.
@@ -148,7 +162,8 @@ hs.hotkey.bind({}, "f18", function() handleZoomKey(10) end)   -- hyper+m -> zoom
 -- tab": Karabiner can see the frontmost app but not the active tab's URL, so a Karabiner rule
 -- would fire on every Chrome tab. chromeSheetActive() (defined above) checks the URL, and only
 -- runs when the chord is actually pressed, so it adds no typing lag.
--- Note: use the LEFT control key — Karabiner remaps right_control to F2, so it never sends ctrl.
+-- Note: use the LEFT control key — Karabiner turns right_control into F2 (tap) / the
+-- MEGA layer (hold), so it never sends ctrl.
 local SHEETS_MACRO_KEYS = { i = "1", k = "2" }
 sheetsMacroChords = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
     local f = e:getFlags()
@@ -283,3 +298,115 @@ local function chromeTabSearch()
 end
 
 hs.hotkey.bind({}, "f19", chromeTabSearch)   -- hyper+o outside Chrome
+
+-- CHROME VERTICAL TABS TOGGLE: hyper+; in Chrome arrives here as the URL
+-- hammerspoon://toggle-vertical-tabs (opened by Karabiner). Clicks the View menu's
+-- "Collapse Vertical Tabs" item instead of sending cmd+shift+l, because pages like
+-- Google Docs swallow cmd+shift+l ("left align"). The item is a checkbox: its name
+-- stays the same and a checkmark means collapsed, so one click toggles either way.
+-- URL names must be lowercase -- macOS lowercases them before Hammerspoon sees them.
+hs.urlevent.bind("toggle-vertical-tabs", function()
+  local app = hs.application.get("com.google.Chrome")
+  if not app then return end
+  if not app:selectMenuItem({ "View", "Collapse Vertical Tabs" }) then
+    hs.alert.show('Chrome\'s View menu has no "Collapse Vertical Tabs" item')
+  end
+end)
+
+-- JUMP TO A NAMED CHROME TAB: MEGA (RCTRL) + a letter arrives here as a spare F-key
+-- (emitted by Karabiner). Each binding at the bottom names one exact tab title.
+-- Finds the Chrome tab with that title, makes it the active tab in its window, and
+-- brings forward ONLY that window (same window:focus() approach as chromeTabSearch
+-- above, so other Chrome windows stay where they are).
+-- If several tabs match, picks the most recently OPENED one: Chrome numbers tabs in
+-- creation order, so the highest tab id wins. Chrome can't report "most recently viewed".
+-- If none is open (or Chrome isn't running), shows an alert and does nothing else.
+-- Titles must not contain a double quote (") -- it would break the AppleScript below.
+
+-- Returns {left, top, right, bottom} of the window holding the newest matching tab,
+-- after switching that window to the tab; returns "NONE" if no tab matches.
+-- Reads all titles/ids of a window in one request each, which stays fast with many tabs.
+local function chromeTabScript(title)
+  return [[
+tell application "Google Chrome"
+  set bestTabId to -1
+  set bestWinId to missing value
+  set bestIdx to 0
+  repeat with w in every window
+    set titles to title of every tab of w
+    set ids to id of every tab of w
+    repeat with i from 1 to count of titles
+      if item i of titles is "]] .. title .. [[" then
+        set tid to (item i of ids) as number  -- ids exceed AppleScript's integer range
+        if tid > bestTabId then
+          set bestTabId to tid
+          set bestWinId to id of w
+          set bestIdx to i
+        end if
+      end if
+    end repeat
+  end repeat
+  if bestWinId is missing value then return "NONE"
+  set active tab index of window id bestWinId to bestIdx
+  return bounds of window id bestWinId
+end tell
+]]
+end
+
+-- AppleScript and Hammerspoon describe windows differently, so match on position/size.
+local function sameFrame(f, b)
+  local tol = 2
+  return math.abs(f.x - b[1]) <= tol and math.abs(f.y - b[2]) <= tol
+     and math.abs(f.x + f.w - b[3]) <= tol and math.abs(f.y + f.h - b[4]) <= tol
+end
+
+-- Global (not local) so the timer isn't garbage-collected mid-wait.
+-- Shared by all bindings: pressing a second one cancels a first that's still waiting.
+namedTabTimer = nil
+
+local function jumpToChromeTab(title)
+  local notFound = 'No "' .. title .. '" tab open'
+  -- Check first: AppleScript's "tell application" would otherwise LAUNCH Chrome.
+  if not hs.application.get(CHROME_ID) then hs.alert.show(notFound) return end
+  local ok, bounds = hs.osascript.applescript(chromeTabScript(title))
+  if not ok or type(bounds) ~= "table" then hs.alert.show(notFound) return end
+
+  -- Two maximized windows on one monitor share a frame, so also require the window
+  -- title to show the target tab. Chrome updates the title a moment after the tab
+  -- switch, so poll (up to ~1s); on timeout, settle for the frame match alone.
+  if namedTabTimer then namedTabTimer:stop() end
+  local tries = 0
+  namedTabTimer = hs.timer.doEvery(0.05, function()
+    tries = tries + 1
+    local app = hs.application.get(CHROME_ID)
+    local match, fallback
+    for _, w in ipairs(app and app:allWindows() or {}) do
+      if w:isStandard() and sameFrame(w:frame(), bounds) then
+        fallback = fallback or w
+        if (w:title() or ""):find(title, 1, true) then match = w break end
+      end
+    end
+    local win = match or (tries >= 20 and fallback) or nil
+    if win or tries >= 20 then
+      namedTabTimer:stop()
+      if win then
+        if win:isMinimized() then win:unminimize() end
+        win:focus()
+      else
+        hs.alert.show('Found "' .. title .. '" tab but couldn\'t raise its window')
+      end
+    end
+  end)
+end
+
+-- Karabiner key -> F-key map lives in karabiner.edn ("MEGA (RCTRL) + ..." rules).
+-- Hammerspoon can only see F13-F20; F16-F19 are taken (Lucidchart, zoom, tab search),
+-- so after these, only F14-F15 are left (and MonitorControl treats those as brightness).
+hs.hotkey.bind({}, "f20", function() jumpToChromeTab("ELEMENT - Google Docs") end)  -- MEGA + e
+hs.hotkey.bind({}, "f13", function() jumpToChromeTab("CATCHALL: Lucidchart") end)   -- MEGA + c
+
+-- Out of usable F-keys, so newer bindings arrive as hammerspoon:// links instead
+-- (Karabiner runs `open -g 'hammerspoon://<name>'`). Names must be lowercase.
+hs.urlevent.bind("jump-tab-dash", function()
+  jumpToChromeTab("DASH - Service Workflowers: Lucidchart")
+end)  -- MEGA + d
