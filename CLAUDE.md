@@ -57,14 +57,14 @@ After
 *positions Karabiner sees depend on which onboard layout is selected. As of
 *2026-06-25, the intended layout was **layout 2**.
 
-### `kbreset` — reset stuck Karabiner layer variables (updated SAT 2026-10-03)
+### `kbreset` — reset stuck Karabiner layer variables (updated THU 2026-10-08)
 
 `kbreset` is a shell function defined in `zshrc`. Run it when a hyper sublayer
 gets "stuck on" — e.g. caps+t opens a new tab instead of tab search — which
 happens when a key-up event is dropped during a restart or sleep and a sublayer
 variable stays at `1`. The function calls `karabiner_cli --set-variables` to
 force all the sublayer flags (`hyper_sublayer_w`, `_g`, `_a`, `_a_shift`, `_s`,
-`_o`, `w_kk`, `alt_tab_mode`, `rshift_alt_tab`) back to `0`, then shows a
+`_o`, `w_kk`, `alt_tab_mode`, `rshift_alt_tab`, `mega_layer`) back to `0`, then shows a
 "Karabiner layer variables reset" notification. A stuck `rshift_alt_tab` shows
 up as right shift + b sending ⌘+← instead of typing a capital B. This is
 distinct from the daemon/permissions failure above — `kbreset` fixes a
