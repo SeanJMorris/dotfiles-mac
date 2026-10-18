@@ -185,6 +185,52 @@ sheetsMacroChords = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, functio
 end)
 sheetsMacroChords:start()
 
+-- FIGMA FONT SIZE: ctrl+shift+, -> cmd+shift+, (smaller), ctrl+shift+. -> cmd+shift+. (bigger).
+-- Gives a universal ctrl+shift+,/. "font size" chord; Figma's own keys use cmd instead of ctrl.
+-- Fires in the Figma desktop app, or in Chrome/Firefox when the active tab is Figma. This lives
+-- in Hammerspoon (not karabiner.edn) because Karabiner can't see which browser tab is active.
+-- Chrome is checked by URL (same AppleScript as chromeSheetActive). Firefox has no AppleScript
+-- URL access, so it's checked by window title instead: Firefox's window title is the active
+-- tab's title, and Figma tabs end in "Figma" (e.g. "My File – Figma").
+-- Same left-control note as sheetsMacroChords above.
+local FIGMA_FONT_KEYS = { ",", "." }
+
+local function figmaActive()
+  local app = hs.application.frontmostApplication()
+  if not app then return false end
+  local id = app:bundleID()
+  if id == "com.figma.Desktop" then return true end
+  if id == "com.google.Chrome" then
+    local ok, url = hs.osascript.applescript(
+      'tell application "Google Chrome" to get URL of active tab of front window')
+    return ok and type(url) == "string" and url:find("^https://www%.figma%.com/") ~= nil
+  end
+  if id ~= "org.mozilla.firefox" then return false end
+  local win = hs.window.focusedWindow()
+  local title = win and win:title() or ""
+  return title:find("Figma$") ~= nil or title:find("Figma — Mozilla Firefox$") ~= nil
+end
+
+figmaFontSize = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
+    local f = e:getFlags()
+    -- Require ctrl+shift exactly, with neither cmd nor alt (fn allowed).
+    if not (f.ctrl and f.shift and not f.cmd and not f.alt) then return false end
+
+    local map = hs.keycodes.map
+    local target
+    for _, key in ipairs(FIGMA_FONT_KEYS) do
+        if e:getKeyCode() == map[key] then target = key end
+    end
+    if not target then return false end
+
+    if figmaActive() then
+        hs.eventtap.keyStroke({ "cmd", "shift" }, target, 0)
+        return true                                -- swallow the original ctrl+shift+,/.
+    end
+    return false                                   -- not Figma: let the key pass through unchanged
+end)
+figmaFontSize:start()
+
 -- GOOGLE SHEETS SORT/FILTER MENU: option+down -> cmd+ctrl+r, only in a Sheets tab.
 -- Ported out of karabiner.edn on 9/14/26. Karabiner could only scope this to "Chrome or
 -- Firefox is frontmost", which killed option+down (end-of-paragraph) in every text field
