@@ -451,21 +451,12 @@
                          {:type :frontmost_application_if
                             :bundle_identifiers ["com.microsoft.VSCode"]}]}]}
 
-  ;; FIGMA (desktop app)
-  ;; Must come BEFORE the universal "HYPER+'" -> F16 (Lucidchart) rule below, so
-  ;; Figma gets its own shortcut instead of an F16 that Hammerspoon would ignore.
-  {:des "FIGMA: HYPER+' -> SHIFT+CMD+BACKSLASH"
-    :rules [{:type :basic
-            :from {:key_code :quote}
-            :to [{:key_code :backslash :modifiers [:left_shift :left_command]}]
-            :conditions [{:type :variable_if :name "hyper" :value 1}
-                         {:type :frontmost_application_if
-                            :bundle_identifiers ["^com\\.figma\\.Desktop$"]}]}]}
-
-  ;; hyper+' emits F16 so Hammerspoon (init.lua, "LUCIDCHART: HYPER+'") can check
-  ;; whether Chrome's active tab is Lucidchart -- Karabiner can only see the app,
-  ;; not the tab. F16 (not F14/F15) because MonitorControl treats F14/F15 as brightness.
-  {:des "HYPER+': OPT+SHIFT+F IN LUCIDCHART (via F16 -> Hammerspoon)"
+  ;; hyper+' emits F16 so Hammerspoon (init.lua, "HYPER+'") can check whether the
+  ;; front window is Figma (app or browser tab) or a Lucidchart tab -- Karabiner can
+  ;; only see the app, not the tab. F16 (not F14/F15) because MonitorControl treats
+  ;; F14/F15 as brightness. Figma desktop used to have its own rule here sending
+  ;; cmd+shift+\; it now goes through F16 too and gets cmd+\.
+  {:des "HYPER+': CMD+\\ IN FIGMA / OPT+SHIFT+F IN LUCIDCHART (via F16 -> Hammerspoon)"
    :rules [[:quote :f16 ["hyper" 1]]]}
 
   ;; UNIVERSAL FOR ALL APPS

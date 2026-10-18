@@ -141,8 +141,8 @@ end
 hs.hotkey.bind({}, "f17", function() handleZoomKey(-10) end)  -- hyper+n -> zoom out
 hs.hotkey.bind({}, "f18", function() handleZoomKey(10) end)   -- hyper+m -> zoom in
 
--- LUCIDCHART: HYPER+' arrives here as F16 (emitted by Karabiner).
--- When Chrome's active tab is Lucidchart, send option+shift+f. Anywhere else, do nothing.
+-- LUCIDCHART: true when Chrome's active tab is Lucidchart. Used by the HYPER+' (F16)
+-- binding below the Figma section.
 local function chromeLucidActive()
   local app = hs.application.frontmostApplication()
   if not app or app:bundleID() ~= "com.google.Chrome" then return false end
@@ -150,10 +150,6 @@ local function chromeLucidActive()
     'tell application "Google Chrome" to get URL of active tab of front window')
   return ok and type(url) == "string" and url:find("^https://lucid%.app/lucidchart/") ~= nil
 end
-
-hs.hotkey.bind({}, "f16", function()
-  if chromeLucidActive() then hs.eventtap.keyStroke({ "alt", "shift" }, "f", 0) end
-end)  -- hyper+' -> option+shift+f in Lucidchart
 
 -- GOOGLE SHEETS MACROS: ctrl+shift+i -> cmd+opt+shift+1, ctrl+shift+k -> cmd+opt+shift+2.
 -- Google Sheets assigns imported macros the shortcuts cmd+opt+shift+1..9, which are awkward
@@ -230,6 +226,19 @@ figmaFontSize = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
     return false                                   -- not Figma: let the key pass through unchanged
 end)
 figmaFontSize:start()
+
+-- HYPER+': arrives here as F16 (emitted by Karabiner).
+--   Figma (desktop app, or a Figma tab in Chrome/Firefox) -> cmd+\ (show/hide UI)
+--   Chrome Lucidchart tab                                 -> option+shift+f
+--   anywhere else                                         -> nothing
+-- Must come after figmaActive() is defined, since Lua locals are only visible below them.
+hs.hotkey.bind({}, "f16", function()
+  if figmaActive() then
+    hs.eventtap.keyStroke({ "cmd" }, "\\", 0)
+  elseif chromeLucidActive() then
+    hs.eventtap.keyStroke({ "alt", "shift" }, "f", 0)
+  end
+end)
 
 -- GOOGLE SHEETS SORT/FILTER MENU: option+down -> cmd+ctrl+r, only in a Sheets tab.
 -- Ported out of karabiner.edn on 9/14/26. Karabiner could only scope this to "Chrome or
