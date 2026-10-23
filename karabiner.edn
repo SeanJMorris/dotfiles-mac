@@ -377,13 +377,18 @@
             :conditions [{:type :frontmost_application_if :bundle_identifiers ["com.apple.finder"]}]}]}
 
   ;; CHROME + FIREFOX
-  {:des "Chrome/Firefox: hyper+h to go back (cmd+[)"
+  ;; Slack is listed explicitly even though the unanchored "com.google.Chrome"
+  ;; regex already matches the Slack Chrome App -- so it keeps working if that
+  ;; entry is ever anchored. Also covers the native Slack app (slackmacgap).
+  {:des "Chrome/Firefox/Slack: hyper+h to go back (cmd+[)"
     :rules [{:type :basic
             :from {:key_code :h}
             :to [{:key_code :open_bracket :modifiers [:left_command]}]
             :conditions [{:type :variable_if :name "hyper" :value 1}
                          {:type :frontmost_application_if
-                            :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"]}]}]}
+                            :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"
+                                                 "^com\\.google\\.Chrome\\.app\\.gpnmjojgpojfhdidkfnhhggcghbbgpbp$"
+                                                 "^com\\.tinyspeck\\.slackmacgap$"]}]}]}
   {:des "Chrome/Firefox: hyper + t -> new tab (cmd+t)"
     :rules [{:type :basic
             :from {:key_code :t}
