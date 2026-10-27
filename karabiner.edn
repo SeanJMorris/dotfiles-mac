@@ -389,6 +389,27 @@
                             :bundle_identifiers ["com.google.Chrome" "org.mozilla.firefox"
                                                  "^com\\.google\\.Chrome\\.app\\.gpnmjojgpojfhdidkfnhhggcghbbgpbp$"
                                                  "^com\\.tinyspeck\\.slackmacgap$"]}]}]}
+
+  ;; SLACK
+  ;; Must stay above the universal "HYPER+J/L: TAB NAVIGATION" rule -- Karabiner
+  ;; uses the first matching rule. Both IDs are anchored so the Chrome browser
+  ;; itself keeps hyper+j/l as tab navigation.
+  {:des "Slack: hyper+j/l to previous/next channel or DM (opt+up/down)"
+    :rules [{:type :basic
+            :from {:key_code :j}
+            :to [{:key_code :up_arrow :modifiers [:left_option]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["^com\\.google\\.Chrome\\.app\\.gpnmjojgpojfhdidkfnhhggcghbbgpbp$"
+                                                 "^com\\.tinyspeck\\.slackmacgap$"]}]}
+           {:type :basic
+            :from {:key_code :l}
+            :to [{:key_code :down_arrow :modifiers [:left_option]}]
+            :conditions [{:type :variable_if :name "hyper" :value 1}
+                         {:type :frontmost_application_if
+                            :bundle_identifiers ["^com\\.google\\.Chrome\\.app\\.gpnmjojgpojfhdidkfnhhggcghbbgpbp$"
+                                                 "^com\\.tinyspeck\\.slackmacgap$"]}]}]}
+
   {:des "Chrome/Firefox: hyper + t -> new tab (cmd+t)"
     :rules [{:type :basic
             :from {:key_code :t}
