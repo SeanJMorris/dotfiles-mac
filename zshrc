@@ -267,6 +267,13 @@ kbreset() {
     && osascript -e 'display notification "Karabiner layer variables reset"'
 }
 
+# switch AltTab's alt+tab / cmd+tab between Kinesis and laptop keyboards
+#   (kbmode = toggle home/travel, kbmode status, kbmode home, kbmode travel). Right option/command
+#   remaps are automatic in karabiner.edn. (added 2026-11-06)
+kbmode() {
+  /usr/bin/python3 ~/.dotfiles/scripts/alttab_keyboard_mode.py "$@"
+}
+
 # alias none as clear because sometimes if you type esc and c fzf thinks you want do cd search
 alias none='clear'
 

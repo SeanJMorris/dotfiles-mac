@@ -537,16 +537,30 @@
             :from {:key_code :d :modifiers {:optional [:any]}}
             :to [{:shell_command "open -g 'hammerspoon://jump-tab-dash'"}]
             :conditions [{:type :variable_if :name "mega_layer" :value 1}]}]}
-  {:des "right option to forward delete"
-   :rules [[:right_option :delete_forward]]}
 
-  ;; WITH PROTOARC KEYBOARD, USE THIS BLOCK INSTEAD OF THE ABOVE
-  ;; AND CHANGE ALT TAB SHORTCUTS TO CMD+TAB FOR ALL APPS AND
-  ;; ALT+TAB FOR ACTIVE APP
-;;   {:des "right option to f2"
-;;   :rules [[:right_option :f2]]}
-;;   {:des "right command to forward delete"
-;;   :rules [[:right_command :delete_forward]]}
+  ;; KEYBOARD-AWARE RIGHT-SIDE MODIFIERS
+  ;; Karabiner checks which keyboard each key press came from:
+  ;;   Kinesis (vendor_id 10730)       -> right option = forward delete
+  ;;   Any other keyboard (the laptop,
+  ;;   ProtoArc, etc.)                  -> right option = F2, right command = forward delete
+  ;; Replaced the old manual comment/uncomment swap on 2026-11-06.
+  ;; Find a keyboard's vendor_id in Karabiner-EventViewer > Devices.
+  ;; NOTE: AltTab's cmd+tab / alt+tab swap is NOT handled here -- that lives
+  ;; in AltTab's own settings.
+  {:des "KINESIS: right option to forward delete"
+   :rules [{:type :basic
+            :from {:key_code :right_option :modifiers {:optional [:any]}}
+            :to [{:key_code :delete_forward}]
+            :conditions [{:type :device_if :identifiers [{:vendor_id 10730}]}]}]}
+  {:des "NON-KINESIS (laptop etc.): right option to F2, right command to forward delete"
+   :rules [{:type :basic
+            :from {:key_code :right_option :modifiers {:optional [:any]}}
+            :to [{:key_code :f2}]
+            :conditions [{:type :device_unless :identifiers [{:vendor_id 10730}]}]}
+           {:type :basic
+            :from {:key_code :right_command :modifiers {:optional [:any]}}
+            :to [{:key_code :delete_forward}]
+            :conditions [{:type :device_unless :identifiers [{:vendor_id 10730}]}]}]}
 
  ]
 }
