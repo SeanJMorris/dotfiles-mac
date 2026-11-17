@@ -24,22 +24,22 @@ on run argv
 	set nowMins to (hours of nowDate) * 60 + (minutes of nowDate)
 	set startMins to ((nowMins div 30) + 1) * 30
 
-	-- Build 24 half-hour slots (12 hours) starting at the default
-	set slotLabels to {}
-	repeat with i from 0 to 23
-		set end of slotLabels to my fmtTime(startMins + i * 30, true)
-	end repeat
-
-	-- Show the dialog: {picked row index (0-based), CT?, MT?, PT?, TPH?}, or false if cancelled
-	set dlg to my showDialog(slotLabels)
+	-- Show the dialog, defaulting to that rounded-up time.
+	-- Returns {hour 1-12, minute 0-59, PM?, CT?, MT?, PT?, TPH?}, or false if cancelled
+	set dlg to my showDialog(startMins mod 1440)
 
 	-- Return focus to the original app, raising ONLY its active window
 	frontApp's activateWithOptions:2
 	delay 0.1
 
 	if dlg is false then return ""
-	set {idx, wantCT, wantMT, wantPT, wantTPH} to dlg
-	set etMins to startMins + idx * 30
+	set {pickHour, pickMin, isPM, wantCT, wantMT, wantPT, wantTPH} to dlg
+
+	-- Convert 12-hour pick to minutes since midnight (12 AM = 0, 12 PM = 720)
+	set etMins to (pickHour mod 12) * 60 + pickMin
+	if isPM then set etMins to etMins + 720
+	-- A time earlier than right now is assumed to mean tomorrow
+	if etMins < nowMins then set etMins to etMins + 1440
 
 	-- CT, MT (Salt Lake City), and PT shift for DST on the same dates as ET,
 	-- so fixed 1/2/3-hour offsets are correct year-round.
@@ -65,48 +65,68 @@ on run argv
 	return output
 end run
 
--- Native dialog: scrolling time list + four checkboxes (all checked)
-on showDialog(slotLabels)
+-- Native dialog: hour / minute / AM-PM dropdowns + four checkboxes (only Mountain checked by default)
+-- defaultMins = default time as minutes since midnight (always :00 or :30)
+on showDialog(defaultMins)
 	set NSApp to current application's NSApplication's sharedApplication()
 	NSApp's setActivationPolicy:1 -- accessory: can take focus, no Dock icon
 
-	-- Accessory view holding the list and checkboxes
-	set acc to current application's NSView's alloc()'s initWithFrame:{{0, 0}, {300, 230}}
+	-- Accessory view holding the dropdowns and checkboxes
+	set acc to current application's NSView's alloc()'s initWithFrame:{{0, 0}, {300, 134}}
 
-	-- Scrolling list of times
-	set rows to current application's NSMutableArray's new()
-	repeat with lbl in slotLabels
-		(rows's addObject:(current application's NSDictionary's dictionaryWithObject:(contents of lbl) forKey:"label"))
+	-- Hour dropdown: 1-12
+	set hourTitles to {}
+	repeat with h from 1 to 12
+		set end of hourTitles to (h as text)
 	end repeat
-	set ctrl to current application's NSArrayController's alloc()'s initWithContent:rows
+	set hourPop to current application's NSPopUpButton's alloc()'s initWithFrame:{{0, 104}, {70, 26}} pullsDown:false
+	hourPop's addItemsWithTitles:hourTitles
 
-	set col to current application's NSTableColumn's alloc()'s initWithIdentifier:"time"
-	col's setWidth:280
-	col's setEditable:false
-	set tbl to current application's NSTableView's alloc()'s initWithFrame:{{0, 0}, {300, 190}}
-	tbl's addTableColumn:col
-	tbl's setHeaderView:(missing value)
-	tbl's setAllowsEmptySelection:false
-	tbl's setAllowsMultipleSelection:false
-	col's bind:"value" toObject:ctrl withKeyPath:"arrangedObjects.label" options:(missing value)
+	-- Minute dropdown: 00, 30, 15 first (most common), then 01-59 without repeats
+	set minTitles to {"00", "30", "15"}
+	repeat with m from 1 to 59
+		if m is not 15 and m is not 30 then set end of minTitles to text -2 thru -1 of ("0" & m)
+	end repeat
+	set minPop to current application's NSPopUpButton's alloc()'s initWithFrame:{{78, 104}, {70, 26}} pullsDown:false
+	minPop's addItemsWithTitles:minTitles
 
-	set scroller to current application's NSScrollView's alloc()'s initWithFrame:{{0, 36}, {300, 194}}
-	scroller's setDocumentView:tbl
-	scroller's setHasVerticalScroller:true
-	scroller's setBorderType:2 -- bezel
-	acc's addSubview:scroller
+	-- AM/PM dropdown
+	set ampmPop to current application's NSPopUpButton's alloc()'s initWithFrame:{{156, 104}, {75, 26}} pullsDown:false
+	ampmPop's addItemsWithTitles:{"AM", "PM"}
 
-	-- Checkboxes, all on by default
-	set cbCT to current application's NSButton's checkboxWithTitle:"CT" target:(missing value) action:(missing value)
-	set cbMT to current application's NSButton's checkboxWithTitle:"MT (SLC)" target:(missing value) action:(missing value)
-	set cbPT to current application's NSButton's checkboxWithTitle:"PT" target:(missing value) action:(missing value)
-	set cbTPH to current application's NSButton's checkboxWithTitle:"TPH" target:(missing value) action:(missing value)
-	set xs to {0, 60, 165, 225}
+	-- Pre-select the default time
+	set h24 to defaultMins div 60
+	set h12 to h24 mod 12
+	if h12 = 0 then set h12 to 12
+	hourPop's selectItemAtIndex:(h12 - 1)
+	if (defaultMins mod 60) = 30 then
+		minPop's selectItemAtIndex:1 -- "30"
+	else
+		minPop's selectItemAtIndex:0 -- "00"
+	end if
+	if h24 < 12 then
+		ampmPop's selectItemAtIndex:0
+	else
+		ampmPop's selectItemAtIndex:1
+	end if
+
+	acc's addSubview:hourPop
+	acc's addSubview:minPop
+	acc's addSubview:ampmPop
+
+	-- Checkboxes: 'Mountain (SLC)' is the only option on by default as of 11/10/26
+	-- One per row, top to bottom (y is measured up from the bottom of the view)
+	set cbCT to current application's NSButton's checkboxWithTitle:"Central" target:(missing value) action:(missing value)
+	set cbMT to current application's NSButton's checkboxWithTitle:"Mountain (SLC)" target:(missing value) action:(missing value)
+	set cbPT to current application's NSButton's checkboxWithTitle:"Pacific" target:(missing value) action:(missing value)
+	set cbTPH to current application's NSButton's checkboxWithTitle:"Philippines" target:(missing value) action:(missing value)
+	set ys to {72, 50, 28, 6}
 	set boxes to {cbCT, cbMT, cbPT, cbTPH}
+	set defaultOn to {0, 1, 0, 0} -- 1 = checked: Central, Mountain, Pacific, Philippines
 	repeat with i from 1 to 4
 		set cb to item i of boxes
-		(cb's setState:1)
-		(cb's setFrameOrigin:{item i of xs, 6})
+		(cb's setState:(item i of defaultOn))
+		(cb's setFrameOrigin:{0, item i of ys})
 		(acc's addSubview:cb)
 	end repeat
 
@@ -130,11 +150,11 @@ on showDialog(slotLabels)
 	alert's layout()
 	set my alertWin to alert's |window|()
 
-	-- Pre-select the default (first) time and give the list keyboard focus
-	tbl's selectRowIndexes:(current application's NSIndexSet's indexSetWithIndex:0) byExtendingSelection:false
-	tbl's scrollRowToVisible:0
-	alertWin's setInitialFirstResponder:tbl
-	alertWin's makeFirstResponder:tbl
+	-- Tab order: hour -> minute -> AM/PM -> checkboxes -> buttons.
+	-- Start with keyboard focus on the hour dropdown.
+	alertWin's setAutorecalculatesKeyViewLoop:true
+	alertWin's setInitialFirstResponder:hourPop
+	alertWin's makeFirstResponder:hourPop
 
 	-- macOS normally sends Return to the default (OK) button no matter which
 	-- button is focused. This timer checks focus while the dialog is open and,
@@ -147,9 +167,10 @@ on showDialog(slotLabels)
 	returnTimer's invalidate()
 	if response is not 1000 then return false -- 1000 = first button (OK)
 
-	set idx to (tbl's selectedRow()) as integer
-	if idx < 0 then set idx to 0
-	return {idx, ((cbCT's state()) as integer) = 1, ((cbMT's state()) as integer) = 1, ((cbPT's state()) as integer) = 1, ((cbTPH's state()) as integer) = 1}
+	set pickHour to ((hourPop's indexOfSelectedItem()) as integer) + 1
+	set pickMin to ((minPop's titleOfSelectedItem()) as text) as integer
+	set isPM to ((ampmPop's indexOfSelectedItem()) as integer) = 1
+	return {pickHour, pickMin, isPM,((cbCT's state()) as integer) = 1, ((cbMT's state()) as integer) = 1, ((cbPT's state()) as integer) = 1, ((cbTPH's state()) as integer) = 1}
 end showDialog
 
 -- Called by the timer: Return goes to Cancel when Cancel has focus, else to OK
