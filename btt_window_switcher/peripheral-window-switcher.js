@@ -18,7 +18,9 @@ async function peripheralWindowSwitcher() {
     'zoom.us',
     'Microsoft Excel',
     'Claude',
-    'Code',
+    // macOS labels VS Code's windows "Visual Studio Code", not "Code" (its
+    // internal process name), so the full name is needed to exclude them.
+    'Visual Studio Code',
     'Notes',
     'Messages',
   ];
