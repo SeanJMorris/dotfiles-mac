@@ -265,6 +265,10 @@
    :rules [[{:key :f :modi {:optional [:any]}} :!TOCSf ["hyper" 1]]]}
   {:des "HYPER+K: HOMEROW CLICKING"
    :rules [[{:key :k :modi {:optional [:any]}} :!TOCSk ["hyper" 1]]]}
+  ;; Assign ctrl+opt+cmd+shift+\ to whatever Homerow action you want in
+  ;; Homerow's settings; this rule only sends the chord.
+  {:des "HYPER+\\: HOMEROW (CTRL+OPT+CMD+SHIFT+\\)"
+   :rules [[{:key :backslash :modi {:optional [:any]}} :!TOCSbackslash ["hyper" 1]]]}
 
   ;; APPLICATION-SPECIFIC REMAPPINGS
 
