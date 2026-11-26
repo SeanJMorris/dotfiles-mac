@@ -150,8 +150,7 @@ source ~/.okta/okta-login-shell-function-nondev
 # pyenv configuration
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
+eval "$(pyenv init - zsh)"
 
 # Add ~/.local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
